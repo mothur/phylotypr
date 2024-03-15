@@ -6,11 +6,16 @@ Authors@R:
     person("Pat", "Schloss", , "pschloss@umich.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-6935-4275"))
 Description: 
-    Package for classification based analysis of DNA sequences. Primarily
-    implements Naive Bayesian Classifier from the Ribosomal Database Project
+    Package for classification based analysis of DNA sequences. This package 
+    primarily implements Naive Bayesian Classifier from the Ribosomal Database
+    Project. We will likely include other methods of classification and possibly
+    some methods of visualizing the data.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/riffomonas/phylotyper
 BugReports: https://github.com/riffomonas/phylotyper/issues
 RoxygenNote: 7.3.1
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
