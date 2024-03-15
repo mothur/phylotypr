@@ -1,13 +1,16 @@
 Package: phylotyper
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Title: Implementation of Tools for Classifying DNA Sequences
+Version: 0.0.0.9000
+Authors@R: 
+    person("Pat", "Schloss", , "pschloss@umich.edu", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-6935-4275"))
+Description: 
+    Package for classification based analysis of DNA sequences. Primarily
+    implements Naive Bayesian Classifier from the Ribosomal Database Project
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/riffomonas/phylotyper
 BugReports: https://github.com/riffomonas/phylotyper/issues
+RoxygenNote: 7.3.1
