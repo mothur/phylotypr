@@ -46,3 +46,53 @@ test_that("Can extract specific kmer from a starting position and size", {
 })
 
 
+test_that("Conversion works between DNA sequence and quarternary", {
+
+  x <- "ATGCGCTAGTAGCATGC"
+  expected <- "03212130230210321"
+
+  base4_seq <- seq_to_base4(x)
+  expect_equal(base4_seq, expected)
+
+  x <- "ATGCGCTRGTAGCATGC"
+  expected <- "0321213N230210321"
+
+  base4_seq <- seq_to_base4(x)
+  expect_equal(base4_seq, expected)
+
+  x <- tolower("ATGCGCTRGTAGCATGC")
+  expected <- "0321213N230210321"
+
+  base4_seq <- seq_to_base4(x)
+  expect_equal(base4_seq, expected)
+
+})
+
+test_that("Generate base10 values from kmers in base4", {
+
+  x <- "0000"
+  expected <- 1
+  actual <- base4_to_index(x)
+  expect_equal(actual, expected)
+
+  x <- "1000"
+  expected <- 65
+  actual <- base4_to_index(x)
+  expect_equal(actual, expected)
+
+  x <- "0123"
+  expected <- 28
+  actual <- base4_to_index(x)
+  expect_equal(actual, expected)
+
+  x <- c("0123", "1000", "0000")
+  expected <- c(28, 65, 1)
+  actual <- base4_to_index(x)
+  expect_equal(actual, expected)
+
+  x <- c("0123", "1000", "0000", "000N")
+  expected <- c(28, 65, 1)
+  actual <- base4_to_index(x)
+  expect_equal(actual, expected)
+
+})

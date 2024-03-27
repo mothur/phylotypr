@@ -15,3 +15,17 @@ get_kmer <- function(sequence, start, kmer_size = 8) {
   substr(sequence, start, start + kmer_size - 1)
 
 }
+
+seq_to_base4 <- function(sequence) {
+
+  toupper(sequence) |>
+  gsub(pattern = "[^ACGT]", replacement = "N", x = _)  |>
+    chartr(old = "ACGT", new = "0123", x = _)
+
+}
+
+base4_to_index <- function(base4_str) {
+  # I want output to be indexed to start at position 1 rather than 0 so we're
+  # adding 1 to all base10 values
+  na.omit(strtoi(base4_str, base = 4) + 1) |> as.numeric()
+}
