@@ -46,9 +46,6 @@ detect_kmers <- function(sequence, kmer_size = 8) {
 
 
 detect_kmers_across_sequences <- function(sequences, kmer_size = 8) {
-# kmer_size <- 3
-#   detect_kmers(sequences[1], kmer_size)
-#   detect_kmers(sequences[2], kmer_size)
 
   sapply(sequences, detect_kmers, kmer_size = kmer_size, USE.NAMES = FALSE)
 }
@@ -79,4 +76,32 @@ calc_genus_conditional_prob <- function(detect_matrix,
   }
 
   t(t(genus_count + word_specific_priors) / (genus_counts + 1))
+}
+
+
+build_kmer_database <- function(sequences, genera, kmer_size) {
+
+  genera_indices <- genera_str_to_index(genera)
+
+  detected_kmers <- seq_to_base4(sequences) |>
+    detect_kmers_across_sequences(kmer_size = kmer_size)
+
+  priors <- calc_word_specific_priors(detected_kmers)
+
+  cond_prob <- calc_genus_conditional_prob(detected_kmers, genera_indices, priors)
+  genera_names <- get_unique_genera(genera)
+
+  return(list(conditional_prob = cond_prob,
+              genera = genera_names))
+}
+
+genera_str_to_index <- function(string) {
+
+  factor(string) |> as.numeric()
+
+}
+
+get_unique_genera <- function(string) {
+
+  factor(string) |> levels()
 }

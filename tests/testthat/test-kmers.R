@@ -197,3 +197,31 @@ test_that("Calculate genus-specific conditional probabilities", {
   expect_equal(conditional_prob[64,], (c(0, 0)+0.125) / (c(1, 2) + 1))
 
 })
+
+
+test_that("Create kmer database from sequences, taxonomy, and kmer size", {
+
+  kmer_size <- 3
+  sequences <- c("ATGCGCTA", "ATGCGCTC", "ATGCGCTC")
+  genera <- c("A", "B", "B")
+
+  db <- build_kmer_database(sequences, genera, kmer_size)
+
+  expect_equal(db[["conditional_prob"]][26,], (c(1, 2)+0.875) / (c(1, 2) + 1))
+  expect_equal(db[["conditional_prob"]][29,], (c(1, 0)+0.375) / (c(1, 2) + 1))
+  expect_equal(db[["conditional_prob"]][30,], (c(0, 2)+0.625) / (c(1, 2) + 1))
+  expect_equal(db[["conditional_prob"]][64,], (c(0, 0)+0.125) / (c(1, 2) + 1))
+
+  expect_equal(db[["genera"]][1], "A")
+  expect_equal(db[["genera"]][2], "B")
+
+})
+
+test_that("Convert back and forth between genus names and indices", {
+  genera_str <- c("A", "B", "B")
+  genera_index <- c(1, 2, 2)
+
+  expect_equal(genera_str_to_index(genera_str), genera_index)
+  expect_equal(get_unique_genera(genera_str), c("A", "B"))
+
+})
