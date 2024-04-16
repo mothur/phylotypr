@@ -1,5 +1,6 @@
 library(microbenchmark)
 library(tidyverse)
+library(purrr)
 library(Rcpp)
 
 vector_grow_c <- function(x) {
@@ -18,10 +19,18 @@ vector_grow_br <- function(x) {
   output
 }
 
-vector_prealloc <- function(x) {
+vector_prealloc_sng <- function(x) {
   output <- numeric(x)
   for(i in 1:x) {
     output[i] <- i^2
+  }
+  output
+}
+
+vector_prealloc_dbl <- function(x) {
+  output <- numeric(x)
+  for(i in 1:x) {
+    output[[i]] <- i^2
   }
   output
 }
@@ -39,33 +48,59 @@ vector_sapply <- function(x) {
 }
 
 vector_lapply <- function(x) {
-  sapply(1:x, \(i) i^2)
+  lapply(1:x, \(i) i^2)
 }
+
+vector_map <- function(x){
+  map_dbl(1:x, \(i) i^2)
+}
+
+vector_magrittr <- function(x){
+  1:x %>% (\(i) i^2)()
+}
+
+vector_base <- function(x){
+  1:x |> (\(i) i^2)()
+}
+
 
 n <- 1e4
 sourceCpp("benchmarking.cpp")
 
-microbenchmark(vector_grow_c(n),
-               vector_grow_br(n),
-               vector_prealloc(n),
-               vector_colon(n),
-               vector_seq(n),
-               vector_sapply(n),
-               vector_lapply(n),
-               vector_rcpp(n),
-               vector_grow_c(n/100),
-               vector_grow_br(n/100),
-               vector_prealloc(n/100),
-               vector_colon(n/100),
-               vector_seq(n/100),
-               vector_sapply(n/100),
-               vector_lapply(n/100),
-               vector_rcpp(n/100)) %>%
-  group_by(expr) %>%
-  summarize(median_time = median(time)) %>%
-  arrange(-median_time)
+mb_by_n <- function(n) {
 
+    microbenchmark(vector_grow_c(n),
+                 vector_grow_br(n),
+                 vector_prealloc_sng(n),
+                 vector_prealloc_dbl(n),
+                 vector_colon(n),
+                 vector_seq(n),
+                 vector_sapply(n),
+                 vector_lapply(n),
+                 vector_rcpp(n),
+                 vector_base(n),
+                 vector_magrittr(n),
+                 vector_map(n)) %>%
+    group_by(expr) %>%
+    summarize(median_time = median(time)) %>%
+    arrange(-median_time) %>%
+    mutate(n = n)
 
+}
+
+ns <- c(1, 10, 100, 1000, 2500, 5000, 7500, 10000, 12500, 15000)
+mb_data <- map_dfr(ns, mb_by_n)
+
+mb_data %>%
+  mutate(expr = str_replace(expr, "vector_(.*)\\(n\\)", "\\1")) %>%
+  ggplot(aes(x = n, y = median_time, color = expr, shape = expr)) +
+  geom_line() +
+  geom_point() +
+  labs(x = "size of vector", y = "median time (ns)") +
+  scale_color_manual(values = rep(c("tomato", "dodgerblue", "darkgray", "orange"), 3)) +
+  scale_shape_manual(values = rep(c(15, 17, 19), each = 4)) +
+  coord_cartesian(ylim = c(0, 5e6)) +
+  theme_classic()
 
 x <- (1:100)^2
 
