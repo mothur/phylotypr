@@ -4,8 +4,8 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 DataFrame df_rcpp(int n) {
 
-  Vector kmer = sample(64, n, true);
-  Vector genus = sample(15, n, true);
+  Vector kmer = sample(4^8, n, true);
+  Vector genus = sample(4000, n, true);
   Vector count = sample(10, n, true);
 
   DataFrame df = DataFrame::create(Named("kmer") = kmer,
