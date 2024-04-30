@@ -4,12 +4,12 @@ library(data.table)
 library(Matrix)
 library(duckdb)
 library(duckplyr)
+library(arrow)
 
 set.seed(19760620)
 
 n_kmers <- 4^8
 n_genera <- 4000
-n <- 10
 
 df_grow_rbind <- function(n){
   df <- data.frame(kmer = NULL, genus = NULL, count = NULL)
@@ -272,6 +272,8 @@ set.seed(19760620)
 msparseR <- matrix_sparseR(n)
 set.seed(19760620)
 lst <- list_predefine(n)
+arr <- arrow_table(df)
+
 
 get_df_single <- function(){
   df[which(df$kmer == 20),]
@@ -311,6 +313,14 @@ get_duck_single <- function(){
 
 get_duck_three <- function(){
   filter(duck, kmer == 20 | kmer == 30 | kmer == 50)
+}
+
+get_arrow_single <- function(){
+  filter(arr, kmer == 20)
+}
+
+get_arrow_three <- function(){
+  filter(arr, kmer == 20 | kmer == 30 | kmer == 50)
 }
 
 get_dbi_single <- function(){
@@ -408,6 +418,7 @@ get_which_three <- function(){
 
 microbenchmark(get_df_single(),
                get_duck_single(),
+               get_arrow_single(),
                get_dt_single(),
                get_dt_singlek(),
                get_tbl_single(),
@@ -425,6 +436,7 @@ microbenchmark(get_df_single(),
                get_dbi_three(),
                get_tbl_three(),
                get_duck_three(),
+               get_arrow_three(),
                # get_tbl_threeJ(),
                get_mfull_three(),
                get_msparseT_three(),
