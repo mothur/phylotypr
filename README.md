@@ -1,21 +1,21 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# phylotyper
+# phylotypr
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of phylotyper is to …
+The goal of phylotypr is to …
 
 ## Installation
 
-You can install the development version of phylotyper from
+You can install the development version of phylotypr from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("riffomonas/phylotyper")
+devtools::install_github("riffomonas/phylotypr")
 ```
 
 ## Example
@@ -23,7 +23,7 @@ devtools::install_github("riffomonas/phylotyper")
 This is a basic example which shows you how to solve a common problem:
 
 ``` r
-library(phylotyper)
+library(phylotypr)
 ## basic example code
 ```
 
