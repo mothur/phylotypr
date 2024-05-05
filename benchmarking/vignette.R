@@ -1,9 +1,9 @@
 library(tidyverse)
 
-genera <- read_tsv("trainset19_072023.rdp/trainset19_072023.rdp.tax",
+genera <- read_tsv("benchmarking/trainset19_072023.rdp/trainset19_072023.rdp.tax",
                    col_names = c("accession", "taxonomy"))
 
-fasta_data <- scan("trainset19_072023.rdp/trainset19_072023.rdp.fasta",
+fasta_data <- scan("benchmarking/trainset19_072023.rdp/trainset19_072023.rdp.fasta",
                    sep = "\n",
                    what = character(), quiet = TRUE)
 
