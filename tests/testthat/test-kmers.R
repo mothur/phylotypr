@@ -106,7 +106,7 @@ test_that("Accurately detect kmers from a sequence", {
 
   detected <- detect_kmers(sequence)
 
-  expect_equal(length(detected), length(indices))
+  expect_equal(detected, indices)
 
   sequence <- "03212130230210321N"
   kmers <- get_all_kmers(sequence)
@@ -114,7 +114,7 @@ test_that("Accurately detect kmers from a sequence", {
 
   detected <- detect_kmers(sequence)
 
-  expect_equal(length(detected), length(indices))
+  expect_equal(detected, indices)
 
 
   sequence <- "03212130230210321N"
@@ -123,7 +123,7 @@ test_that("Accurately detect kmers from a sequence", {
 
   detected <- detect_kmers(sequence, kmer_size = 7)
 
-  expect_equal(length(detected), length(indices))
+  expect_equal(detected, indices)
 
 
 })
