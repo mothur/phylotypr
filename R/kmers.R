@@ -34,41 +34,32 @@ build_kmer_database <- function(sequences, genera, kmer_size = 8) {
 
 
 #' @noRd
+#' @importFrom stringi stri_length stri_sub
 get_all_kmers <- function(x, kmer_size = 8){
 
-  n_kmers <- nchar(x) - kmer_size + 1
+  seq_length <- stringi::stri_length(x)
+  n_kmers <- seq_length - kmer_size + 1
+  seq_kmers <- stringi::stri_sub(x, 1:n_kmers, kmer_size:seq_length)
 
-  seq_kmers <- character(length = n_kmers)
-  for(i in seq_along(1:n_kmers)){
-    seq_kmers[i] <- get_kmer(sequence = x, start = i, kmer_size = kmer_size)
-  }
   return(seq_kmers)
 }
 
 
 #' @noRd
-get_kmer <- function(sequence, start, kmer_size = 8) {
-
-  if(start + kmer_size - 1 > nchar(sequence)) {
-    stop("Cannot extract kmer beyond end of sequence")
-  }
-
-  substr(sequence, start, start + kmer_size - 1)
-
-}
-
-
-#' @noRd
+#' @importFrom stringi stri_trans_toupper stri_replace_all_charclass stri_trans_char
 seq_to_base4 <- function(sequence) {
 
-  toupper(sequence) |>
-  gsub(pattern = "[^ACGT]", replacement = "N", x = _)  |>
-    chartr(old = "ACGT", new = "0123", x = _)
+  stringi::stri_trans_toupper(sequence) |>
+    stringi::stri_replace_all_charclass(str = _,
+                                        pattern = "[^ACGT]",
+                                        replacement = "N")  |>
+    stringi::stri_trans_char(str = _, pattern = "ACGT", replacement = "0123")
 
 }
 
 
 #' @noRd
+#' @importFrom stats na.omit
 base4_to_index <- function(base4_str) {
   # I want output to be indexed to start at position 1 rather than 0 so we're
   # adding 1 to all base10 values

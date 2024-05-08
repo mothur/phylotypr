@@ -24,27 +24,6 @@ test_that("Can extract all possible 8-mers from a sequence", {
 
 })
 
-test_that("Can extract specific kmer from a starting position and size", {
-
-  x <- "ATGCGCTAGTAGCATGC"
-
-  kmer <- get_kmer(x, 1, kmer_size = 8)
-  expect_equal(kmer, "ATGCGCTA")
-
-  kmer <- get_kmer(x, 5, kmer_size = 8)
-  expect_equal(kmer, "GCTAGTAG")
-
-  kmer <- get_kmer(x, 10, kmer_size = 8)
-  expect_equal(kmer, "TAGCATGC")
-
-  expect_error(get_kmer(x, 11, kmer_size = 8))
-
-  kmer <- get_kmer(x, 5)
-  expect_equal(kmer, "GCTAGTAG")
-
-
-})
-
 
 test_that("Conversion works between DNA sequence and quarternary", {
 
