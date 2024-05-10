@@ -79,16 +79,17 @@ test_that("Generate base10 values from kmers in base4", {
 
 test_that("Accurately detect kmers from a sequence", {
 
-  sequence <- "03212130230210321"
-  kmers <- get_all_kmers(sequence)
+  sequence <- "ATGCGCTAGTAGCATGC"
+
+  kmers <- seq_to_base4(sequence) |> get_all_kmers()
   indices <- base4_to_index(kmers)
 
   detected <- detect_kmers(sequence)
 
   expect_equal(detected, indices)
 
-  sequence <- "03212130230210321N"
-  kmers <- get_all_kmers(sequence)
+  sequence <- "ATGCGCTAGTAGCATGCN"
+  kmers <- seq_to_base4(sequence) |> get_all_kmers()
   indices <- base4_to_index(kmers)
 
   detected <- detect_kmers(sequence)
@@ -96,8 +97,8 @@ test_that("Accurately detect kmers from a sequence", {
   expect_equal(detected, indices)
 
 
-  sequence <- "03212130230210321N"
-  kmers <- get_all_kmers(sequence, kmer_size = 7)
+  sequence <- "ATGCGCTAGTAGCATGCN"
+  kmers <- seq_to_base4(sequence) |> get_all_kmers(kmer_size = 7)
   indices <- base4_to_index(kmers)
 
   detected <- detect_kmers(sequence, kmer_size = 7)
@@ -110,13 +111,13 @@ test_that("Accurately detect kmers from a sequence", {
 test_that("Accurately detect kmers across multiple sequences", {
 
   kmer_size <- 3
-  sequences <- c("03212130", "03212131")
-
+  sequences <- c("ATGCGCTA", "ATGCGCTC")
+  base4_sequences <- seq_to_base4(sequences)
   # expected <- matrix(0, nrow = 4^kmer_size, ncol = 2)
 
   expected <- vector(mode = "list", length = 2)
-  expected[[1]] <- base4_to_index(get_all_kmers(sequences[1], kmer_size))
-  expected[[2]] <- base4_to_index(get_all_kmers(sequences[2], kmer_size))
+  expected[[1]] <- base4_to_index(get_all_kmers(base4_sequences[1], kmer_size))
+  expected[[2]] <- base4_to_index(get_all_kmers(base4_sequences[2], kmer_size))
 
   detect_matrix <- detect_kmers_across_sequences(sequences, kmer_size)
 
@@ -126,7 +127,7 @@ test_that("Accurately detect kmers across multiple sequences", {
 test_that("Calcuate word specific priors", {
 
   kmer_size <- 3
-  sequences <- c("03212130", "03212131", "03212131")
+  sequences <- c("ATGCGCTA", "ATGCGCTC", "ATGCGCTC")
   detect_list <- detect_kmers_across_sequences(sequences, kmer_size)
 
   #26 - all 3 = (3+0.5) / (1 + 3) =0.875
@@ -147,7 +148,7 @@ test_that("Calcuate word specific priors", {
 test_that("Calculate genus-specific conditional probabilities", {
 
   kmer_size <- 3
-  sequences <- c("03212130", "03212131", "03212131")
+  sequences <- c("ATGCGCTA", "ATGCGCTC", "ATGCGCTC")
   genera <- c(1, 2, 2)
 
   detect_list <- detect_kmers_across_sequences(sequences, kmer_size)
@@ -195,4 +196,32 @@ test_that("Create kmer database from sequences, taxonomy, and kmer size", {
   expect_equal(db[["genera"]][1], "A")
   expect_equal(db[["genera"]][2], "B")
 
+})
+
+test_that("Bootstrap sample 1/kmer_size of kmers from unknowns", {
+
+  kmers <- 1:100
+  kmer_size <- 8
+  expected_n_kmers <- as.integer(1/8 * 100)
+
+  detected <- bootstrap_kmers(kmers, kmer_size)
+
+  expect_length(detected, expected_n_kmers)
+  expect_in(detected, kmers)
+
+})
+
+
+test_that("Classify boostrap sample works", {
+
+  kmer_size <- 3
+  sequences <- c("ATGCGCTA", "ATGCGCTC", "ATGCGCTC")
+  genera <- c("A", "B", "B")
+
+  db <- build_kmer_database(sequences, genera, kmer_size)
+  unknown_kmers <- detect_kmers("ATGCGCTC", kmer_size)
+  expected_classification <-  2
+
+  detected_classification <- classify_bs(unknown_kmers, db)
+  expect_equal(detected_classification, expected_classification)
 })

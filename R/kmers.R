@@ -19,8 +19,8 @@ build_kmer_database <- function(sequences, genera, kmer_size = 8) {
 
   genera_indices <- genera_str_to_index(genera)
 
-  detected_kmers <- seq_to_base4(sequences) |>
-    detect_kmers_across_sequences(kmer_size = kmer_size)
+  detected_kmers <- detect_kmers_across_sequences(sequences,
+                                                  kmer_size = kmer_size)
 
   priors <- calc_word_specific_priors(detected_kmers, kmer_size)
 
@@ -70,9 +70,9 @@ base4_to_index <- function(base4_str) {
 #' @noRd
 detect_kmers <- function(sequence, kmer_size = 8) {
 
-  kmers <- get_all_kmers(sequence, kmer_size)
-  indices <- base4_to_index(kmers)
-  return(indices)
+  seq_to_base4(sequence) |>
+    get_all_kmers(kmer_size) |>
+    base4_to_index()
 
 }
 
@@ -136,4 +136,23 @@ genera_str_to_index <- function(string) {
 get_unique_genera <- function(string) {
 
   factor(string) |> levels()
+}
+
+
+
+#' @noRd
+bootstrap_kmers <- function(kmers, kmer_size = 8){
+
+  n_kmers <- as.integer(length(kmers) / kmer_size)
+  sample(kmers, n_kmers, replace = TRUE)
+
+}
+
+
+#' @noRd
+classify_bs <-function(unknown_kmers, db) {
+
+  probabilities <- apply(db$conditional_prob[unknown_kmers,], 2, prod)
+  which.max(probabilities)
+
 }

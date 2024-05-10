@@ -15,4 +15,13 @@ sequences <- fasta_data[seq(2, length(fasta_data), by = 2)]
 seq_table <- tibble(accession = sequence_names, sequence = sequences) |>
   inner_join(genera, by = "accession")
 
-build_kmer_database(seq_table$sequence, seq_table$taxonomy, kmer_size = 8)
+db <- build_kmer_database(seq_table$sequence,
+                          seq_table$taxonomy,
+                          kmer_size = 8)
+
+unknown_sequence <- "ATGCATGC"
+
+#classify_sequence(unknown = unknown_sequence, database = db)
+kmers <- detect_kmers(x = unknown, kmer_size)
+bs <- boostrap_kmers(kmers, kmer_size)
+classify_bs(bs, db)
