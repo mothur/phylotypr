@@ -28,21 +28,16 @@ bacteroides <- "TACGGAGGATTCAAGCGTTATCCGGATTTATTGGGTTTAAAGGGAGCGTAGGTGGATTGTTAAG
 oscillospiraceae <- "TACGTAGGTGGCAAGCGTTGTCCGGATTTACTGGGTGTAAAGGGCGTGTAGCCGGGTTGACAAGTCAGATGTGAAATCCTGCGGCTTAACCGCAGAACTGCATTTGAAACTGTTGATCTTGAGTACTGGAGAGGCAGACGGAATTCCTAGTGTAGCGGTGAAATGCGTAGATATTAGGAGGAACACCAGTGGCGAAGGCGGTCTGCTGGACAGCAACTGACGCTGAAGCACGAAAGTGCGGGGATCGAACAGG"
 bacteroidales <- "TACGGAGGATGCGAGCGTTATCCGGATTTATTGGGTTTAAAGGGTGCGTAGGCGGATCGTTAAGTCAGTGGTCAAATTGAGGGGCTCAACCCCTTCCCGCCATTGAAACTGGCGATCTTGAGTGGAAGAGAAGTATGCGGAATGCGTGGTGTAGCGGTGAAATGCATAGATATCACGCAGAACCCCGATTGCGAAGGCAGCATGCCGGCTTCCTACTGACGCTCATGCACGAAAGTGTGGGTAACGAACAGG"
 
-num_bootstraps <- 100
+num_bootstraps <- 1000
 kmer_size <- 8
 
-#classify_sequence(unknown = unknown_sequence, database = db)
-kmers <- detect_kmers(sequence = bacteroides, kmer_size)
+classify_sequence(unknown = unknown_sequence, database = db,
+                  num_bootstraps = num_bootstraps, kmer_size = kmer_size)
 
-bs_class <- numeric(length = num_bootstraps)
-
-for(i in 1:num_bootstraps){
-  bs_kmers <- bootstrap_kmers(kmers, kmer_size)
-  bs_class[[i]] <- classify_bs(bs_kmers, db)
-}
-
-consensus <- consensus_bs_class(bs_class, db)
-
+profvis::profvis(
+  classify_sequence(unknown = bacteroidales, database = db,
+                    num_bootstraps = num_bootstraps, kmer_size = kmer_size)
+)
 #
 filtered <- filter_taxonomy(consensus)
 

@@ -164,10 +164,10 @@ test_that("Calculate genus-specific conditional probabilities", {
                                                   genera,
                                                   priors)
 
-  expect_equal(conditional_prob[26,], (c(1, 2)+0.875) / (c(1, 2) + 1))
-  expect_equal(conditional_prob[29,], (c(1, 0)+0.375) / (c(1, 2) + 1))
-  expect_equal(conditional_prob[30,], (c(0, 2)+0.625) / (c(1, 2) + 1))
-  expect_equal(conditional_prob[64,], (c(0, 0)+0.125) / (c(1, 2) + 1))
+  expect_equal(conditional_prob[26,], log((c(1, 2)+0.875) / (c(1, 2) + 1)))
+  expect_equal(conditional_prob[29,], log((c(1, 0)+0.375) / (c(1, 2) + 1)))
+  expect_equal(conditional_prob[30,], log((c(0, 2)+0.625) / (c(1, 2) + 1)))
+  expect_equal(conditional_prob[64,], log((c(0, 0)+0.125) / (c(1, 2) + 1)))
 
 })
 
@@ -188,10 +188,10 @@ test_that("Create kmer database from sequences, taxonomy, and kmer size", {
 
   db <- build_kmer_database(sequences, genera, kmer_size)
 
-  expect_equal(db[["conditional_prob"]][26,], (c(1, 2)+0.875) / (c(1, 2) + 1))
-  expect_equal(db[["conditional_prob"]][29,], (c(1, 0)+0.375) / (c(1, 2) + 1))
-  expect_equal(db[["conditional_prob"]][30,], (c(0, 2)+0.625) / (c(1, 2) + 1))
-  expect_equal(db[["conditional_prob"]][64,], (c(0, 0)+0.125) / (c(1, 2) + 1))
+  expect_equal(db[["conditional_prob"]][26,], log((c(1, 2)+0.875) / (c(1, 2) + 1)))
+  expect_equal(db[["conditional_prob"]][29,], log((c(1, 0)+0.375) / (c(1, 2) + 1)))
+  expect_equal(db[["conditional_prob"]][30,], log((c(0, 2)+0.625) / (c(1, 2) + 1)))
+  expect_equal(db[["conditional_prob"]][64,], log((c(0, 0)+0.125) / (c(1, 2) + 1)))
 
   expect_equal(db[["genera"]][1], "A")
   expect_equal(db[["genera"]][2], "B")
@@ -309,4 +309,24 @@ test_that("Print out consesnsus taxonomy", {
 
   expect_equal(tax_string, expected)
 
+})
+
+
+
+test_that("Can classify a unknown sequence with a database", {
+
+  kmer_size <- 3
+  sequences <- c("ATGCGCTA", "ATGCGCTC", "ATGCGCTC")
+  genera <- c("A", "B", "B")
+
+  db <- build_kmer_database(sequences, genera, kmer_size)
+
+  unknown_sequence <- "ATGCGCTC"
+  expected <- list()
+  expected[["taxonomy"]] <- "B"
+  expected[["confidence"]] <- 1
+
+  actual <- classify_sequence(unknown = unknown_sequence, database = db,
+                              kmer_size = kmer_size)
+  expect_equal(actual, expected)
 })

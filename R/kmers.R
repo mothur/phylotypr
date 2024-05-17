@@ -120,7 +120,7 @@ calc_genus_conditional_prob <- function(detect_list,
     genus_count[detect_list[[i]], genera[i]] <- genus_count[detect_list[[i]], genera[i]] + 1
   }
 
-  t(t(genus_count + word_specific_priors) / (genus_counts + 1))
+  log(t(t(genus_count + word_specific_priors) / (genus_counts + 1)))
 }
 
 
@@ -150,9 +150,10 @@ bootstrap_kmers <- function(kmers, kmer_size = 8){
 
 
 #' @noRd
+#' @importFrom Rfast colsums
 classify_bs <-function(unknown_kmers, db) {
 
-  probabilities <- apply(db$conditional_prob[unknown_kmers,], 2, prod)
+  probabilities <- Rfast::colsums(db$conditional_prob[unknown_kmers,])
   which.max(probabilities)
 
 }
@@ -221,5 +222,33 @@ print_taxonomy <- function(consensus, n_levels = 6) {
   pretty_confidence <- paste0("(", 100*consensus$confidence, ")")
 
   paste(consensus$taxonomy, pretty_confidence, sep = "", collapse = ";")
+
+}
+
+
+#' Title
+#'
+#' @param unknown
+#' @param database
+#' @param kmer_size
+#' @param num_bootstraps
+#'
+#' @return
+#' @export
+#'
+#' @examples
+classify_sequence <- function(unknown = unknown_sequence, database = db,
+                              kmer_size = 8, num_bootstraps = 100){
+
+  kmers <- detect_kmers(sequence = unknown, kmer_size)
+
+  bs_class <- numeric(length = num_bootstraps)
+
+  for(i in 1:num_bootstraps){
+    bs_kmers <- bootstrap_kmers(kmers, kmer_size)
+    bs_class[[i]] <- classify_bs(bs_kmers, database)
+  }
+
+  consensus_bs_class(bs_class, database)
 
 }
