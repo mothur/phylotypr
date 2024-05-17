@@ -189,3 +189,37 @@ get_consensus <- function(taxonomy) {
   list(frac = taxonomy_table[[max_index]]/n_bs,
        id = names(max_index))
 }
+
+
+#' @noRd
+filter_taxonomy <- function(classification, min_confidence = 0.80) {
+
+  high_confidence <- which(classification$confidence >= min_confidence)
+
+  filtered <- list()
+  filtered[["taxonomy"]] <- classification[["taxonomy"]][high_confidence]
+  filtered[["confidence"]] <- classification[["confidence"]][high_confidence]
+
+  return(filtered)
+}
+
+
+#' @noRd
+print_taxonomy <- function(consensus, n_levels = 6) {
+
+  original_levels <- length(consensus$taxonomy)
+  given_levels <- original_levels
+
+  while(given_levels < n_levels) {
+
+    consensus$taxonomy[given_levels+1] <- paste(consensus$taxonomy[original_levels],
+                                                "unclassified", sep = "_")
+    consensus$confidence[given_levels+1] <- consensus$confidence[original_levels]
+    given_levels <- given_levels + 1
+  }
+
+  pretty_confidence <- paste0("(", 100*consensus$confidence, ")")
+
+  paste(consensus$taxonomy, pretty_confidence, sep = "", collapse = ";")
+
+}
