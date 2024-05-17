@@ -1,9 +1,13 @@
 library(tidyverse)
 
-genera <- read_tsv("benchmarking/trainset19_072023.rdp/trainset19_072023.rdp.tax",
-                   col_names = c("accession", "taxonomy"))
+taxonomy <- "benchmarking/trainset19_072023.rdp/trainset19_072023.rdp.tax"
+fasta <- "benchmarking/trainset19_072023.rdp/trainset19_072023.rdp.fasta"
 
-fasta_data <- scan("benchmarking/trainset19_072023.rdp/trainset19_072023.rdp.fasta",
+genera <- read_tsv(taxonomy,
+                   col_names = c("accession", "taxonomy")) |>
+  mutate(taxonomy = stringi::stri_replace_all_regex(taxonomy, ";$", ""))
+
+fasta_data <- scan(fasta,
                    sep = "\n",
                    what = character(), quiet = TRUE)
 
@@ -19,9 +23,19 @@ db <- build_kmer_database(seq_table$sequence,
                           seq_table$taxonomy,
                           kmer_size = 8)
 
-unknown_sequence <- "ATGCATGC"
+unknown_sequence <- sequences[[1]]
+num_bootstraps <- 100
+kmer_size <- 8
 
 #classify_sequence(unknown = unknown_sequence, database = db)
-kmers <- detect_kmers(x = unknown, kmer_size)
-bs <- boostrap_kmers(kmers, kmer_size)
-classify_bs(bs, db)
+kmers <- detect_kmers(sequence = unknown_sequence, kmer_size)
+
+bs_class <- numeric(length = num_bootstraps)
+
+for(i in 1:num_bootstraps){
+  bs_kmers <- bootstrap_kmers(kmers, kmer_size)
+  bs_class[[i]] <- classify_bs(bs_kmers, db)
+}
+
+consensus_bs_class(bs_class, db)
+

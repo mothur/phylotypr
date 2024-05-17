@@ -156,3 +156,36 @@ classify_bs <-function(unknown_kmers, db) {
   which.max(probabilities)
 
 }
+
+
+#' @noRd
+consensus_bs_class <- function(bs_class, db){
+
+  taxonomy <- db[["genera"]][bs_class]
+  taxonomy_split <- stringi::stri_split_fixed(taxonomy, pattern = ";")
+
+  n_levels <- length(taxonomy_split[[1]])
+
+  consensus_list <- lapply(1:n_levels,
+         \(i) sapply(taxonomy_split,
+                     \(p) paste(p[1:i], collapse = ";")) |>
+           get_consensus()
+  )
+
+  list(taxonomy = stringi::stri_split_fixed(consensus_list[[n_levels]][["id"]],
+                                            pattern = ";") |>
+         unlist(),
+       confidence = sapply(consensus_list, `[[`, "frac"))
+}
+
+
+#' @noRd
+get_consensus <- function(taxonomy) {
+
+  n_bs <- length(taxonomy)
+  taxonomy_table <- table(taxonomy)
+  max_index <- which.max(taxonomy_table)
+
+  list(frac = taxonomy_table[[max_index]]/n_bs,
+       id = names(max_index))
+}

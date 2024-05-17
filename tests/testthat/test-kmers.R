@@ -225,3 +225,42 @@ test_that("Classify boostrap sample works", {
   detected_classification <- classify_bs(unknown_kmers, db)
   expect_equal(detected_classification, expected_classification)
 })
+
+
+test_that("Consensus classification of bootstrap subsamples",{
+
+  db <- list()
+  db[["genera"]] <- c("A;a;A", "A;a;B", "A;a;C", "A;b;A", "A;b;B", "A;b;C")
+
+  bs_class <- c(1, 1, 1, 1, 4)
+
+  expected <- list()
+  expected[["taxonomy"]] <- c("A", "a", "A")
+  expected[["confidence"]] <- c(1, 0.8, 0.8)
+
+  observed <- consensus_bs_class(bs_class, db)
+
+  expect_equal(observed, expected)
+
+
+})
+
+
+test_that("Return correct consensus taxonomy and confidence", {
+
+  taxonomy <- c("A", "A", "A", "A", "A")
+  expected <- list()
+  expected[["frac"]] <- 1
+  expected[["id"]] <- "A"
+  observed <- get_consensus(taxonomy)
+  expect_equal(observed, expected)
+
+
+  taxonomy <- c("A;a", "A;a", "A;b", "A;b", "A;b")
+  expected <- list()
+  expected[["frac"]] <- 0.6
+  expected[["id"]] <- "A;b"
+  observed <- get_consensus(taxonomy)
+  expect_equal(observed, expected)
+
+})
