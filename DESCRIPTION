@@ -20,6 +20,9 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Imports: 
+    Rcpp,
     Rfast (>= 2.1.0),
     stats (>= 4.4.0),
     stringi (>= 1.8.0)
+LinkingTo: 
+    Rcpp

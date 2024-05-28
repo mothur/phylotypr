@@ -2,9 +2,12 @@
 
 export(build_kmer_database)
 export(classify_sequence)
+importFrom(Rcpp,sourceCpp)
+importFrom(Rfast,colsums)
 importFrom(stats,na.omit)
 importFrom(stringi,stri_length)
 importFrom(stringi,stri_replace_all_charclass)
 importFrom(stringi,stri_sub)
 importFrom(stringi,stri_trans_char)
 importFrom(stringi,stri_trans_toupper)
+useDynLib(phylotypr, .registration = TRUE)

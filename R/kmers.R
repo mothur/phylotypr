@@ -112,32 +112,37 @@ calc_genus_conditional_prob <- function(detect_list,
   n_sequences <- length(genera)
   n_kmers <- length(word_specific_priors)
 
-  genus_count <- matrix(0,
+  kmer_genus_count <- matrix(0,
                         nrow = n_kmers,
                         ncol = n_genera)
 
   for(i in 1:n_sequences) {
-    genus_count[detect_list[[i]], genera[i]] <- genus_count[detect_list[[i]], genera[i]] + 1
+    kmer_genus_count[detect_list[[i]], genera[i]] <-
+      kmer_genus_count[detect_list[[i]], genera[i]] + 1
   }
 
   #transpose = 10.0s
-  #log(t(t(genus_count + word_specific_priors) / (genus_counts + 1)))
+  #log(t(t(kmer_genus_count + word_specific_priors) / (genus_counts + 1)))
 
   #mat mult = forever
-  #log((genus_count + word_specific_priors) %*% diag(1/(genus_counts + 1)))
+  #log((kmer_genus_count + word_specific_priors) %*% diag(1/(genus_counts + 1)))
 
   #sweep = 10.2s
-  #log(sweep(genus_count + word_specific_priors, 2, genus_counts + 1, "/"))
+  #log(sweep(kmer_genus_count + word_specific_priors, 2, genus_counts + 1, "/"))
 
   #rep = 6.2s
-  log((genus_count + word_specific_priors) / rep(genus_counts + 1, each = n_kmers))
+  log(
+    (kmer_genus_count + word_specific_priors) /
+      rep(genus_counts + 1, each = n_kmers)
+    )
 
   #replace = 10.8
-  #log((genus_count + word_specific_priors) / t(replace(t(genus_count), TRUE, genus_counts + 1)))
+  #log((kmer_genus_count + word_specific_priors) / t(replace(t(genus_count), TRUE, genus_counts + 1)))
 
   #col. = 8.9
-  # log((genus_count + word_specific_priors) /(genus_counts + 1)[col(genus_count)])
+  # log((kmer_genus_count + word_specific_priors) /(genus_counts + 1)[col(genus_count)])
 
+  # calculate_log_probability(kmer_genus_count, word_specific_priors, genus_counts)
 }
 
 
