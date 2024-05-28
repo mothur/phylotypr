@@ -137,11 +137,12 @@ calc_genus_conditional_prob <- function(detect_list,
     )
 
   #replace = 10.8
-  #log((kmer_genus_count + word_specific_priors) / t(replace(t(genus_count), TRUE, genus_counts + 1)))
+  #log((kmer_genus_count + word_specific_priors) / t(replace(t(kmer_genus_count), TRUE, genus_counts + 1)))
 
-  #col. = 8.9
-  # log((kmer_genus_count + word_specific_priors) /(genus_counts + 1)[col(genus_count)])
+  #col = 8.9
+  # log((kmer_genus_count + word_specific_priors) /(genus_counts + 1)[col(kmer_genus_count)])
 
+  #rcpp = 10.3
   # calculate_log_probability(kmer_genus_count, word_specific_priors, genus_counts)
 }
 
