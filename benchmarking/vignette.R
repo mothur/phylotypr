@@ -3,8 +3,15 @@ library(tidyverse)
 fasta <- "benchmarking/trainset19_072023.rdp/trainset19_072023.rdp.fasta"
 taxonomy <- "benchmarking/trainset19_072023.rdp/trainset19_072023.rdp.tax"
 
+microbenchmark::microbenchmark(
+  fasta_df <- read_fasta(fasta), #733.7518ms
+  times = 10
+)
 
-fasta_df <- read_fasta(fasta)
+profvis::profvis(
+  fasta_df <- read_fasta(fasta),
+)
+
 
 genera <- read_tsv(taxonomy,
                    col_names = c("accession", "taxonomy")) |>

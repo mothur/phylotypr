@@ -6,47 +6,29 @@
 #' @export
 #'
 #' @examples
+#' @importFrom readr read_lines
+#' @importFrom stringi stri_startswith_fixed stri_replace_first_regex
 read_fasta <- function(file) {
 
-  fasta_data <- scan(file,
-                     sep = "\n",
-                     what = character(), quiet = TRUE)
+  fasta_data <- readr::read_lines(file)
 
-  n_lines <- length(fasta_data)
+  is_header <- stringi::stri_startswith_fixed(fasta_data, ">")
+  header_lines <- fasta_data[is_header]
 
-  id <- character(n_lines)
-  sequence <- character(n_lines)
-  comment <- character(n_lines)
+  id <- header_lines |>
+    stringi::stri_replace_first_regex("^>(\\w*)\\s*.*", "$1")
 
-  index <- 1
-  temp_sequence <- ""
+  comment <- header_lines |>
+    stringi::stri_replace_first_regex("^>\\w*\\s*(.*)", "$1")
 
-  for(line in seq_along(fasta_data)){
+  number <- cumsum(is_header)
+  seq_lines <- fasta_data[!is_header]
+  seq_number <- number[!is_header]
 
-    if(stringi::stri_detect_regex(fasta_data[line], "^>")){
-      id_line <- fasta_data[line]
+  sequence <- tapply(seq_lines, seq_number, stringi::stri_c, collapse = "") |>
+    unname()
 
-      id[index] <- id_line |>
-        stringi::stri_replace_all_regex("^>(\\w*)\\s*.*", "$1")
-
-      comment[index] <- id_line |>
-        stringi::stri_replace_all_regex("^>\\w*\\s*(.*)", "$1")
-
-      sequence[index] <- paste(temp_sequence, collapse = "")
-
-      temp_sequence <- ""
-      index <- index + 1
-
-    } else {
-      temp_sequence <- c(temp_sequence, fasta_data[line])
-    }
-
-
-  }
-
-  sequence[index] <- paste(temp_sequence, collapse = "")
-
-  data.frame(id = id[1:(index - 1)],
-             sequence = sequence[2: index],
-             comment = comment[1:(index - 1)])
+  data.frame(id = id,
+             sequence = sequence,
+             comment = comment)
 }
