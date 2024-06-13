@@ -7,7 +7,7 @@
 #'
 #' @examples
 #' @importFrom readr read_lines
-#' @importFrom stringi stri_startswith_fixed stri_replace_first_regex
+#' @importFrom stringi stri_startswith_fixed stri_replace_first_regex stri_c
 read_fasta <- function(file) {
 
   fasta_data <- readr::read_lines(file)
