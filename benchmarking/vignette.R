@@ -3,24 +3,11 @@ library(tidyverse)
 fasta <- "benchmarking/trainset19_072023.rdp/trainset19_072023.rdp.fasta"
 taxonomy <- "benchmarking/trainset19_072023.rdp/trainset19_072023.rdp.tax"
 
-microbenchmark::microbenchmark(
-  fasta_df <- read_fasta(fasta), #733.7518ms
-  times = 10
-)
+fasta_df <- read_fasta(fasta)
+genera <- read_taxonomy(taxonomy)
 
-profvis::profvis(
-  fasta_df <- read_fasta(fasta),
-)
-
-
-genera <- read_tsv(taxonomy,
-                   col_names = c("accession", "taxonomy")) |>
-  mutate(taxonomy = stringi::stri_replace_all_regex(taxonomy, ";$", ""))
-
-
-
-seq_table <- as_tibble(fasta_df) |>
-  inner_join(genera, by = c("id" = "accession"))
+seq_table <- fasta_df |>
+  inner_join(genera, by = "id")
 
 db <- build_kmer_database(seq_table$sequence,
                           seq_table$taxonomy,
