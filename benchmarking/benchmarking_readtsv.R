@@ -12,14 +12,18 @@ microbenchmark::microbenchmark(
     dplyr::mutate(taxonomy = stringi::stri_replace_last_regex(taxonomy, ";$", "")),
   r_t = readr::read_tsv(taxonomy,
                   col_names = c("accession", "taxonomy"),
-                  col_types = cols(.default = col_character())) |>
+                  col_types = readr::cols(.default = readr::col_character())) |>
     dplyr::mutate(taxonomy = stringi::stri_replace_last_regex(taxonomy, ";$", "")),
   v = vroom::vroom(taxonomy, delim = "\t",
                col_names = c("accession", "taxonomy"),
-               col_types = cols(.default = col_character())) |>
+               col_types = vroom::cols(.default = vroom::col_character())) |>
     dplyr::mutate(taxonomy = stringi::stri_replace_last_regex(taxonomy, ";$", "")),
   d.t = data.table::fread(taxonomy, sep = "\t", header = FALSE,
                     col.names = c("accession", "taxonomy")) |>
+    dplyr::mutate(taxonomy = stringi::stri_replace_last_regex(taxonomy, ";$", "")),
+  arr = arrow::read_tsv_arrow(taxonomy,
+                              col_names = c("accession", "taxonomy"),
+                              col_types = "cc") |>
     dplyr::mutate(taxonomy = stringi::stri_replace_last_regex(taxonomy, ";$", ""))
 
 )
