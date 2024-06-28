@@ -1,4 +1,4 @@
-library(tidyverse)
+#library(dplyr)
 
 fasta <- "benchmarking/trainset19_072023.rdp/trainset19_072023.rdp.fasta"
 taxonomy <- "benchmarking/trainset19_072023.rdp/trainset19_072023.rdp.tax"
@@ -6,8 +6,7 @@ taxonomy <- "benchmarking/trainset19_072023.rdp/trainset19_072023.rdp.tax"
 fasta_df <- read_fasta(fasta)
 genera <- read_taxonomy(taxonomy)
 
-seq_table <- fasta_df |>
-  inner_join(genera, by = "id")
+seq_table <- dplyr::inner_join(fasta_df, genera, by = "id")
 
 db <- build_kmer_database(seq_table$sequence,
                           seq_table$taxonomy,
