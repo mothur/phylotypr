@@ -2,6 +2,8 @@
 
 export(build_kmer_database)
 export(classify_sequence)
+export(filter_taxonomy)
+export(print_taxonomy)
 export(read_fasta)
 export(read_taxonomy)
 importFrom(Rcpp,sourceCpp)

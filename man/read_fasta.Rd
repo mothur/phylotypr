@@ -2,13 +2,47 @@
 % Please edit documentation in R/read_fasta.R
 \name{read_fasta}
 \alias{read_fasta}
-\title{Title}
+\title{Read in a FASTA-formatted file containing DNA sequences}
 \usage{
 read_fasta(file)
 }
 \arguments{
-\item{file}{}
+\item{file}{Either a path to a file, a connection, or literal data (either a single
+string or a raw vector) containing DNA sequences in the standard FASTA
+format. There are no checks to determine whether the data are DNA or amino
+acid sequences.
+
+Files ending in .gz, .bz2, .xz, or .zip will be automatically uncompressed.
+Files starting with ⁠http://⁠, ⁠https://⁠, ⁠ftp://⁠, or ⁠ftps://⁠ will be
+automatically downloaded. Remote gz files can also be autom downloaded and
+decompressed.}
+}
+\value{
+A data frame object with three columns. The \code{id} column will contain
+the non-space characters following the \code{>} in the header line of each
+sequence; the \code{sequence} column will contain the sequence; and the
+\code{comment} column will contain any text found after the first
+whitespace character on the header line.
 }
 \description{
-Title
+Given a \href{https://en.wikipedia.org/wiki/FASTA_format}{standard FASTA-formatted file}, \code{read_fasta} will read in the
+contents of the file and create a three column data frame with columns
+for the sequence id, the sequence itself, and any comments found in the
+header line for each sequence.
+}
+\note{
+The seqeunces in the FASTA file can have line breaks within them and
+\code{read_fasta()} will put those separate lines into the same sequence
+}
+\examples{
+temp <- tempfile()
+write(">seqA\nATGCATGC\n>seqB\nTACGTACG", file = temp)
+write(">seqC\nTCCGATGC", file = temp, append = TRUE)
+write(">seqD B.ceresus UW85\nTCCGATGC", file = temp, append = TRUE)
+write(">seq4\tE. coli K12\tBacteria;Proteobacteria;\nTCCGATGC", file = temp, append = TRUE)
+write(">seq_4\tSalmonella LT2\tBacteria;Proteobacteria;\nTCCGATGC", file = temp, append = TRUE)
+write(">seqE B.ceresus UW123\nTCCGATGC\nTCCGATGC", file = temp, append = TRUE)
+
+sequence_df <- read_fasta(temp)
+
 }

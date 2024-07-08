@@ -2,8 +2,7 @@
 % Please edit documentation in R/kmers.R
 \name{build_kmer_database}
 \alias{build_kmer_database}
-\title{Build kmer database for classifying 16S rRNA and other gene sequences to
-a genus when a kmer size is provided.}
+\title{Build kmer database}
 \usage{
 build_kmer_database(sequences, genera, kmer_size = 8)
 }
@@ -22,10 +21,25 @@ spaces.}
 on (default = 8)}
 }
 \value{
-A TBD object containing the genus level conditional probability of
-         seeing each kmer in a given genus as well as the genus names
+A list object containing the genus level conditional probability
+(\code{conditional_prob}) of seeing each kmer in a given genus as well as
+the genus names (\code{genera})
 }
 \description{
 Build kmer database for classifying 16S rRNA and other gene sequences to
 a genus when a kmer size is provided.
+}
+\examples{
+kmer_size <- 3
+sequences <- c("ATGCGCTA", "ATGCGCTC", "ATGCGCTC")
+genera <- c("A", "B", "B")
+
+build_kmer_database(sequences, genera, kmer_size)
+
+}
+\references{
+Wang Q, Garrity GM, Tiedje JM, Cole JR. Naive Bayesian classifier for rapid
+assignment of rRNA sequences into the new bacterial taxonomy. Appl Environ
+Microbiol. 2007 Aug;73(16):5261-7. doi: \href{https://dx.doi.org/10.1128/AEM.00062-07}{10.1128/AEM.00062-07}.
+PMID: 17586664; PMCID: PMC1950982.
 }

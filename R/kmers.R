@@ -1,3 +1,5 @@
+#' Build kmer database
+#'
 #' Build kmer database for classifying 16S rRNA and other gene sequences to
 #' a genus when a kmer size is provided.
 #'
@@ -12,8 +14,23 @@
 #' @param kmer_size The length of the nucleotide word to base our classification
 #'                  on (default = 8)
 #'
-#' @return  A TBD object containing the genus level conditional probability of
-#'          seeing each kmer in a given genus as well as the genus names
+#' @return  A list object containing the genus level conditional probability
+#'          (`conditional_prob`) of seeing each kmer in a given genus as well as
+#'           the genus names (`genera`)
+#'
+#' @references
+#' Wang Q, Garrity GM, Tiedje JM, Cole JR. Naive Bayesian classifier for rapid
+#' assignment of rRNA sequences into the new bacterial taxonomy. Appl Environ
+#' Microbiol. 2007 Aug;73(16):5261-7. doi: [10.1128/AEM.00062-07](https://dx.doi.org/10.1128/AEM.00062-07).
+#' PMID: 17586664; PMCID: PMC1950982.
+#'
+#' @examples
+#' kmer_size <- 3
+#' sequences <- c("ATGCGCTA", "ATGCGCTC", "ATGCGCTC")
+#' genera <- c("A", "B", "B")
+#'
+#' build_kmer_database(sequences, genera, kmer_size)
+#'
 #' @export
 build_kmer_database <- function(sequences, genera, kmer_size = 8) {
 
@@ -30,6 +47,63 @@ build_kmer_database <- function(sequences, genera, kmer_size = 8) {
 
   return(list(conditional_prob = cond_prob,
               genera = genera_names))
+}
+
+
+
+#' Classify 16S rRNA gene sequence fragment
+#'
+#' The `classify_seqs()` function implements the Wang et al. naive Bayesian
+#' classification algorithm for 16S rRNA gene sequences.
+#'
+#' @param unknown_sequence   A DNA sequence that needs to be classified
+#' @param database  A kmer database generated using `build_kmer_database`
+#' @param kmer_size An integer value (default of 8) indicating the size of kmers
+#'                  to use for classifying sequences. Higher values use more
+#'                  RAM with potentially more specificity Lower values use
+#'                  less RAM with potentially less specificity. Benchmarking
+#'                  has found that the default of 8 provides the best
+#'                  specificity with the lowest possible memory requirement and
+#'                  fastest execution time.
+#' @param num_bootstraps An integer value (default of 100). The value of
+#'                  `num_bootstraps` is the number of randomizations to perform
+#'                  where `1/kmer_size` of all kmers are sampled (without
+#'                  replacement) from `unknown_sequence`. Higher values will
+#'                  provide greater precision on the confidence score.
+#'
+#' @returns A list object of two vectors. One vector (`taxonomy`) is the
+#'          taxonomic assignment for each level. The second vector
+#'          (`confidence`) is the fraction of `num_bootstraps` that the
+#'          classifier gave the same classification at that level
+#' @inherit build_kmer_database references
+#' @export
+#'
+#' @examples
+#'   kmer_size <- 3
+#'   sequences <- c("ATGCGCTA", "ATGCGCTC", "ATGCGCTC")
+#'   genera <- c("A", "B", "B")
+#'
+#'   db <- build_kmer_database(sequences, genera, kmer_size)
+#'   unknown_sequence <- "ATGCGCTC"
+#'
+#'   classify_sequence(unknown_sequence = unknown_sequence,
+#'                     database = db,
+#'                     kmer_size = kmer_size)
+
+classify_sequence <- function(unknown_sequence, database,
+                              kmer_size = 8, num_bootstraps = 100){
+
+  kmers <- detect_kmers(sequence = unknown_sequence, kmer_size)
+
+  bs_class <- numeric(length = num_bootstraps)
+
+  for(i in 1:num_bootstraps){
+    bs_kmers <- bootstrap_kmers(kmers, kmer_size)
+    bs_class[[i]] <- classify_bs(bs_kmers, database)
+  }
+
+  consensus_bs_class(bs_class, database)
+
 }
 
 
@@ -215,63 +289,4 @@ get_consensus <- function(taxonomy) {
 }
 
 
-#' @noRd
-filter_taxonomy <- function(classification, min_confidence = 0.80) {
 
-  high_confidence <- which(classification$confidence >= min_confidence)
-
-  filtered <- list()
-  filtered[["taxonomy"]] <- classification[["taxonomy"]][high_confidence]
-  filtered[["confidence"]] <- classification[["confidence"]][high_confidence]
-
-  return(filtered)
-}
-
-
-#' @noRd
-print_taxonomy <- function(consensus, n_levels = 6) {
-
-  original_levels <- length(consensus$taxonomy)
-  given_levels <- original_levels
-
-  while(given_levels < n_levels) {
-
-    consensus$taxonomy[given_levels+1] <- paste(consensus$taxonomy[original_levels],
-                                                "unclassified", sep = "_")
-    consensus$confidence[given_levels+1] <- consensus$confidence[original_levels]
-    given_levels <- given_levels + 1
-  }
-
-  pretty_confidence <- paste0("(", 100*consensus$confidence, ")")
-
-  paste(consensus$taxonomy, pretty_confidence, sep = "", collapse = ";")
-
-}
-
-
-#' Title
-#'
-#' @param unknown
-#' @param database
-#' @param kmer_size
-#' @param num_bootstraps
-#'
-#' @return
-#' @export
-#'
-#' @examples
-classify_sequence <- function(unknown = unknown_sequence, database = db,
-                              kmer_size = 8, num_bootstraps = 100){
-
-  kmers <- detect_kmers(sequence = unknown, kmer_size)
-
-  bs_class <- numeric(length = num_bootstraps)
-
-  for(i in 1:num_bootstraps){
-    bs_kmers <- bootstrap_kmers(kmers, kmer_size)
-    bs_class[[i]] <- classify_bs(bs_kmers, database)
-  }
-
-  consensus_bs_class(bs_class, database)
-
-}
