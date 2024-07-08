@@ -6,13 +6,13 @@
 #' @param sequences A vector of reference sequences for which we have
 #'                  genus-level taxonomic information in the same order as the
 #'                  value for genera.
-#' @param genera    A vector of genus-level taxonomic information for reference
-#'                  sequences in the same order as the value for sequences.
-#'                  Ideally, taxonomic information will be provided back to the
-#'                  domain level with each level separated by semicolons and no
-#'                  spaces.
-#' @param kmer_size The length of the nucleotide word to base our classification
-#'                  on (default = 8)
+#' @param genera    A character vector of genus-level taxonomic information for
+#'                  reference sequences in the same order as the value for
+#'                  sequences. Ideally, taxonomic information will be provided
+#'                  back to the domain level with each level separated by
+#'                  semicolons and no spaces.
+#' @param kmer_size An integer indicating the length of the nucleotide word to
+#'                  base our classification on (default = 8)
 #'
 #' @return  A list object containing the genus level conditional probability
 #'          (`conditional_prob`) of seeing each kmer in a given genus as well as
@@ -56,8 +56,9 @@ build_kmer_database <- function(sequences, genera, kmer_size = 8) {
 #' The `classify_seqs()` function implements the Wang et al. naive Bayesian
 #' classification algorithm for 16S rRNA gene sequences.
 #'
-#' @param unknown_sequence   A DNA sequence that needs to be classified
-#' @param database  A kmer database generated using `build_kmer_database`
+#' @param unknown_sequence   A character object representing a DNA sequence that
+#'                           needs to be classified
+#' @param database  A kmer database generated using [`build_kmer_database`]
 #' @param kmer_size An integer value (default of 8) indicating the size of kmers
 #'                  to use for classifying sequences. Higher values use more
 #'                  RAM with potentially more specificity Lower values use

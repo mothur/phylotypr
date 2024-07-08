@@ -12,9 +12,10 @@ classify_sequence(
 )
 }
 \arguments{
-\item{unknown_sequence}{A DNA sequence that needs to be classified}
+\item{unknown_sequence}{A character object representing a DNA sequence that
+needs to be classified}
 
-\item{database}{A kmer database generated using \code{build_kmer_database}}
+\item{database}{A kmer database generated using \code{\link{build_kmer_database}}}
 
 \item{kmer_size}{An integer value (default of 8) indicating the size of kmers
 to use for classifying sequences. Higher values use more

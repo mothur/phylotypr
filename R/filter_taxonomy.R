@@ -12,10 +12,10 @@
 #'                       removed
 #'
 #' @return A list object containing two equally sized vectors that are filtered
-#'          to remove low confidence taxonomies. One vector, `taxonomy`,
-#'        contains the taxonomy at each taxonomic level and the other vector,
-#'        `confidence` contains the confidence score for that taxonomy. There
-#'        will be no taxonomies or confidence scores below `min_confidence`
+#'         to remove low confidence taxonomies. One vector, `taxonomy`,
+#'         contains the taxonomy at each taxonomic level and the other vector,
+#'         `confidence` contains the confidence score for that taxonomy. There
+#'         will be no taxonomies or confidence scores below `min_confidence`
 #'
 #' @examples
 #' oscillospiraceae <- list(taxonomy = c("Bacteria", "Bacillota", "Clostridia",

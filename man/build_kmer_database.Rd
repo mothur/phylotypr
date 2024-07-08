@@ -11,14 +11,14 @@ build_kmer_database(sequences, genera, kmer_size = 8)
 genus-level taxonomic information in the same order as the
 value for genera.}
 
-\item{genera}{A vector of genus-level taxonomic information for reference
-sequences in the same order as the value for sequences.
-Ideally, taxonomic information will be provided back to the
-domain level with each level separated by semicolons and no
-spaces.}
+\item{genera}{A character vector of genus-level taxonomic information for
+reference sequences in the same order as the value for
+sequences. Ideally, taxonomic information will be provided
+back to the domain level with each level separated by
+semicolons and no spaces.}
 
-\item{kmer_size}{The length of the nucleotide word to base our classification
-on (default = 8)}
+\item{kmer_size}{An integer indicating the length of the nucleotide word to
+base our classification on (default = 8)}
 }
 \value{
 A list object containing the genus level conditional probability
