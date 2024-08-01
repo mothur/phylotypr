@@ -1,0 +1,123 @@
+---
+title: "phylotypr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{phylotypr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+In the microbiome field, 16S rRNA gene sequencing has been a popular method of characterizing the types of bacteria found in a community. The most frequently used tool for classifying these sequences has been the [naive Bayesian classifier](https://journals.asm.org/doi/10.1128/aem.00062-07) that used to be accessible through the Ribosomal Database Project and is currently found in tools like mothur and QIIME. For the first time, the `{phylotypr}` package provides an R-based implementation of that tool. There are minimal dependencies and the easy to use code executes rapidly.
+
+
+## Getting started with `{phylotypr}`
+To get started you'll need to install `{phylotypr}` using either of these commands:
+
+```{r, eval = FALSE}
+#devtools::install_github("riffomonas/phylotypr") #install development version
+install.packages("phylotypr") #install stable version from CRAN
+```
+
+To get access to the packages function and a demonstration version of the training data, you'll need to run the `library()` function. Because the classification algorithm makes use of a random number generator, I strongly encourage you to set the seed to get consistent results:
+
+```{r setup}
+library(phylotypr)
+library(purrr)
+set.seed(19760620) # pat's birtday in YYYYMMDD format
+```
+
+
+## Building the database
+
+Before we can classify a sequence, we need to generate the database. This can be done using the `build_kmer_database()` function and takes several seconds to execute. Unless you save the database object (e.g. `db` below) to a `Rda`-formatted file, you'll need to run this function each time you load `{phylotypr}`
+
+```{r}
+db <- build_kmer_database(trainset9_pds$sequence,
+                          trainset9_pds$taxonomy)
+```
+
+By default, `build_kmer_database()` will use 8-nt long kmers to calculate its probabilities. This size can be altered by the user if needed, but 8-nt performs very well and shouldn't need to be adjusted.
+
+
+## Classifying an unknown sequence
+
+To classify a sequence we need the DNA sequence to be a character object like `unknown` is below.
+
+```{r}
+unknown <- "TACGGAGGATGCGAGCGTTATCCGGATTTATTGGGTTTAAAGGGTGCGTAGGCGGATCGTTAAGTCAGTGGTCAAATTGAGGGGCTCAACCCCTTCCCGCCATTGAAACTGGCGATCTTGAGTGGAAGAGAAGTATGCGGAATGCGTGGTGTAGCGGTGAAATGCATAGATATCACGCAGAACCCCGATTGCGAAGGCAGCATGCCGGCTTCCTACTGACGCTCATGCACGAAAGTGTGGGTAACGAACAGG"
+```
+
+The `unknown` object can then be classified using `classify_sequence()` along with the database object from above (i.e., `db`).
+
+```{r}
+consensus <- classify_sequence(unknown = unknown, database = db)
+```
+
+The output of `classify_sequence` is a list with taxonomic levels from kingdom (or domain) down to the genus and the confidence scores for that sequence in each of those taxonomic levels
+
+```{r}
+consensus
+```
+
+In this example, you'll notice that the family and genus assignment have confidence scores below 80%. This is the value commonly used in mothur and which was used on the RDP website. To filter the classification to that level of confidence, you can use the `filter_taxonomy()` function:
+
+```{r}
+filtered <- filter_taxonomy(consensus)
+```
+
+You should see that the "Porphyromonadaceae" and "Barnesiella" names are removed along with its confidence score.
+
+```{r}
+filtered
+```
+
+To convert that list format to a string, you can use the `print_taxonomy()` function:
+
+```{r}
+print_taxonomy(filtered)
+```
+
+## More advanced topics
+
+### Classifying multiple sequences at once
+
+If you have multiple sequences that you would like to classify, you can use the `map_chr()` function from `{purrr}`, or something like it. Below I show how to classify the same sequence three times.
+
+```{r}
+unknowns <- c("TACGGAGGATGCGAGCGTTATCCGGATTTATTGGGTTTAAAGGGTGCGTAGGCGGATCGTTAAGTCAGTGGTCAAATTGAGGGGCTCAACCCCTTCCCGCCATTGAAACTGGCGATCTTGAGTGGAAGAGAAGTATGCGGAATGCGTGGTGTAGCGGTGAAATGCATAGATATCACGCAGAACCCCGATTGCGAAGGCAGCATGCCGGCTTCCTACTGACGCTCATGCACGAAAGTGTGGGTAACGAACAGG",
+             "TACGGAGGATGCGAGCGTTATCCGGATTTATTGGGTTTAAAGGGTGCGTAGGCGGATCGTTAAGTCAGTGGTCAAATTGAGGGGCTCAACCCCTTCCCGCCATTGAAACTGGCGATCTTGAGTGGAAGAGAAGTATGCGGAATGCGTGGTGTAGCGGTGAAATGCATAGATATCACGCAGAACCCCGATTGCGAAGGCAGCATGCCGGCTTCCTACTGACGCTCATGCACGAAAGTGTGGGTAACGAACAGG",
+             "TACGGAGGATGCGAGCGTTATCCGGATTTATTGGGTTTAAAGGGTGCGTAGGCGGATCGTTAAGTCAGTGGTCAAATTGAGGGGCTCAACCCCTTCCCGCCATTGAAACTGGCGATCTTGAGTGGAAGAGAAGTATGCGGAATGCGTGGTGTAGCGGTGAAATGCATAGATATCACGCAGAACCCCGATTGCGAAGGCAGCATGCCGGCTTCCTACTGACGCTCATGCACGAAAGTGTGGGTAACGAACAGG")
+
+purrr::map_chr(unknowns,
+      ~classify_sequence(unknown = .x, database = db) |>
+      filter_taxonomy() |>
+      print_taxonomy()
+    )
+```
+
+
+### Run-to-run variation
+
+You'll notice that the classification of the three sequences varies slightly. Again, this is due to the use of the random number generator and getting confidence scores that bounce around 80%, which results in different levels of filtering. To get a more stable classification, you should be setting your random number generator seed with `set.seed()`. To get a more precise confidence score, you could set `num_bootstraps = 1000` in `classify_seqeuence()`. Be forewarned that the function will take 10-times longer to run with 10-times the number of bootstraps!
+
+```{r}
+purrr::map_chr(unknowns,
+      ~classify_sequence(unknown = .x, database = db, num_bootstraps = 1000) |>
+      filter_taxonomy() |>
+      print_taxonomy()
+    )
+```
+
+
+### Alternative databases
+The `{phylotypr}` package ships with the RDP's v.6 of their training data. This is relatively small and old (2010) relative to their latest versions. Also, there are databases available from greengenes and SILVA. You are encouraged to install newer databases from the packages on GitHub:
+
+* [RDP's `{trainset19}`](https://github.com/mothur/trainset19)
+* More on the way!

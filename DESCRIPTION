@@ -19,6 +19,9 @@ BugReports: https://github.com/riffomonas/phylotypr/issues
 RoxygenNote: 7.3.1
 Roxygen: list(markdown = TRUE)
 Suggests: 
+    knitr,
+    rmarkdown,
+    purrr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Imports: 
@@ -31,3 +34,4 @@ LinkingTo:
     Rcpp
 Depends: 
     R (>= 2.10)
+VignetteBuilder: knitr
