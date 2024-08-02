@@ -19,7 +19,7 @@ An object of class \code{data.frame} with 10169 rows and 3 columns.
 \source{
 \itemize{
 \item \href{https://mothur.org/wiki/rdp_reference_files/}{mothur-formatted files}
-\item \href{https://sourceforge.net/projects/rdp-classifier/files/RDP_Classifier_TrainingData/RDP_Classifier_TrainingData6.zip/download}{RDP sourceforge page}
+\item \href{https://sourceforge.net/projects/rdp-classifier/files/RDP_Classifier_TrainingData/RDPClassifier_16S_trainsetNo9_rawtrainingdata.zip/download}{RDP sourceforge page}
 }
 }
 \usage{

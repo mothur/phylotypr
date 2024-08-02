@@ -24,7 +24,7 @@
 #'
 #' @source
 #' * [mothur-formatted files](https://mothur.org/wiki/rdp_reference_files/)
-#' * [RDP sourceforge page](https://sourceforge.net/projects/rdp-classifier/files/RDP_Classifier_TrainingData/RDP_Classifier_TrainingData6.zip/download)
+#' * [RDP sourceforge page](https://sourceforge.net/projects/rdp-classifier/files/RDP_Classifier_TrainingData/RDPClassifier_16S_trainsetNo9_rawtrainingdata.zip/download)
 #'
 "trainset9_rdp"
 
