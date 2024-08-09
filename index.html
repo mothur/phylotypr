@@ -33,6 +33,7 @@
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="articles/phylotypr.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -51,7 +52,11 @@
 </h1></div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p>The goal of phylotypr is to …</p>
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
+<p>phylotypr is a package for classification based analysis of DNA sequences. This package primarily implements Naive Bayesian Classifier from the Ribosomal Database Project. Although you can classify any type of sequence (assuming you have the proper database), this algorithm is mainly used to classify 16S rRNA gene sequences.</p>
+</div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -59,28 +64,25 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"riffomonas/phylotypr"</span><span class="op">)</span></span></code></pre></div>
+<p>You can also get the official release version from CRAN</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"phylotypr"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
-<p>This is a basic example which shows you how to solve a common problem:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/riffomonas/phylotypr" class="external-link">phylotypr</a></span><span class="op">)</span></span>
-<span><span class="co">## basic example code</span></span></code></pre></div>
-<p>What is special about using <code>README.Rmd</code> instead of just <code>README.md</code>? You can include R chunks like so:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">cars</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      speed           dist       </span></span>
-<span><span class="co">#&gt;  Min.   : 4.0   Min.   :  2.00  </span></span>
-<span><span class="co">#&gt;  1st Qu.:12.0   1st Qu.: 26.00  </span></span>
-<span><span class="co">#&gt;  Median :15.0   Median : 36.00  </span></span>
-<span><span class="co">#&gt;  Mean   :15.4   Mean   : 42.98  </span></span>
-<span><span class="co">#&gt;  3rd Qu.:19.0   3rd Qu.: 56.00  </span></span>
-<span><span class="co">#&gt;  Max.   :25.0   Max.   :120.00</span></span></code></pre></div>
-<p>You’ll still need to render <code>README.Rmd</code> regularly, to keep <code>README.md</code> up-to-date. <code>devtools::build_readme()</code> is handy for this.</p>
-<p>You can also embed plots, for example:</p>
-<p><img src="reference/figures/README-pressure-1.png" width="100%"></p>
-<p>In that case, don’t forget to commit and push the resulting figure files, so they display on GitHub and CRAN.</p>
+<p>Be sure to see the <a href="articles/phylotypr.html">Getting Started</a> article to see an example of how you would build the database and classify individual and multiple sequences.</p>
+<p>You will also need a reference database to classify your sequences. The <a href="https://github.com/riffomonas/phylotypr" class="external-link">phylotypr</a> package ships with the <a href="reference/trainset9_rdp.html">RDP training set (v9)</a>. This is relatively small and old (2010) relative to their latest versions. Also, there are databases available from greengenes and SILVA. You are encouraged to install newer databases from the packages on GitHub:</p>
+<ul>
+<li><a href="https://github.com/mothur/trainset19" class="external-link">RDP’s <code>{trainset19}</code></a></li>
+<li>More on the way!</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="more-information-about-phylotypr">More information about <code>{phylotypr}</code>
+<a class="anchor" aria-label="anchor" href="#more-information-about-phylotypr"></a>
+</h2>
+<p>You can learn more about the underlying algorithm in the paper that originally described the algorithm that was published in <a href="https://journals.asm.org/doi/10.1128/aem.00062-07" class="external-link"><em>Applied and Environmental Microbiology</em></a>. If you want to learn more about how this package was created, be sure to check out the Riffomonas YouTube channel where a <a href="https://www.youtube.com/watch?v=XjolVT16YNw&amp;list=PLmNrK_nkqBpIZlWa3yGEc2-wX7An2kpCL" class="external-link">playlist is available</a> showing every step.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
