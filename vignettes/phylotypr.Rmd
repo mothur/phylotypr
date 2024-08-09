@@ -117,7 +117,7 @@ purrr::map_chr(unknowns,
 
 
 ### Alternative databases
-The `{phylotypr}` package ships with the RDP's v.6 of their training data. This is relatively small and old (2010) relative to their latest versions. Also, there are databases available from greengenes and SILVA. You are encouraged to install newer databases from the packages on GitHub:
+The `{phylotypr}` package ships with the RDP's v.9 of their training data. This is relatively small and old (2010) relative to their latest versions. Also, there are databases available from greengenes and SILVA. You are encouraged to install newer databases from the packages on GitHub:
 
 * [RDP's `{trainset19}`](https://github.com/mothur/trainset19)
 * More on the way!

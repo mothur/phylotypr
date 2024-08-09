@@ -6,7 +6,13 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of phylotypr is to …
+## Overview
+
+phylotypr is a package for classification based analysis of DNA
+sequences. This package primarily implements Naive Bayesian Classifier
+from the Ribosomal Database Project. Although you can classify any type
+of sequence (assuming you have the proper database), this algorithm is
+mainly used to classify 16S rRNA gene sequences.
 
 ## Installation
 
@@ -18,35 +24,35 @@ You can install the development version of phylotypr from
 devtools::install_github("riffomonas/phylotypr")
 ```
 
-## Example
-
-This is a basic example which shows you how to solve a common problem:
+You can also get the official release version from CRAN
 
 ``` r
-library(phylotypr)
-## basic example code
+install.packages("phylotypr")
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+## Usage
 
-``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
-```
+Be sure to see the [Getting Started](articles/phylotypr.html) article to
+see an example of how you would build the database and classify
+individual and multiple sequences.
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
+You will also need a reference database to classify your sequences. The
+`{phylotypr}` package ships with the [RDP training set
+(v9)](reference/trainset9_rdp.html). This is relatively small and old
+(2010) relative to their latest versions. Also, there are databases
+available from greengenes and SILVA. You are encouraged to install newer
+databases from the packages on GitHub:
 
-You can also embed plots, for example:
+- [RDP’s `{trainset19}`](https://github.com/mothur/trainset19)
+- More on the way!
 
-<img src="man/figures/README-pressure-1.png" width="100%" />
+## More information about `{phylotypr}`
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+You can learn more about the underlying algorithm in the paper that
+originally described the algorithm that was published in [*Applied and
+Environmental
+Microbiology*](https://journals.asm.org/doi/10.1128/aem.00062-07). If
+you want to learn more about how this package was created, be sure to
+check out the Riffomonas YouTube channel where a [playlist is
+available](https://www.youtube.com/watch?v=XjolVT16YNw&list=PLmNrK_nkqBpIZlWa3yGEc2-wX7An2kpCL)
+showing every step.

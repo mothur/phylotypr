@@ -2,3 +2,22 @@ url: http://riffomonas.org/phylotypr/
 template:
   bootstrap: 5
 
+reference:
+- title: Functions
+  desc: >
+    The functions needed to train the naive Bayesian classifier and run it on an
+    unknown sequence
+  contents:
+    - build_kmer_database
+    - classify_sequence
+    - filter_taxonomy
+    - print_taxonomy
+    - read_fasta
+    - read_taxonomy
+- title: Datasets
+  desc: >
+    Example reference sequences and taxonomy that can be used for practicing
+    use of the package's functions
+  contents:
+    - trainset9_rdp
+    - trainset9_pds
