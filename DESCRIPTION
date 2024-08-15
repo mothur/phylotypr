@@ -28,7 +28,7 @@ Imports:
     Rcpp,
     readr (>= 2.1.0),
     Rfast (>= 2.1.0),
-    stats (>= 4.4.0),
+    stats (>= 4.0.0),
     stringi (>= 1.8.0)
 LinkingTo: 
     Rcpp
