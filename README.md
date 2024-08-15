@@ -6,6 +6,9 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/riffomonas/phylotypr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/riffomonas/phylotypr/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/riffomonas/phylotypr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/riffomonas/phylotypr?branch=main)
+
 <!-- badges: end -->
 
 ## Overview
