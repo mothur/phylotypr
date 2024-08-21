@@ -75,8 +75,8 @@ the easy to use code executes rapidly.</p>
 <p>To get started you’ll need to install <a href="https://github.com/riffomonas/phylotypr" class="external-link">phylotypr</a> using
 either of these commands:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#devtools::install_github("riffomonas/phylotypr") #install development version</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"phylotypr"</span><span class="op">)</span> <span class="co">#install stable version from CRAN</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># devtools::install_github("riffomonas/phylotypr") #install development version</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"phylotypr"</span><span class="op">)</span> <span class="co"># install stable version from CRAN</span></span></code></pre></div>
 <p>To get access to the packages function and a demonstration version of
 the training data, you’ll need to run the <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code>
 function. Because the classification algorithm makes use of a random
@@ -97,8 +97,10 @@ object (e.g. <code>db</code> below) to a <code>Rda</code>-formatted
 file, you’ll need to run this function each time you load
 <a href="https://github.com/riffomonas/phylotypr" class="external-link">phylotypr</a></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">db</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/build_kmer_database.html">build_kmer_database</a></span><span class="op">(</span><span class="va">trainset9_pds</span><span class="op">$</span><span class="va">sequence</span>,</span>
-<span>                          <span class="va">trainset9_pds</span><span class="op">$</span><span class="va">taxonomy</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">db</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/build_kmer_database.html">build_kmer_database</a></span><span class="op">(</span></span>
+<span>  <span class="va">trainset9_pds</span><span class="op">$</span><span class="va">sequence</span>,</span>
+<span>  <span class="va">trainset9_pds</span><span class="op">$</span><span class="va">taxonomy</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>By default, <code><a href="../reference/build_kmer_database.html">build_kmer_database()</a></code> will use 8-nt long
 kmers to calculate its probabilities. This size can be altered by the
 user if needed, but 8-nt performs very well and shouldn’t need to be
@@ -161,15 +163,18 @@ can use the <code><a href="https://purrr.tidyverse.org/reference/map.html" class
 or something like it. Below I show how to classify the same sequence
 three times.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">unknowns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TACGGAGGATGCGAGCGTTATCCGGATTTATTGGGTTTAAAGGGTGCGTAGGCGGATCGTTAAGTCAGTGGTCAAATTGAGGGGCTCAACCCCTTCCCGCCATTGAAACTGGCGATCTTGAGTGGAAGAGAAGTATGCGGAATGCGTGGTGTAGCGGTGAAATGCATAGATATCACGCAGAACCCCGATTGCGAAGGCAGCATGCCGGCTTCCTACTGACGCTCATGCACGAAAGTGTGGGTAACGAACAGG"</span>,</span>
-<span>             <span class="st">"TACGGAGGATGCGAGCGTTATCCGGATTTATTGGGTTTAAAGGGTGCGTAGGCGGATCGTTAAGTCAGTGGTCAAATTGAGGGGCTCAACCCCTTCCCGCCATTGAAACTGGCGATCTTGAGTGGAAGAGAAGTATGCGGAATGCGTGGTGTAGCGGTGAAATGCATAGATATCACGCAGAACCCCGATTGCGAAGGCAGCATGCCGGCTTCCTACTGACGCTCATGCACGAAAGTGTGGGTAACGAACAGG"</span>,</span>
-<span>             <span class="st">"TACGGAGGATGCGAGCGTTATCCGGATTTATTGGGTTTAAAGGGTGCGTAGGCGGATCGTTAAGTCAGTGGTCAAATTGAGGGGCTCAACCCCTTCCCGCCATTGAAACTGGCGATCTTGAGTGGAAGAGAAGTATGCGGAATGCGTGGTGTAGCGGTGAAATGCATAGATATCACGCAGAACCCCGATTGCGAAGGCAGCATGCCGGCTTCCTACTGACGCTCATGCACGAAAGTGTGGGTAACGAACAGG"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">unknowns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  <span class="st">"TACGGAGGATGCGAGCGTTATCCGGATTTATTGGGTTTAAAGGGTGCGTAGGCGGATCGTTAAGTCAGTGGTCAAATTGAGGGGCTCAACCCCTTCCCGCCATTGAAACTGGCGATCTTGAGTGGAAGAGAAGTATGCGGAATGCGTGGTGTAGCGGTGAAATGCATAGATATCACGCAGAACCCCGATTGCGAAGGCAGCATGCCGGCTTCCTACTGACGCTCATGCACGAAAGTGTGGGTAACGAACAGG"</span>,</span>
+<span>  <span class="st">"TACGGAGGATGCGAGCGTTATCCGGATTTATTGGGTTTAAAGGGTGCGTAGGCGGATCGTTAAGTCAGTGGTCAAATTGAGGGGCTCAACCCCTTCCCGCCATTGAAACTGGCGATCTTGAGTGGAAGAGAAGTATGCGGAATGCGTGGTGTAGCGGTGAAATGCATAGATATCACGCAGAACCCCGATTGCGAAGGCAGCATGCCGGCTTCCTACTGACGCTCATGCACGAAAGTGTGGGTAACGAACAGG"</span>,</span>
+<span>  <span class="st">"TACGGAGGATGCGAGCGTTATCCGGATTTATTGGGTTTAAAGGGTGCGTAGGCGGATCGTTAAGTCAGTGGTCAAATTGAGGGGCTCAACCCCTTCCCGCCATTGAAACTGGCGATCTTGAGTGGAAGAGAAGTATGCGGAATGCGTGGTGTAGCGGTGAAATGCATAGATATCACGCAGAACCCCGATTGCGAAGGCAGCATGCCGGCTTCCTACTGACGCTCATGCACGAAAGTGTGGGTAACGAACAGG"</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span><span class="va">unknowns</span>,</span>
-<span>      <span class="op">~</span><span class="fu"><a href="../reference/classify_sequence.html">classify_sequence</a></span><span class="op">(</span>unknown <span class="op">=</span> <span class="va">.x</span>, database <span class="op">=</span> <span class="va">db</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>      <span class="fu"><a href="../reference/filter_taxonomy.html">filter_taxonomy</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>      <span class="fu"><a href="../reference/print_taxonomy.html">print_taxonomy</a></span><span class="op">(</span><span class="op">)</span></span>
-<span>    <span class="op">)</span></span>
+<span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span></span>
+<span>  <span class="va">unknowns</span>,</span>
+<span>  <span class="op">~</span> <span class="fu"><a href="../reference/classify_sequence.html">classify_sequence</a></span><span class="op">(</span>unknown <span class="op">=</span> <span class="va">.x</span>, database <span class="op">=</span> <span class="va">db</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="../reference/filter_taxonomy.html">filter_taxonomy</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="../reference/print_taxonomy.html">print_taxonomy</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Bacteria(100);\"Bacteroidetes\"(100);\"Bacteroidia\"(87);\"Bacteroidales\"(87);\"Bacteroidales\"_unclassified(87);\"Bacteroidales\"_unclassified(87)"</span></span>
 <span><span class="co">#&gt; [2] "Bacteria(100);\"Bacteroidetes\"(99);\"Bacteroidia\"(86);\"Bacteroidales\"(86);\"Porphyromonadaceae\"(84);\"Porphyromonadaceae\"_unclassified(84)"    </span></span>
 <span><span class="co">#&gt; [3] "Bacteria(100);\"Bacteroidetes\"(100);\"Bacteroidia\"(89);\"Bacteroidales\"(89);\"Porphyromonadaceae\"(84);\"Porphyromonadaceae\"_unclassified(84)"</span></span></code></pre></div>
@@ -187,11 +192,12 @@ could set <code>num_bootstraps = 1000</code> in
 <code>classify_seqeuence()</code>. Be forewarned that the function will
 take 10-times longer to run with 10-times the number of bootstraps!</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span><span class="va">unknowns</span>,</span>
-<span>      <span class="op">~</span><span class="fu"><a href="../reference/classify_sequence.html">classify_sequence</a></span><span class="op">(</span>unknown <span class="op">=</span> <span class="va">.x</span>, database <span class="op">=</span> <span class="va">db</span>, num_bootstraps <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>      <span class="fu"><a href="../reference/filter_taxonomy.html">filter_taxonomy</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>      <span class="fu"><a href="../reference/print_taxonomy.html">print_taxonomy</a></span><span class="op">(</span><span class="op">)</span></span>
-<span>    <span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span></span>
+<span>  <span class="va">unknowns</span>,</span>
+<span>  <span class="op">~</span> <span class="fu"><a href="../reference/classify_sequence.html">classify_sequence</a></span><span class="op">(</span>unknown <span class="op">=</span> <span class="va">.x</span>, database <span class="op">=</span> <span class="va">db</span>, num_bootstraps <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="../reference/filter_taxonomy.html">filter_taxonomy</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="../reference/print_taxonomy.html">print_taxonomy</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Bacteria(100);\"Bacteroidetes\"(97.1);\"Bacteroidia\"(87.6);\"Bacteroidales\"(87.6);\"Porphyromonadaceae\"(84.7);\"Porphyromonadaceae\"_unclassified(84.7)"</span></span>
 <span><span class="co">#&gt; [2] "Bacteria(100);\"Bacteroidetes\"(96.9);\"Bacteroidia\"(86.1);\"Bacteroidales\"(86.1);\"Porphyromonadaceae\"(83);\"Porphyromonadaceae\"_unclassified(83)"    </span></span>
 <span><span class="co">#&gt; [3] "Bacteria(100);\"Bacteroidetes\"(97);\"Bacteroidia\"(84.4);\"Bacteroidales\"(84.4);\"Porphyromonadaceae\"(80.6);\"Porphyromonadaceae\"_unclassified(80.6)"</span></span></code></pre></div>
