@@ -21,14 +21,15 @@ decompressed.}
 A data frame object with three columns. The \code{id} column will contain
 the non-space characters following the \code{>} in the header line of each
 sequence; the \code{sequence} column will contain the sequence; and the
-\code{comment} column will contain any text found after the first
-whitespace character on the header line.
+\code{comment} column will contain any text found after the first whitespace
+character on the header line.
 }
 \description{
-Given a \href{https://en.wikipedia.org/wiki/FASTA_format}{standard FASTA-formatted file}, \code{read_fasta} will read in the
-contents of the file and create a three column data frame with columns
-for the sequence id, the sequence itself, and any comments found in the
-header line for each sequence.
+Given a
+\href{https://en.wikipedia.org/wiki/FASTA_format}{standard FASTA-formatted file},
+\code{read_fasta} will read in the contents of the file and create a three column
+data frame with columns for the sequence id, the sequence itself, and any
+comments found in the header line for each sequence.
 }
 \note{
 The seqeunces in the FASTA file can have line breaks within them and
@@ -39,9 +40,12 @@ temp <- tempfile()
 write(">seqA\nATGCATGC\n>seqB\nTACGTACG", file = temp)
 write(">seqC\nTCCGATGC", file = temp, append = TRUE)
 write(">seqD B.ceresus UW85\nTCCGATGC", file = temp, append = TRUE)
-write(">seq4\tE. coli K12\tBacteria;Proteobacteria;\nTCCGATGC", file = temp, append = TRUE)
-write(">seq_4\tSalmonella LT2\tBacteria;Proteobacteria;\nTCCGATGC", file = temp, append = TRUE)
-write(">seqE B.ceresus UW123\nTCCGATGC\nTCCGATGC", file = temp, append = TRUE)
+write(">seq4\tE. coli K12\tBacteria;Proteobacteria;\nTCCGATGC", file = temp,
+  append = TRUE)
+write(">seq_4\tSalmonella LT2\tBacteria;Proteobacteria;\nTCCGATGC",
+  file = temp, append = TRUE)
+write(">seqE B.ceresus UW123\nTCCGATGC\nTCCGATGC", file = temp,
+  append = TRUE)
 
 sequence_df <- read_fasta(temp)
 

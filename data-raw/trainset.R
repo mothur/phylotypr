@@ -11,12 +11,11 @@ download.file(url, temp_file_name)
 
 unzip(temp_file_name, exdir = temp_dir)
 fasta <- list.files(temp_dir,
-                    pattern = ".rdp.fasta", full.names = TRUE)
+  pattern = ".rdp.fasta", full.names = TRUE
+)
 taxonomy <- list.files(temp_dir,
-                       pattern = ".rdp.tax", full.names = TRUE)
-
-# fasta <- "benchmarking/trainset9_032012.rdp/trainset9_032012.rdp.fasta"
-# taxonomy <- "benchmarking/trainset9_032012.rdp/trainset9_032012.rdp.tax"
+  pattern = ".rdp.tax", full.names = TRUE
+)
 
 fasta_df <- read_fasta(fasta)
 genera <- read_taxonomy(taxonomy)
@@ -40,12 +39,11 @@ download.file(url, temp_file_name)
 
 unzip(temp_file_name, exdir = temp_dir)
 fasta <- list.files(temp_dir,
-                    pattern = ".pds.fasta", full.names = TRUE)
+  pattern = ".pds.fasta", full.names = TRUE
+)
 taxonomy <- list.files(temp_dir,
-                       pattern = "pds.tax", full.names = TRUE)
-
-# fasta <- "benchmarking/trainset9_032012.pds/trainset9_032012.pds.fasta"
-# taxonomy <- "benchmarking/trainset9_032012.pds/trainset9_032012.pds.tax"
+  pattern = "pds.tax", full.names = TRUE
+)
 
 fasta_df <- read_fasta(fasta)
 genera <- read_taxonomy(taxonomy)
@@ -54,4 +52,3 @@ trainset9_pds <- dplyr::inner_join(fasta_df, genera, by = "id")
 trainset9_pds <- trainset9_pds[, c("id", "sequence", "taxonomy")]
 
 usethis::use_data(trainset9_pds, compress = "xz", overwrite = TRUE)
-

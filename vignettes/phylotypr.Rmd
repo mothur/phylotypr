@@ -21,8 +21,8 @@ In the microbiome field, 16S rRNA gene sequencing has been a popular method of c
 To get started you'll need to install `{phylotypr}` using either of these commands:
 
 ```{r, eval = FALSE}
-#devtools::install_github("riffomonas/phylotypr") #install development version
-install.packages("phylotypr") #install stable version from CRAN
+# devtools::install_github("riffomonas/phylotypr") #install development version
+install.packages("phylotypr") # install stable version from CRAN
 ```
 
 To get access to the packages function and a demonstration version of the training data, you'll need to run the `library()` function. Because the classification algorithm makes use of a random number generator, I strongly encourage you to set the seed to get consistent results:
@@ -39,8 +39,10 @@ set.seed(19760620) # pat's birtday in YYYYMMDD format
 Before we can classify a sequence, we need to generate the database. This can be done using the `build_kmer_database()` function and takes several seconds to execute. Unless you save the database object (e.g. `db` below) to a `Rda`-formatted file, you'll need to run this function each time you load `{phylotypr}`
 
 ```{r}
-db <- build_kmer_database(trainset9_pds$sequence,
-                          trainset9_pds$taxonomy)
+db <- build_kmer_database(
+  trainset9_pds$sequence,
+  trainset9_pds$taxonomy
+)
 ```
 
 By default, `build_kmer_database()` will use 8-nt long kmers to calculate its probabilities. This size can be altered by the user if needed, but 8-nt performs very well and shouldn't need to be adjusted.
@@ -91,15 +93,18 @@ print_taxonomy(filtered)
 If you have multiple sequences that you would like to classify, you can use the `map_chr()` function from `{purrr}`, or something like it. Below I show how to classify the same sequence three times.
 
 ```{r}
-unknowns <- c("TACGGAGGATGCGAGCGTTATCCGGATTTATTGGGTTTAAAGGGTGCGTAGGCGGATCGTTAAGTCAGTGGTCAAATTGAGGGGCTCAACCCCTTCCCGCCATTGAAACTGGCGATCTTGAGTGGAAGAGAAGTATGCGGAATGCGTGGTGTAGCGGTGAAATGCATAGATATCACGCAGAACCCCGATTGCGAAGGCAGCATGCCGGCTTCCTACTGACGCTCATGCACGAAAGTGTGGGTAACGAACAGG",
-             "TACGGAGGATGCGAGCGTTATCCGGATTTATTGGGTTTAAAGGGTGCGTAGGCGGATCGTTAAGTCAGTGGTCAAATTGAGGGGCTCAACCCCTTCCCGCCATTGAAACTGGCGATCTTGAGTGGAAGAGAAGTATGCGGAATGCGTGGTGTAGCGGTGAAATGCATAGATATCACGCAGAACCCCGATTGCGAAGGCAGCATGCCGGCTTCCTACTGACGCTCATGCACGAAAGTGTGGGTAACGAACAGG",
-             "TACGGAGGATGCGAGCGTTATCCGGATTTATTGGGTTTAAAGGGTGCGTAGGCGGATCGTTAAGTCAGTGGTCAAATTGAGGGGCTCAACCCCTTCCCGCCATTGAAACTGGCGATCTTGAGTGGAAGAGAAGTATGCGGAATGCGTGGTGTAGCGGTGAAATGCATAGATATCACGCAGAACCCCGATTGCGAAGGCAGCATGCCGGCTTCCTACTGACGCTCATGCACGAAAGTGTGGGTAACGAACAGG")
+unknowns <- c(
+  "TACGGAGGATGCGAGCGTTATCCGGATTTATTGGGTTTAAAGGGTGCGTAGGCGGATCGTTAAGTCAGTGGTCAAATTGAGGGGCTCAACCCCTTCCCGCCATTGAAACTGGCGATCTTGAGTGGAAGAGAAGTATGCGGAATGCGTGGTGTAGCGGTGAAATGCATAGATATCACGCAGAACCCCGATTGCGAAGGCAGCATGCCGGCTTCCTACTGACGCTCATGCACGAAAGTGTGGGTAACGAACAGG",
+  "TACGGAGGATGCGAGCGTTATCCGGATTTATTGGGTTTAAAGGGTGCGTAGGCGGATCGTTAAGTCAGTGGTCAAATTGAGGGGCTCAACCCCTTCCCGCCATTGAAACTGGCGATCTTGAGTGGAAGAGAAGTATGCGGAATGCGTGGTGTAGCGGTGAAATGCATAGATATCACGCAGAACCCCGATTGCGAAGGCAGCATGCCGGCTTCCTACTGACGCTCATGCACGAAAGTGTGGGTAACGAACAGG",
+  "TACGGAGGATGCGAGCGTTATCCGGATTTATTGGGTTTAAAGGGTGCGTAGGCGGATCGTTAAGTCAGTGGTCAAATTGAGGGGCTCAACCCCTTCCCGCCATTGAAACTGGCGATCTTGAGTGGAAGAGAAGTATGCGGAATGCGTGGTGTAGCGGTGAAATGCATAGATATCACGCAGAACCCCGATTGCGAAGGCAGCATGCCGGCTTCCTACTGACGCTCATGCACGAAAGTGTGGGTAACGAACAGG"
+)
 
-purrr::map_chr(unknowns,
-      ~classify_sequence(unknown = .x, database = db) |>
-      filter_taxonomy() |>
-      print_taxonomy()
-    )
+purrr::map_chr(
+  unknowns,
+  ~ classify_sequence(unknown = .x, database = db) |>
+    filter_taxonomy() |>
+    print_taxonomy()
+)
 ```
 
 
@@ -108,11 +113,12 @@ purrr::map_chr(unknowns,
 You'll notice that the classification of the three sequences varies slightly. Again, this is due to the use of the random number generator and getting confidence scores that bounce around 80%, which results in different levels of filtering. To get a more stable classification, you should be setting your random number generator seed with `set.seed()`. To get a more precise confidence score, you could set `num_bootstraps = 1000` in `classify_seqeuence()`. Be forewarned that the function will take 10-times longer to run with 10-times the number of bootstraps!
 
 ```{r}
-purrr::map_chr(unknowns,
-      ~classify_sequence(unknown = .x, database = db, num_bootstraps = 1000) |>
-      filter_taxonomy() |>
-      print_taxonomy()
-    )
+purrr::map_chr(
+  unknowns,
+  ~ classify_sequence(unknown = .x, database = db, num_bootstraps = 1000) |>
+    filter_taxonomy() |>
+    print_taxonomy()
+)
 ```
 
 

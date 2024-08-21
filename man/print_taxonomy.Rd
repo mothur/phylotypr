@@ -29,10 +29,13 @@ sequence with confidence scores for each taxonomic level and each taxonomic
 level separated by semi-colons
 }
 \examples{
-oscillospiraceae <- list(taxonomy = c("Bacteria", "Bacillota", "Clostridia",
-                                      "Eubacteriales", "Oscillospiraceae"),
-                          confidence = c(1.00, 1.00, 0.99, 0.99, 0.98)
-                         )
+oscillospiraceae <- list(
+  taxonomy = c(
+    "Bacteria", "Bacillota", "Clostridia",
+    "Eubacteriales", "Oscillospiraceae"
+  ),
+  confidence = c(1.00, 1.00, 0.99, 0.99, 0.98)
+)
 
 print_taxonomy(oscillospiraceae, n_levels = 6)
 }

@@ -18,17 +18,19 @@
 #'         will be no taxonomies or confidence scores below `min_confidence`
 #'
 #' @examples
-#' oscillospiraceae <- list(taxonomy = c("Bacteria", "Bacillota", "Clostridia",
-#'                                       "Eubacteriales", "Oscillospiraceae",
-#'                                       "Flintibacter"),
-#'                          confidence = c(1.00, 1.00, 0.99, 0.99, 0.98, 0.58)
-#'                        )
+#' oscillospiraceae <- list(
+#'   taxonomy = c(
+#'     "Bacteria", "Bacillota", "Clostridia",
+#'     "Eubacteriales", "Oscillospiraceae",
+#'     "Flintibacter"
+#'   ),
+#'   confidence = c(1.00, 1.00, 0.99, 0.99, 0.98, 0.58)
+#' )
 #'
 #' filter_taxonomy(oscillospiraceae, min_confidence = 0.80)
 #' @export
 
 filter_taxonomy <- function(consensus, min_confidence = 0.80) {
-
   high_confidence <- which(consensus$confidence >= min_confidence)
 
   filtered <- list()

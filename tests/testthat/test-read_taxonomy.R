@@ -1,5 +1,4 @@
 test_that("reading in taxonomy data works", {
-
   temp <- tempfile()
 
   write("seqA\tA;B;C;", file = temp)
@@ -15,9 +14,7 @@ test_that("reading in taxonomy data works", {
   expected <- data.frame(
     id = c("seqA", "seqB", "seqC", "seqD", "seqE", "seqF", "seq G"),
     taxonomy = c("A;B;C")
-
   )
 
   expect_equal(taxonomy_df, expected)
-
 })

@@ -1,0 +1,3 @@
+linters: linters_with_defaults() # see vignette("lintr")
+exclusions: list("vignettes/phylotypr.Rmd")
+encoding: "UTF-8"

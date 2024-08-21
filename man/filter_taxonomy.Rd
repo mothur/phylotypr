@@ -32,11 +32,14 @@ any taxonomic levels where the confidence score is below a \code{min_confidence}
 level
 }
 \examples{
-oscillospiraceae <- list(taxonomy = c("Bacteria", "Bacillota", "Clostridia",
-                                      "Eubacteriales", "Oscillospiraceae",
-                                      "Flintibacter"),
-                         confidence = c(1.00, 1.00, 0.99, 0.99, 0.98, 0.58)
-                       )
+oscillospiraceae <- list(
+  taxonomy = c(
+    "Bacteria", "Bacillota", "Clostridia",
+    "Eubacteriales", "Oscillospiraceae",
+    "Flintibacter"
+  ),
+  confidence = c(1.00, 1.00, 0.99, 0.99, 0.98, 0.58)
+)
 
 filter_taxonomy(oscillospiraceae, min_confidence = 0.80)
 }

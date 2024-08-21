@@ -10,7 +10,8 @@
 #' mothur reference file page in "Sources" for more information. Be sure to see
 #' the [mothur GitHub project](https://github.com/mothur) for repositories to
 #' obtain R packages containing other taxonomic reference data. For example v19
-#' of this reference is the [trainset19 package](https://github.com/mothur/trainset19).
+#' of this reference is the
+#' [trainset19 package](https://github.com/mothur/trainset19).
 #'
 #'
 #' @format
@@ -24,7 +25,7 @@
 #'
 #' @source
 #' * [mothur-formatted files](https://mothur.org/wiki/rdp_reference_files/)
-#' * [RDP sourceforge page](https://sourceforge.net/projects/rdp-classifier/files/RDP_Classifier_TrainingData/RDPClassifier_16S_trainsetNo9_rawtrainingdata.zip/download)
+#' * [RDP sourceforge page](https://sourceforge.net/projects/rdp-classifier/files/RDP_Classifier_TrainingData/RDPClassifier_16S_trainsetNo9_rawtrainingdata.zip/download) # nolint: line_length_linter
 #'
 "trainset9_rdp"
 

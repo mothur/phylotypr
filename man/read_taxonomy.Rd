@@ -11,10 +11,10 @@ read_taxonomy(file)
 (either a single string or a raw vector) containing the
 sequence id and the taxonomy information for each sequence.
 
-Files ending in .gz, .bz2, .xz, or .zip will be automatically
-uncompressed. Files starting with
-⁠http://⁠, ⁠https://⁠, ⁠ftp://⁠, or ⁠ftps://⁠ will be automatically downloaded. Remote gz files can also be autom
-downloaded and decompressed.}
+Files ending in .gz, .bz2, .xz, or .zip will be automatically uncompressed.
+Files starting with ⁠http://⁠, ⁠https://⁠, ⁠ftp://⁠, or ⁠ftps://⁠ will be
+automatically downloaded. Remote gz files can also be autom downloaded and
+decompressed.}
 }
 \value{
 A data frame with two columns. The \code{id} column contains a name for each
@@ -24,7 +24,9 @@ separated by semi-colons. The string does not have a semi-colon at the end of
 the sequence
 }
 \description{
-Read a \href{https://mothur.org/wiki/taxonomy_file/}{mothur-formatted taxonomy file} into R as a data frame
+Read a
+\href{https://mothur.org/wiki/taxonomy_file/}{mothur-formatted taxonomy file}
+into R as a data frame
 }
 \note{
 There are no checks to insure that each sequence has a unique id value. It is

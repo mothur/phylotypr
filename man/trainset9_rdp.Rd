@@ -19,7 +19,7 @@ An object of class \code{data.frame} with 10169 rows and 3 columns.
 \source{
 \itemize{
 \item \href{https://mothur.org/wiki/rdp_reference_files/}{mothur-formatted files}
-\item \href{https://sourceforge.net/projects/rdp-classifier/files/RDP_Classifier_TrainingData/RDPClassifier_16S_trainsetNo9_rawtrainingdata.zip/download}{RDP sourceforge page}
+\item \href{https://sourceforge.net/projects/rdp-classifier/files/RDP_Classifier_TrainingData/RDPClassifier_16S_trainsetNo9_rawtrainingdata.zip/download}{RDP sourceforge page} # nolint: line_length_linter
 }
 }
 \usage{
@@ -38,6 +38,7 @@ including 119 chloroplasts and mitochondria (10,168 total sequences). See the
 mothur reference file page in "Sources" for more information. Be sure to see
 the \href{https://github.com/mothur}{mothur GitHub project} for repositories to
 obtain R packages containing other taxonomic reference data. For example v19
-of this reference is the \href{https://github.com/mothur/trainset19}{trainset19 package}.
+of this reference is the
+\href{https://github.com/mothur/trainset19}{trainset19 package}.
 }
 \keyword{datasets}
