@@ -189,7 +189,7 @@ different levels of filtering. To get a more stable classification, you
 should be setting your random number generator seed with
 <code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed()</a></code>. To get a more precise confidence score, you
 could set <code>num_bootstraps = 1000</code> in
-<code>classify_seqeuence()</code>. Be forewarned that the function will
+<code><a href="../reference/classify_sequence.html">classify_sequence()</a></code>. Be forewarned that the function will
 take 10-times longer to run with 10-times the number of bootstraps!</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span></span>
