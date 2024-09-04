@@ -6,14 +6,8 @@ repos:
     hooks:
     -   id: style-files
         args: [--style_pkg=styler, --style_fun=tidyverse_style]
-    # -   id: roxygenize
-    #     # roxygen requires loading pkg -> add dependencies from DESCRIPTION
-    #     additional_dependencies:
-    #     -    Rcpp
-    #     -    readr
-    #     -    Rfast
-    #     -    stats
-    #     -    stringi
+    -   id: roxygenize
+        # roxygen requires loading pkg -> add dependencies from DESCRIPTION
     # codemeta must be above use-tidy-description when both are used
     # -   id: codemeta-description-updated
     -   id: use-tidy-description
