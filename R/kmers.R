@@ -270,7 +270,9 @@ consensus_bs_class <- function(bs_class, db) {
   )
 
   list(
-    taxonomy = stringi::stri_split_fixed(consensus_list[[n_levels]][["id"]], pattern = ";") |>
+    taxonomy = stringi::stri_split_fixed(consensus_list[[n_levels]][["id"]],
+      pattern = ";"
+    ) |>
       unlist(),
     confidence = sapply(consensus_list, `[[`, "frac")
   )
