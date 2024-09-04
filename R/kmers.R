@@ -289,4 +289,4 @@ get_consensus <- function(taxonomy) {
     frac = taxonomy_table[[max_index]] / n_bs,
     id = names(max_index)
   )
-}
+
