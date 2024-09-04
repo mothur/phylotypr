@@ -31,12 +31,17 @@
 #' write(">seqA\nATGCATGC\n>seqB\nTACGTACG", file = temp)
 #' write(">seqC\nTCCGATGC", file = temp, append = TRUE)
 #' write(">seqD B.ceresus UW85\nTCCGATGC", file = temp, append = TRUE)
-#' write(">seq4\tE. coli K12\tBacteria;Proteobacteria;\nTCCGATGC", file = temp,
-#'   append = TRUE)
+#' write(">seq4\tE. coli K12\tBacteria;Proteobacteria;\nTCCGATGC",
+#'   file = temp,
+#'   append = TRUE
+#' )
 #' write(">seq_4\tSalmonella LT2\tBacteria;Proteobacteria;\nTCCGATGC",
-#'   file = temp, append = TRUE)
-#' write(">seqE B.ceresus UW123\nTCCGATGC\nTCCGATGC", file = temp,
-#'   append = TRUE)
+#'   file = temp, append = TRUE
+#' )
+#' write(">seqE B.ceresus UW123\nTCCGATGC\nTCCGATGC",
+#'   file = temp,
+#'   append = TRUE
+#' )
 #'
 #' sequence_df <- read_fasta(temp)
 #'

@@ -2,6 +2,5 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 calculate_log_probability <- function(kmer_genus_count, word_specific_priors, genus_counts) {
-    .Call(`_phylotypr_calculate_log_probability`, kmer_genus_count, word_specific_priors, genus_counts)
+  .Call(`_phylotypr_calculate_log_probability`, kmer_genus_count, word_specific_priors, genus_counts)
 }
-

@@ -46,12 +46,16 @@ read_taxonomy <- function(file) {
     col_types = readr::cols(.default = readr::col_character())
   )
 
-  taxonomy$taxonomy <- stringi::stri_replace_last_regex(taxonomy$taxonomy,
-                                                        ";$",
-                                                        "")
+  taxonomy$taxonomy <- stringi::stri_replace_last_regex(
+    taxonomy$taxonomy,
+    ";$",
+    ""
+  )
 
-  taxonomy$taxonomy <- stringi::stri_replace_all_regex(taxonomy$taxonomy,
-                                                       "; ",
-                                                       ";")
+  taxonomy$taxonomy <- stringi::stri_replace_all_regex(
+    taxonomy$taxonomy,
+    "; ",
+    ";"
+  )
   as.data.frame(taxonomy)
 }

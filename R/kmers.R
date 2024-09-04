@@ -270,8 +270,7 @@ consensus_bs_class <- function(bs_class, db) {
   )
 
   list(
-    taxonomy = stringi::stri_split_fixed(consensus_list[[n_levels]][["id"]],pattern = ";"
-    ) |>
+    taxonomy = stringi::stri_split_fixed(consensus_list[[n_levels]][["id"]], pattern = ";") |>
       unlist(),
     confidence = sapply(consensus_list, `[[`, "frac")
   )
@@ -285,7 +284,7 @@ get_consensus <- function(taxonomy) {
   max_index <- which.max(taxonomy_table)
 
   list(
-    frac=taxonomy_table[[max_index]]/n_bs,
+    frac = taxonomy_table[[max_index]] / n_bs,
     id = names(max_index)
   )
 }

@@ -181,14 +181,22 @@ test_that("Create kmer database from sequences, taxonomy, and kmer size", {
 
   db <- build_kmer_database(sequences, genera, kmer_size)
 
-  expect_equal(db[["conditional_prob"]][26, ],
-               log((c(1, 2) + 0.875) / (c(1, 2) + 1)))
-  expect_equal(db[["conditional_prob"]][29, ],
-               log((c(1, 0) + 0.375) / (c(1, 2) + 1)))
-  expect_equal(db[["conditional_prob"]][30, ],
-               log((c(0, 2) + 0.625) / (c(1, 2) + 1)))
-  expect_equal(db[["conditional_prob"]][64, ],
-               log((c(0, 0) + 0.125) / (c(1, 2) + 1)))
+  expect_equal(
+    db[["conditional_prob"]][26, ],
+    log((c(1, 2) + 0.875) / (c(1, 2) + 1))
+  )
+  expect_equal(
+    db[["conditional_prob"]][29, ],
+    log((c(1, 0) + 0.375) / (c(1, 2) + 1))
+  )
+  expect_equal(
+    db[["conditional_prob"]][30, ],
+    log((c(0, 2) + 0.625) / (c(1, 2) + 1))
+  )
+  expect_equal(
+    db[["conditional_prob"]][64, ],
+    log((c(0, 0) + 0.125) / (c(1, 2) + 1))
+  )
 
   expect_equal(db[["genera"]][1], "A")
   expect_equal(db[["genera"]][2], "B")
