@@ -110,7 +110,7 @@ purrr::map_chr(
 
 ### Run-to-run variation
 
-You'll notice that the classification of the three sequences varies slightly. Again, this is due to the use of the random number generator and getting confidence scores that bounce around 80%, which results in different levels of filtering. To get a more stable classification, you should be setting your random number generator seed with `set.seed()`. To get a more precise confidence score, you could set `num_bootstraps = 1000` in `classify_seqeuence()`. Be forewarned that the function will take 10-times longer to run with 10-times the number of bootstraps!
+You'll notice that the classification of the three sequences varies slightly. Again, this is due to the use of the random number generator and getting confidence scores that bounce around 80%, which results in different levels of filtering. To get a more stable classification, you should be setting your random number generator seed with `set.seed()`. To get a more precise confidence score, you could set `num_bootstraps = 1000` in `classify_sequence()`. Be forewarned that the function will take 10-times longer to run with 10-times the number of bootstraps!
 
 ```{r}
 purrr::map_chr(
