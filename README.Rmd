@@ -23,9 +23,7 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-phylotypr is a package for classification based analysis of DNA sequences. This package 
-primarily implements Naive Bayesian Classifier from the Ribosomal Database
-Project. Although you can classify any type of sequence (assuming you have the proper database), this algorithm is mainly used to classify 16S rRNA gene sequences.
+phylotypr is a package for classification based analysis of DNA sequences. This package primarily implements Naive Bayesian Classifier from the Ribosomal Database Project. Although you can classify any type of sequence (assuming you have the proper database), this algorithm is mainly used to classify 16S rRNA gene sequences.
 
 
 ## Installation
