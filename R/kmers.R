@@ -180,8 +180,9 @@ calc_word_specific_priors <- function(detect_list, kmer_size) {
 #' @noRd
 # The forumula for calculating the conditional probability for each genus
 # is equal to (m(wi) + Pi) / (M + 1) #nolint: commented_code_linter
+# genera argument needs to be an integer not char
 calc_genus_conditional_prob <- function(detect_list,
-                                        genera, #needs to be an integer not char
+                                        genera,
                                         word_specific_priors) {
   genus_counts <- tabulate(genera)
   n_genera <- length(genus_counts)
