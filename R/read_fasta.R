@@ -18,7 +18,7 @@
 #' decompressed.
 #'
 #' @note
-#' The seqeunces in the FASTA file can have line breaks within them and
+#' The sequences in the FASTA file can have line breaks within them and
 #' `read_fasta()` will put those separate lines into the same sequence
 #'
 #' @returns A data frame object with three columns. The `id` column will contain
