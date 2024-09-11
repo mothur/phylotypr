@@ -198,31 +198,13 @@ calc_genus_conditional_prob <- function(detect_list,
     kmer_genus_count[detect_list[[i]], genera[i]] <-
       kmer_genus_count[detect_list[[i]], genera[i]] + 1
   }
-  # nolint start
-  # transpose = 10.0s
-  # log(t(t(kmer_genus_count + word_specific_priors) / (genus_counts + 1)))
 
-  # mat mult = forever
-  # log((kmer_genus_count + word_specific_priors) %*% diag(1/(genus_counts + 1)))
-
-  # sweep = 10.2s
-  # log(sweep(kmer_genus_count + word_specific_priors, 2, genus_counts + 1, "/"))
-
-  # rep = 6.2s
-  log(
-    (kmer_genus_count + word_specific_priors) /
-      rep(genus_counts + 1, each = n_kmers)
+  # this calls a rcpp version of the function
+  calculate_log_probability(
+    kmer_genus_count,
+    word_specific_priors,
+    genus_counts
   )
-
-  # replace = 10.8
-  # log((kmer_genus_count + word_specific_priors) / t(replace(t(kmer_genus_count), TRUE, genus_counts + 1)))
-
-  # col = 8.9
-  # log((kmer_genus_count + word_specific_priors) /(genus_counts + 1)[col(kmer_genus_count)])
-
-  # rcpp = 10.3
-  # calculate_log_probability(kmer_genus_count, word_specific_priors, genus_counts)
-  # nolint end
 }
 
 
