@@ -1,5 +1,4 @@
 linters: linters_with_defaults(
-  object_usage_linter = NULL
-) # see vignette("lintr")
+  object_usage_linter = NULL) # see vignette("lintr")
 exclusions: list("benchmarking/", "vignettes/phylotypr.Rmd", "R/RcppExports.R")
 encoding: "UTF-8"
