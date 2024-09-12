@@ -41,7 +41,7 @@ repos:
           \.github/workflows/.*|
           data/.*|
           )$
-    -   id: lintr
+    # -   id: lintr
     -   id: readme-rmd-rendered
     -   id: parsable-R
     -   id: no-browser-statement
@@ -71,6 +71,18 @@ repos:
         language: fail
         files: '\.(Rhistory|RData|Rds|RDS|rds)$'
         # `exclude: <regex>` to allow committing specific files
+    -   id: local-lintr
+        name: Run lintr with global R environment
+        entry: >
+          Rscript -e "devtools::load_all();
+          output <- commandArgs(trailingOnly=TRUE) |> strsplit(' ') |>
+          unlist() |> lapply(lintr::lint) |> purrr::compact();
+          if (length(output) > 0) {print(output); stop('Files not lint free')}"
+        language: system
+        files: '(\.[rR]profile|\.R|\.Rmd|\.Rnw|\.r|\.rmd|\.rnw)$'
+ci:
+    autoupdate_schedule: monthly
+    skip: [pkgdown]
 
 ci:
     autoupdate_schedule: monthly
