@@ -199,7 +199,7 @@ calc_genus_conditional_prob <- function(detect_list,
       kmer_genus_count[detect_list[[i]], genera[i]] + 1
   }
 
-  # this calls a rcpp version of the function
+  # this calls the Rcpp version of the function
   calculate_log_probability(
     kmer_genus_count,
     word_specific_priors,
