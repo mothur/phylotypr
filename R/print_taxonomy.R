@@ -24,7 +24,7 @@
 #'     "Bacteria", "Bacillota", "Clostridia",
 #'     "Eubacteriales", "Oscillospiraceae"
 #'   ),
-#'   confidence = c(1.00, 1.00, 0.99, 0.99, 0.98)
+#'   confidence = c(100, 100, 99, 99, 98)
 #' )
 #'
 #' print_taxonomy(oscillospiraceae, n_levels = 6)
@@ -44,7 +44,7 @@ print_taxonomy <- function(consensus, n_levels = 6) {
     given_levels <- given_levels + 1
   }
 
-  pretty_confidence <- paste0("(", 100 * consensus$confidence, ")")
+  pretty_confidence <- paste0("(", consensus$confidence, ")")
 
   paste(consensus$taxonomy, pretty_confidence, sep = "", collapse = ";")
 }

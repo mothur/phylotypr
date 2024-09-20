@@ -5,7 +5,7 @@ test_that("Apply filter to confidence score", {
       "Eubacteriales", "Oscillospiraceae",
       "Flintibacter"
     ),
-    confidence = c(1.00, 1.00, 0.99, 0.99, 0.98, 0.58)
+    confidence = c(100, 100, 99, 99, 98, 58)
   )
 
   filtered <- list(
@@ -13,9 +13,12 @@ test_that("Apply filter to confidence score", {
       "Bacteria", "Bacillota", "Clostridia",
       "Eubacteriales", "Oscillospiraceae"
     ),
-    confidence = c(1.00, 1.00, 0.99, 0.99, 0.98)
+    confidence = c(100, 100, 99, 99, 98)
   )
 
-  observed <- filter_taxonomy(oscillospiraceae, min_confidence = 0.80)
+  observed <- filter_taxonomy(oscillospiraceae)
+  expect_equal(observed, filtered)
+
+  observed <- filter_taxonomy(oscillospiraceae, min_confidence = 80)
   expect_equal(observed, filtered)
 })

@@ -34,7 +34,7 @@ oscillospiraceae <- list(
     "Bacteria", "Bacillota", "Clostridia",
     "Eubacteriales", "Oscillospiraceae"
   ),
-  confidence = c(1.00, 1.00, 0.99, 0.99, 0.98)
+  confidence = c(100, 100, 99, 99, 98)
 )
 
 print_taxonomy(oscillospiraceae, n_levels = 6)

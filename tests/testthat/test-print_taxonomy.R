@@ -4,7 +4,7 @@ test_that("Print out consesnsus taxonomy", {
       "Bacteria", "Bacillota", "Clostridia",
       "Eubacteriales", "Oscillospiraceae"
     ),
-    confidence = c(1.00, 1.00, 0.99, 0.99, 0.98)
+    confidence = c(100, 100, 99, 99, 98)
   )
 
   expected <- "Bacteria(100);Bacillota(100);Clostridia(99);Eubacteriales(99);Oscillospiraceae(98);Oscillospiraceae_unclassified(98)" # nolint: line_length_linter
@@ -20,7 +20,7 @@ test_that("Print out consesnsus taxonomy", {
 
   bacteroidales <- list()
   bacteroidales[["taxonomy"]] <- c("Bacteria", "Bacteroidota", "Bacteroidia", "Bacteroidales") # nolint: line_length_linter
-  bacteroidales[["confidence"]] <- c(1.00, 1.00, 0.97, 0.97)
+  bacteroidales[["confidence"]] <- c(100, 100, 97, 97)
   expected <- "Bacteria(100);Bacteroidota(100);Bacteroidia(97);Bacteroidales(97);Bacteroidales_unclassified(97);Bacteroidales_unclassified(97)" # nolint: line_length_linter
 
   tax_string <- print_taxonomy(bacteroidales, n_levels = 6)

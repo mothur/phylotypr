@@ -4,7 +4,7 @@
 \alias{filter_taxonomy}
 \title{Filter taxonomy}
 \usage{
-filter_taxonomy(consensus, min_confidence = 0.8)
+filter_taxonomy(consensus, min_confidence = 80)
 }
 \arguments{
 \item{consensus}{A list object that contains two slots each with an equal
@@ -38,8 +38,8 @@ oscillospiraceae <- list(
     "Eubacteriales", "Oscillospiraceae",
     "Flintibacter"
   ),
-  confidence = c(1.00, 1.00, 0.99, 0.99, 0.98, 0.58)
+  confidence = c(100, 100, 99, 99, 98, 58)
 )
 
-filter_taxonomy(oscillospiraceae, min_confidence = 0.80)
+filter_taxonomy(oscillospiraceae, min_confidence = 80)
 }

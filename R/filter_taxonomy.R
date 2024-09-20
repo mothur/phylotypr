@@ -24,13 +24,13 @@
 #'     "Eubacteriales", "Oscillospiraceae",
 #'     "Flintibacter"
 #'   ),
-#'   confidence = c(1.00, 1.00, 0.99, 0.99, 0.98, 0.58)
+#'   confidence = c(100, 100, 99, 99, 98, 58)
 #' )
 #'
-#' filter_taxonomy(oscillospiraceae, min_confidence = 0.80)
+#' filter_taxonomy(oscillospiraceae, min_confidence = 80)
 #' @export
 
-filter_taxonomy <- function(consensus, min_confidence = 0.80) {
+filter_taxonomy <- function(consensus, min_confidence = 80) {
   high_confidence <- which(consensus$confidence >= min_confidence)
 
   filtered <- list()

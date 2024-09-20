@@ -268,7 +268,7 @@ get_consensus <- function(taxonomy) {
   max_index <- which.max(taxonomy_table)
 
   list(
-    frac = taxonomy_table[[max_index]] / n_bs,
+    frac = 100 * taxonomy_table[[max_index]] / n_bs,
     id = names(max_index)
   )
 }

@@ -236,7 +236,7 @@ test_that("Consensus classification of bootstrap subsamples", {
 
   expected <- list()
   expected[["taxonomy"]] <- c("A", "a", "A")
-  expected[["confidence"]] <- c(1, 0.8, 0.8)
+  expected[["confidence"]] <- c(100, 80, 80)
 
   observed <- consensus_bs_class(bs_class, db)
 
@@ -247,7 +247,7 @@ test_that("Consensus classification of bootstrap subsamples", {
 test_that("Return correct consensus taxonomy and confidence", {
   taxonomy <- c("A", "A", "A", "A", "A")
   expected <- list()
-  expected[["frac"]] <- 1
+  expected[["frac"]] <- 100
   expected[["id"]] <- "A"
   observed <- get_consensus(taxonomy)
   expect_equal(observed, expected)
@@ -255,7 +255,7 @@ test_that("Return correct consensus taxonomy and confidence", {
 
   taxonomy <- c("A;a", "A;a", "A;b", "A;b", "A;b")
   expected <- list()
-  expected[["frac"]] <- 0.6
+  expected[["frac"]] <- 60
   expected[["id"]] <- "A;b"
   observed <- get_consensus(taxonomy)
   expect_equal(observed, expected)
@@ -276,7 +276,7 @@ test_that("Can classify a unknown sequence with a database", {
   unknown_sequence <- "ATGCGCTC"
   expected <- list()
   expected[["taxonomy"]] <- "B"
-  expected[["confidence"]] <- 1
+  expected[["confidence"]] <- 100
 
   actual <- classify_sequence(
     unknown_sequence = unknown_sequence, database = db,
