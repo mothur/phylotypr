@@ -10,7 +10,7 @@ filter_taxonomy(consensus, min_confidence = 80)
 \item{consensus}{A list object that contains two slots each with an equal
 sized vector. The \code{taxonomy} vector contains the
 classification at each taxonomic level and the \code{confidence}
-vector contains the fraction of bootstraps that had the
+vector contains the percentage of bootstraps that had the
 specified classification}
 
 \item{min_confidence}{A double value between 0 and 100 (default = 80). The

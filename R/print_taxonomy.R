@@ -7,7 +7,7 @@
 #' @param consensus  A list object that contains two slots each with an equal
 #'                   sized vector. The `taxonomy` vector contains the
 #'                   classification at each taxonomic level and the `confidence`
-#'                   vector contains the fraction of bootstraps that had the
+#'                   vector contains the percentage of bootstraps that had the
 #'                   specified classification
 #' @param n_levels   An integer indicating the number of taxonomic levels to
 #'                   expect. If the number of observed levels is less than this

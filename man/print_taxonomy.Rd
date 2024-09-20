@@ -10,7 +10,7 @@ print_taxonomy(consensus, n_levels = 6)
 \item{consensus}{A list object that contains two slots each with an equal
 sized vector. The \code{taxonomy} vector contains the
 classification at each taxonomic level and the \code{confidence}
-vector contains the fraction of bootstraps that had the
+vector contains the percentage of bootstraps that had the
 specified classification}
 
 \item{n_levels}{An integer indicating the number of taxonomic levels to
