@@ -13,8 +13,8 @@ classification at each taxonomic level and the \code{confidence}
 vector contains the fraction of bootstraps that had the
 specified classification}
 
-\item{min_confidence}{A double value between 0 and 1 (default = 0.8). The
-minimum fraction of bootstrap replicates that had
+\item{min_confidence}{A double value between 0 and 100 (default = 80). The
+minimum percentage of bootstrap replicates that had
 the same classification. Any confidence score below
 this value will have the corresponding taxonomy
 removed}
