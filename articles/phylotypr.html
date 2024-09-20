@@ -124,8 +124,8 @@ scores for that sequence in each of those taxonomic levels</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">consensus</span></span>
 <span><span class="co">#&gt; $taxonomy</span></span>
-<span><span class="co">#&gt; [1] "Bacteria"               "\"Bacteroidetes\""      "\"Bacteroidia\""       </span></span>
-<span><span class="co">#&gt; [4] "\"Bacteroidales\""      "\"Porphyromonadaceae\"" "Barnesiella"           </span></span>
+<span><span class="co">#&gt; [1] "Bacteria"           "Bacteroidetes"      "Bacteroidia"       </span></span>
+<span><span class="co">#&gt; [4] "Bacteroidales"      "Porphyromonadaceae" "Barnesiella"       </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $confidence</span></span>
 <span><span class="co">#&gt; [1] 100  95  83  83  79  56</span></span></code></pre></div>
@@ -141,8 +141,7 @@ are removed along with its confidence score.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">filtered</span></span>
 <span><span class="co">#&gt; $taxonomy</span></span>
-<span><span class="co">#&gt; [1] "Bacteria"          "\"Bacteroidetes\"" "\"Bacteroidia\""  </span></span>
-<span><span class="co">#&gt; [4] "\"Bacteroidales\""</span></span>
+<span><span class="co">#&gt; [1] "Bacteria"      "Bacteroidetes" "Bacteroidia"   "Bacteroidales"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $confidence</span></span>
 <span><span class="co">#&gt; [1] 100  95  83  83</span></span></code></pre></div>
@@ -150,7 +149,7 @@ are removed along with its confidence score.</p>
 <code><a href="../reference/print_taxonomy.html">print_taxonomy()</a></code> function:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/print_taxonomy.html">print_taxonomy</a></span><span class="op">(</span><span class="va">filtered</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Bacteria(100);\"Bacteroidetes\"(95);\"Bacteroidia\"(83);\"Bacteroidales\"(83);\"Bacteroidales\"_unclassified(83);\"Bacteroidales\"_unclassified(83)"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "Bacteria(100);Bacteroidetes(95);Bacteroidia(83);Bacteroidales(83);Bacteroidales_unclassified(83);Bacteroidales_unclassified(83)"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="more-advanced-topics">More advanced topics<a class="anchor" aria-label="anchor" href="#more-advanced-topics"></a>
@@ -175,9 +174,9 @@ three times.</p>
 <span>    <span class="fu"><a href="../reference/filter_taxonomy.html">filter_taxonomy</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="../reference/print_taxonomy.html">print_taxonomy</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Bacteria(100);\"Bacteroidetes\"(100);\"Bacteroidia\"(87);\"Bacteroidales\"(87);\"Bacteroidales\"_unclassified(87);\"Bacteroidales\"_unclassified(87)"</span></span>
-<span><span class="co">#&gt; [2] "Bacteria(100);\"Bacteroidetes\"(99);\"Bacteroidia\"(86);\"Bacteroidales\"(86);\"Porphyromonadaceae\"(84);\"Porphyromonadaceae\"_unclassified(84)"    </span></span>
-<span><span class="co">#&gt; [3] "Bacteria(100);\"Bacteroidetes\"(100);\"Bacteroidia\"(89);\"Bacteroidales\"(89);\"Porphyromonadaceae\"(84);\"Porphyromonadaceae\"_unclassified(84)"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "Bacteria(100);Bacteroidetes(100);Bacteroidia(87);Bacteroidales(87);Bacteroidales_unclassified(87);Bacteroidales_unclassified(87)"</span></span>
+<span><span class="co">#&gt; [2] "Bacteria(100);Bacteroidetes(99);Bacteroidia(86);Bacteroidales(86);Porphyromonadaceae(84);Porphyromonadaceae_unclassified(84)"    </span></span>
+<span><span class="co">#&gt; [3] "Bacteria(100);Bacteroidetes(100);Bacteroidia(89);Bacteroidales(89);Porphyromonadaceae(84);Porphyromonadaceae_unclassified(84)"</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="run-to-run-variation">Run-to-run variation<a class="anchor" aria-label="anchor" href="#run-to-run-variation"></a>
@@ -198,9 +197,9 @@ take 10-times longer to run with 10-times the number of bootstraps!</p>
 <span>    <span class="fu"><a href="../reference/filter_taxonomy.html">filter_taxonomy</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="../reference/print_taxonomy.html">print_taxonomy</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Bacteria(100);\"Bacteroidetes\"(97.1);\"Bacteroidia\"(87.6);\"Bacteroidales\"(87.6);\"Porphyromonadaceae\"(84.7);\"Porphyromonadaceae\"_unclassified(84.7)"</span></span>
-<span><span class="co">#&gt; [2] "Bacteria(100);\"Bacteroidetes\"(96.9);\"Bacteroidia\"(86.1);\"Bacteroidales\"(86.1);\"Porphyromonadaceae\"(83);\"Porphyromonadaceae\"_unclassified(83)"    </span></span>
-<span><span class="co">#&gt; [3] "Bacteria(100);\"Bacteroidetes\"(97);\"Bacteroidia\"(84.4);\"Bacteroidales\"(84.4);\"Porphyromonadaceae\"(80.6);\"Porphyromonadaceae\"_unclassified(80.6)"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "Bacteria(100);Bacteroidetes(97.1);Bacteroidia(87.6);Bacteroidales(87.6);Porphyromonadaceae(84.7);Porphyromonadaceae_unclassified(84.7)"</span></span>
+<span><span class="co">#&gt; [2] "Bacteria(100);Bacteroidetes(96.9);Bacteroidia(86.1);Bacteroidales(86.1);Porphyromonadaceae(83);Porphyromonadaceae_unclassified(83)"    </span></span>
+<span><span class="co">#&gt; [3] "Bacteria(100);Bacteroidetes(97);Bacteroidia(84.4);Bacteroidales(84.4);Porphyromonadaceae(80.6);Porphyromonadaceae_unclassified(80.6)"</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="alternative-databases">Alternative databases<a class="anchor" aria-label="anchor" href="#alternative-databases"></a>
