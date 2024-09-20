@@ -57,5 +57,12 @@ read_taxonomy <- function(file) {
     "; ",
     ";"
   )
+
+  taxonomy$taxonomy <- stringi::stri_replace_all_regex(
+    taxonomy$taxonomy,
+    "[\"\']",
+    ""
+  )
+
   as.data.frame(taxonomy)
 }
