@@ -79,7 +79,7 @@ build_kmer_database <- function(sequences, genera, kmer_size = 8) {
 #'
 #' @returns A list object of two vectors. One vector (`taxonomy`) is the
 #'          taxonomic assignment for each level. The second vector
-#'          (`confidence`) is the fraction of `num_bootstraps` that the
+#'          (`confidence`) is the percentage of `num_bootstraps` that the
 #'          classifier gave the same classification at that level
 #' @inherit build_kmer_database references
 #' @export

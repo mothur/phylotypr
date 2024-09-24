@@ -34,7 +34,7 @@ provide greater precision on the confidence score.}
 \value{
 A list object of two vectors. One vector (\code{taxonomy}) is the
 taxonomic assignment for each level. The second vector
-(\code{confidence}) is the fraction of \code{num_bootstraps} that the
+(\code{confidence}) is the percentage of \code{num_bootstraps} that the
 classifier gave the same classification at that level
 }
 \description{
