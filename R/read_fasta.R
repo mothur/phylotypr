@@ -56,10 +56,10 @@ read_fasta <- function(file) {
   header_lines <- fasta_data[is_header]
 
   id <- header_lines |>
-    stringi::stri_replace_first_regex("^>(\\w*)\\s*.*", "$1")
+    stringi::stri_replace_first_regex("^>(\\S*)\\s*.*", "$1")
 
   comment <- header_lines |>
-    stringi::stri_replace_first_regex("^>\\w*\\s*(.*)", "$1")
+    stringi::stri_replace_first_regex("^>\\S*\\s*(.*)", "$1")
 
   number <- cumsum(is_header)
   seq_lines <- fasta_data[!is_header]

@@ -14,19 +14,25 @@ test_that("Read in fasta formatted data generates data frame", {
     file = temp,
     append = TRUE
   )
+  write(">seqD|B.cereus UW85\nTCCGATGC", file = temp, append = TRUE)
+  write(">seqD.B.cereus UW85\nTCCGATGC", file = temp, append = TRUE)
 
   sequence_df <- read_fasta(temp)
 
   expected <- data.frame(
-    id = c("seqA", "seqB", "seqC", "seqD", "seq4", "seq_4", "seqE"),
+    id = c(
+      "seqA", "seqB", "seqC", "seqD", "seq4", "seq_4", "seqE",
+      "seqD|B.cereus", "seqD.B.cereus"
+    ),
     sequence = c(
       "ATGCATGC", "TACGTACG", "TCCGATGC", "TCCGATGC", "TCCGATGC",
-      "TCCGATGC", "TCCGATGCTCCGATGC"
+      "TCCGATGC", "TCCGATGCTCCGATGC", "TCCGATGC", "TCCGATGC"
     ),
     comment = c(
       "", "", "", "B.ceresus UW85",
       "E. coli K12\tBacteria;Proteobacteria;",
-      "Salmonella LT2\tBacteria;Proteobacteria;", "B.ceresus UW123"
+      "Salmonella LT2\tBacteria;Proteobacteria;", "B.ceresus UW123",
+      "UW85", "UW85"
     )
   )
 
