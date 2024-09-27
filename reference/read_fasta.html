@@ -52,7 +52,7 @@ comments found in the header line for each sequence.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">read_fasta</span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">read_fasta</span><span class="op">(</span><span class="va">file</span>, degap <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -68,6 +68,11 @@ acid sequences.</p>
 Files starting with ⁠http://⁠, ⁠https://⁠, ⁠ftp://⁠, or ⁠ftps://⁠ will be
 automatically downloaded. Remote gz files can also be autom downloaded and
 decompressed.</p></dd>
+
+
+<dt id="arg-degap">degap<a class="anchor" aria-label="anchor" href="#arg-degap"></a></dt>
+<dd><p>Logical value (default = TRUE) Removes gap characters from sequences
+indicated by "." or "-"</p></dd>
 
 </dl></div>
     <div class="section level2">
