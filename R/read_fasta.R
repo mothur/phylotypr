@@ -17,6 +17,10 @@
 #' automatically downloaded. Remote gz files can also be autom downloaded and
 #' decompressed.
 #'
+#' @param degap
+#' Logical value (default = TRUE) Removes gap characters from sequences
+#' indicated by "." or "-"
+#'
 #' @note
 #' The sequences in the FASTA file can have line breaks within them and
 #' `read_fasta()` will put those separate lines into the same sequence
@@ -47,9 +51,10 @@
 #'
 #' @importFrom readr read_lines
 #' @importFrom stringi stri_startswith_fixed stri_replace_first_regex stri_c
+#' stri_replace_all_regex
 #' @export
 #'
-read_fasta <- function(file) {
+read_fasta <- function(file, degap = TRUE) {
   fasta_data <- readr::read_lines(file)
 
   is_header <- stringi::stri_startswith_fixed(fasta_data, ">")
@@ -65,8 +70,16 @@ read_fasta <- function(file) {
   seq_lines <- fasta_data[!is_header]
   seq_number <- number[!is_header]
 
-  sequence <- tapply(seq_lines, seq_number, stringi::stri_c, collapse = "") |>
-    unname()
+  sequence <- NULL
+
+  if (degap) {
+    sequence <- tapply(seq_lines, seq_number, stringi::stri_c, collapse = "") |>
+      unname() |>
+      stringi::stri_replace_all_regex("[.-]", "")
+  } else {
+    sequence <- tapply(seq_lines, seq_number, stringi::stri_c, collapse = "") |>
+      unname()
+  }
 
   data.frame(
     id = id,

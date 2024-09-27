@@ -4,7 +4,7 @@
 \alias{read_fasta}
 \title{Read in a FASTA-formatted file containing DNA sequences}
 \usage{
-read_fasta(file)
+read_fasta(file, degap = TRUE)
 }
 \arguments{
 \item{file}{Either a path to a file, a connection, or literal data (either a single
@@ -16,6 +16,9 @@ Files ending in .gz, .bz2, .xz, or .zip will be automatically uncompressed.
 Files starting with ⁠http://⁠, ⁠https://⁠, ⁠ftp://⁠, or ⁠ftps://⁠ will be
 automatically downloaded. Remote gz files can also be autom downloaded and
 decompressed.}
+
+\item{degap}{Logical value (default = TRUE) Removes gap characters from sequences
+indicated by "." or "-"}
 }
 \value{
 A data frame object with three columns. The \code{id} column will contain
