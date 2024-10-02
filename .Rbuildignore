@@ -1,5 +1,6 @@
 ^.*\.Rproj$
 ^.lintr$
+^CRAN-SUBMISSION$
 ^LICENSE\.md$
 ^README\.Rmd$
 ^\.Rproj\.user$
