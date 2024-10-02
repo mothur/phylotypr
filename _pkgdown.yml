@@ -14,6 +14,7 @@ reference:
     - print_taxonomy
     - read_fasta
     - read_taxonomy
+    - phylotypr_example
 - title: Datasets
   desc: >
     Example reference sequences and taxonomy that can be used for practicing

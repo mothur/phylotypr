@@ -160,10 +160,10 @@ test_that("Calculate genus-specific conditional probabilities", {
     priors
   )
 
-  expect_equal(conditional_prob[26, ], log((c(1, 2) + 0.875) / (c(1, 2) + 1)))
-  expect_equal(conditional_prob[29, ], log((c(1, 0) + 0.375) / (c(1, 2) + 1)))
-  expect_equal(conditional_prob[30, ], log((c(0, 2) + 0.625) / (c(1, 2) + 1)))
-  expect_equal(conditional_prob[64, ], log((c(0, 0) + 0.125) / (c(1, 2) + 1)))
+  expect_equal(conditional_prob[, 26], log((c(1, 2) + 0.875) / (c(1, 2) + 1)))
+  expect_equal(conditional_prob[, 29], log((c(1, 0) + 0.375) / (c(1, 2) + 1)))
+  expect_equal(conditional_prob[, 30], log((c(0, 2) + 0.625) / (c(1, 2) + 1)))
+  expect_equal(conditional_prob[, 64], log((c(0, 0) + 0.125) / (c(1, 2) + 1)))
 })
 
 test_that("Convert back and forth between genus names and indices", {
@@ -182,19 +182,19 @@ test_that("Create kmer database from sequences, taxonomy, and kmer size", {
   db <- build_kmer_database(sequences, genera, kmer_size)
 
   expect_equal(
-    db[["conditional_prob"]][26, ],
+    db[["conditional_prob"]][, 26],
     log((c(1, 2) + 0.875) / (c(1, 2) + 1))
   )
   expect_equal(
-    db[["conditional_prob"]][29, ],
+    db[["conditional_prob"]][, 29],
     log((c(1, 0) + 0.375) / (c(1, 2) + 1))
   )
   expect_equal(
-    db[["conditional_prob"]][30, ],
+    db[["conditional_prob"]][, 30],
     log((c(0, 2) + 0.625) / (c(1, 2) + 1))
   )
   expect_equal(
-    db[["conditional_prob"]][64, ],
+    db[["conditional_prob"]][, 64],
     log((c(0, 0) + 0.125) / (c(1, 2) + 1))
   )
 
@@ -223,7 +223,7 @@ test_that("Classify boostrap sample works", {
   unknown_kmers <- detect_kmers("ATGCGCTC", kmer_size)
   expected_classification <- 2
 
-  detected_classification <- classify_bs(unknown_kmers, db)
+  detected_classification <- classify_bs(unknown_kmers, db$conditional_prob)
   expect_equal(detected_classification, expected_classification)
 })
 
@@ -238,7 +238,7 @@ test_that("Consensus classification of bootstrap subsamples", {
   expected[["taxonomy"]] <- c("A", "a", "A")
   expected[["confidence"]] <- c(100, 80, 80)
 
-  observed <- consensus_bs_class(bs_class, db)
+  observed <- consensus_bs_class(bs_class, db$genera)
 
   expect_equal(observed, expected)
 })

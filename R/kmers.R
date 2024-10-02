@@ -105,10 +105,10 @@ classify_sequence <- function(unknown_sequence, database,
 
   for (i in 1:num_bootstraps) {
     bs_kmers <- bootstrap_kmers(kmers, kmer_size)
-    bs_class[[i]] <- classify_bs(bs_kmers, database)
+    bs_class[[i]] <- classify_bs(bs_kmers, database$conditional_prob)
   }
 
-  consensus_bs_class(bs_class, database)
+  consensus_bs_class(bs_class, database$genera)
 }
 
 
@@ -204,7 +204,8 @@ calc_genus_conditional_prob <- function(detect_list,
     kmer_genus_count,
     word_specific_priors,
     genus_counts
-  )
+  ) |>
+    t()
 }
 
 
@@ -230,15 +231,15 @@ bootstrap_kmers <- function(kmers, kmer_size = 8) {
 
 #' @noRd
 #' @importFrom Rfast colsums
-classify_bs <- function(unknown_kmers, db) {
-  probabilities <- Rfast::colsums(db$conditional_prob[unknown_kmers, ])
+classify_bs <- function(unknown_kmers, conditional_prob) {
+  probabilities <- Rfast::rowsums(conditional_prob[, unknown_kmers])
   which.max(probabilities)
 }
 
 
 #' @noRd
-consensus_bs_class <- function(bs_class, db) {
-  taxonomy <- db[["genera"]][bs_class]
+consensus_bs_class <- function(bs_class, genera) {
+  taxonomy <- genera[bs_class]
   taxonomy_split <- stringi::stri_split_fixed(taxonomy, pattern = ";")
 
   n_levels <- length(taxonomy_split[[1]])
