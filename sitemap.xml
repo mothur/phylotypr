@@ -1,20 +1,20 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
-<url><loc>http://riffomonas.org/phylotypr/404.html</loc></url>
-<url><loc>http://riffomonas.org/phylotypr/LICENSE-text.html</loc></url>
-<url><loc>http://riffomonas.org/phylotypr/LICENSE.html</loc></url>
-<url><loc>http://riffomonas.org/phylotypr/articles/index.html</loc></url>
-<url><loc>http://riffomonas.org/phylotypr/articles/phylotypr.html</loc></url>
-<url><loc>http://riffomonas.org/phylotypr/authors.html</loc></url>
-<url><loc>http://riffomonas.org/phylotypr/index.html</loc></url>
-<url><loc>http://riffomonas.org/phylotypr/news/index.html</loc></url>
-<url><loc>http://riffomonas.org/phylotypr/reference/build_kmer_database.html</loc></url>
-<url><loc>http://riffomonas.org/phylotypr/reference/classify_sequence.html</loc></url>
-<url><loc>http://riffomonas.org/phylotypr/reference/filter_taxonomy.html</loc></url>
-<url><loc>http://riffomonas.org/phylotypr/reference/index.html</loc></url>
-<url><loc>http://riffomonas.org/phylotypr/reference/phylotypr_example.html</loc></url>
-<url><loc>http://riffomonas.org/phylotypr/reference/print_taxonomy.html</loc></url>
-<url><loc>http://riffomonas.org/phylotypr/reference/read_fasta.html</loc></url>
-<url><loc>http://riffomonas.org/phylotypr/reference/read_taxonomy.html</loc></url>
-<url><loc>http://riffomonas.org/phylotypr/reference/trainset9_rdp.html</loc></url>
+<url><loc>http://mothur.org/phylotypr/404.html</loc></url>
+<url><loc>http://mothur.org/phylotypr/LICENSE-text.html</loc></url>
+<url><loc>http://mothur.org/phylotypr/LICENSE.html</loc></url>
+<url><loc>http://mothur.org/phylotypr/articles/index.html</loc></url>
+<url><loc>http://mothur.org/phylotypr/articles/phylotypr.html</loc></url>
+<url><loc>http://mothur.org/phylotypr/authors.html</loc></url>
+<url><loc>http://mothur.org/phylotypr/index.html</loc></url>
+<url><loc>http://mothur.org/phylotypr/news/index.html</loc></url>
+<url><loc>http://mothur.org/phylotypr/reference/build_kmer_database.html</loc></url>
+<url><loc>http://mothur.org/phylotypr/reference/classify_sequence.html</loc></url>
+<url><loc>http://mothur.org/phylotypr/reference/filter_taxonomy.html</loc></url>
+<url><loc>http://mothur.org/phylotypr/reference/index.html</loc></url>
+<url><loc>http://mothur.org/phylotypr/reference/phylotypr_example.html</loc></url>
+<url><loc>http://mothur.org/phylotypr/reference/print_taxonomy.html</loc></url>
+<url><loc>http://mothur.org/phylotypr/reference/read_fasta.html</loc></url>
+<url><loc>http://mothur.org/phylotypr/reference/read_taxonomy.html</loc></url>
+<url><loc>http://mothur.org/phylotypr/reference/trainset9_rdp.html</loc></url>
 </urlset>
 

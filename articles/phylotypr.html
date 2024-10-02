@@ -37,7 +37,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/riffomonas/phylotypr/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/mothur/phylotypr/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -54,7 +54,7 @@
       <h1>phylotypr</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/riffomonas/phylotypr/blob/main/vignettes/phylotypr.Rmd" class="external-link"><code>vignettes/phylotypr.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mothur/phylotypr/blob/main/vignettes/phylotypr.Rmd" class="external-link"><code>vignettes/phylotypr.Rmd</code></a></small>
       <div class="d-none name"><code>phylotypr.Rmd</code></div>
     </div>
 
@@ -66,16 +66,16 @@ most frequently used tool for classifying these sequences has been the
 <a href="https://journals.asm.org/doi/10.1128/aem.00062-07" class="external-link">naive
 Bayesian classifier</a> that used to be accessible through the Ribosomal
 Database Project and is currently found in tools like mothur and QIIME.
-For the first time, the <a href="https://github.com/riffomonas/phylotypr" class="external-link">phylotypr</a> package provides an
+For the first time, the <a href="https://github.com/mothur/phylotypr" class="external-link">phylotypr</a> package provides an
 R-based implementation of that tool. There are minimal dependencies and
 the easy to use code executes rapidly.</p>
 <div class="section level2">
 <h2 id="getting-started-with-phylotypr">Getting started with <code>{phylotypr}</code><a class="anchor" aria-label="anchor" href="#getting-started-with-phylotypr"></a>
 </h2>
-<p>To get started you’ll need to install <a href="https://github.com/riffomonas/phylotypr" class="external-link">phylotypr</a> using
+<p>To get started you’ll need to install <a href="https://github.com/mothur/phylotypr" class="external-link">phylotypr</a> using
 either of these commands:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># devtools::install_github("riffomonas/phylotypr") #install development version</span></span>
+<code class="sourceCode R"><span><span class="co"># devtools::install_github("mothur/phylotypr") #install development version</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"phylotypr"</span><span class="op">)</span> <span class="co"># install stable version from CRAN</span></span></code></pre></div>
 <p>To get access to the packages function and a demonstration version of
 the training data, you’ll need to run the <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code>
@@ -83,7 +83,7 @@ function. Because the classification algorithm makes use of a random
 number generator, I strongly encourage you to set the seed to get
 consistent results:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/riffomonas/phylotypr" class="external-link">phylotypr</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mothur/phylotypr" class="external-link">phylotypr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">19760620</span><span class="op">)</span> <span class="co"># pat's birtday in YYYYMMDD format</span></span></code></pre></div>
 </div>
@@ -95,7 +95,7 @@ This can be done using the <code><a href="../reference/build_kmer_database.html"
 and takes several seconds to execute. Unless you save the database
 object (e.g. <code>db</code> below) to a <code>Rda</code>-formatted
 file, you’ll need to run this function each time you load
-<a href="https://github.com/riffomonas/phylotypr" class="external-link">phylotypr</a></p>
+<a href="https://github.com/mothur/phylotypr" class="external-link">phylotypr</a></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">db</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/build_kmer_database.html">build_kmer_database</a></span><span class="op">(</span></span>
 <span>  <span class="va">trainset9_pds</span><span class="op">$</span><span class="va">sequence</span>,</span>
@@ -155,7 +155,7 @@ are removed along with its confidence score.</p>
 <h2 id="classifying-multiple-unknown-sequences">Classifying multiple unknown sequences<a class="anchor" aria-label="anchor" href="#classifying-multiple-unknown-sequences"></a>
 </h2>
 <p>Most likely you will have multiple sequences that you would like to
-classify. The <a href="https://github.com/riffomonas/phylotypr" class="external-link">phylotypr</a> package installs with an example
+classify. The <a href="https://github.com/mothur/phylotypr" class="external-link">phylotypr</a> package installs with an example
 FASTA-formatted file, “miseq_sop.fasta”. The code below shows you can
 read in a FASTA-formatted file and classify the sequences. Below, I show
 how you can use the <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr()</a></code> function from
@@ -188,25 +188,25 @@ the path to your own data.</p>
 <span>      .progress <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■                             </span>   7% |  ETA:  1m</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■                           </span>  12% |  ETA:  1m</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■                          </span>  17% |  ETA: 48s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■                        </span>  22% |  ETA: 46s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■                       </span>  27% |  ETA: 42s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■                     </span>  32% |  ETA: 39s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■                    </span>  37% |  ETA: 36s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■                  </span>  43% |  ETA: 34s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% |  ETA: 30s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■               </span>  53% |  ETA: 27s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■              </span>  58% |  ETA: 24s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■            </span>  63% |  ETA: 21s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■          </span>  69% |  ETA: 18s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■                             </span>   6% |  ETA:  1m</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■                            </span>  11% |  ETA:  1m</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■                          </span>  16% |  ETA:  1m</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■                         </span>  21% |  ETA: 47s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■                       </span>  26% |  ETA: 44s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■                      </span>  31% |  ETA: 41s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■                    </span>  36% |  ETA: 38s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■                   </span>  41% |  ETA: 34s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  49% |  ETA: 29s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■               </span>  54% |  ETA: 26s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■             </span>  59% |  ETA: 23s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■            </span>  64% |  ETA: 20s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■          </span>  69% |  ETA: 17s</span></span>
 <span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span>  74% |  ETA: 15s</span></span>
 <span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■       </span>  79% |  ETA: 12s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■      </span>  84% |  ETA:  9s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■    </span>  89% |  ETA:  6s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   </span>  94% |  ETA:  3s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span>  99% |  ETA:  1s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■      </span>  85% |  ETA:  9s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■    </span>  90% |  ETA:  6s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   </span>  95% |  ETA:  3s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% |  ETA:  0s</span></span>
 <span><span class="co">#&gt;                                               id</span></span>
 <span><span class="co">#&gt; 1     M00967_43_000000000A3JHG_1_1111_5281_15326</span></span>
 <span><span class="co">#&gt; 2     M00967_43_000000000A3JHG_1_1109_24068_9219</span></span>
@@ -10249,7 +10249,7 @@ take 10-times longer to run with 10-times the number of bootstraps!</p>
 <div class="section level2">
 <h2 id="alternative-databases">Alternative databases<a class="anchor" aria-label="anchor" href="#alternative-databases"></a>
 </h2>
-<p>The <a href="https://github.com/riffomonas/phylotypr" class="external-link">phylotypr</a> package ships with the RDP’s v.9 of
+<p>The <a href="https://github.com/mothur/phylotypr" class="external-link">phylotypr</a> package ships with the RDP’s v.9 of
 their training data. This is relatively small and old (2010) relative to
 their latest versions. You are encouraged to install newer versions of
 the RDP, greengenes, and SILVA databases from the

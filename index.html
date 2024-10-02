@@ -39,7 +39,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/riffomonas/phylotypr/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/mothur/phylotypr/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -64,7 +64,7 @@
 <p>You can install the development version of phylotypr from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"riffomonas/phylotypr"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"mothur/phylotypr"</span><span class="op">)</span></span></code></pre></div>
 <p>You can also get the official release version from CRAN</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"phylotypr"</span><span class="op">)</span></span></code></pre></div>
@@ -73,24 +73,30 @@
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
 <p>Be sure to see the <a href="articles/phylotypr.html">Getting Started</a> article to see an example of how you would build the database and classify individual and multiple sequences.</p>
-<p>You will also need a reference database to classify your sequences. The <a href="https://github.com/riffomonas/phylotypr" class="external-link">phylotypr</a> package ships with the <a href="reference/trainset9_rdp.html">RDP training set (v9)</a>. This is relatively small and old (2010) relative to their latest versions. Also, there are databases available from greengenes and SILVA. You are encouraged to install newer databases from the packages on GitHub:</p>
-<ul>
-<li><a href="https://github.com/mothur/trainset19" class="external-link">RDP’s <code>{trainset19}</code></a></li>
-<li>More on the way!</li>
-</ul>
+</div>
+<div class="section level2">
+<h2 id="reference-databases">Reference databases<a class="anchor" aria-label="anchor" href="#reference-databases"></a>
+</h2>
+<p>The <a href="https://github.com/mothur/phylotypr" class="external-link">phylotypr</a> package ships with the RDP’s v.9 of their training data. This is relatively small and old (2010) relative to their latest versions. You are encouraged to install newer versions of the RDP, greengenes, and SILVA databases from the <code>{phylotyprrefdata}</code> package on GitHub. Note that installing the package will take about 20 minutes to install. If it sits at “moving datasets to lazyload DB” for a long time, this is normal :)</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"mothur/phylotyprrefdata"</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">phylotyprrefdata</span><span class="op">)</span></span></code></pre></div>
+<p>The following will list the references that are available in <code>{phylotyprrefdata}</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"phylotyprrefdata"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="more-information-about-phylotypr">More information about <code>{phylotypr}</code>
 <a class="anchor" aria-label="anchor" href="#more-information-about-phylotypr"></a>
 </h2>
-<p>You can learn more about the underlying algorithm in the paper that originally described the algorithm that was published in <a href="https://journals.asm.org/doi/10.1128/aem.00062-07" class="external-link"><em>Applied and Environmental Microbiology</em></a>. If you want to learn more about how this package was created, be sure to check out the Riffomonas YouTube channel where a <a href="https://www.youtube.com/watch?v=XjolVT16YNw&amp;list=PLmNrK_nkqBpIZlWa3yGEc2-wX7An2kpCL" class="external-link">playlist is available</a> showing every step.</p>
+<p>You can learn more about the underlying algorithm in the paper that originally described the algorithm that was published in <a href="https://journals.asm.org/doi/10.1128/aem.00062-07" class="external-link"><em>Applied and Environmental Microbiology</em></a>. If you want to learn more about how this package was created, be sure to check out the mothur YouTube channel where a <a href="https://www.youtube.com/watch?v=XjolVT16YNw&amp;list=PLmNrK_nkqBpIZlWa3yGEc2-wX7An2kpCL" class="external-link">playlist is available</a> showing every step.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/riffomonas/phylotypr/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/riffomonas/phylotypr/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/mothur/phylotypr/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/mothur/phylotypr/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -120,8 +126,8 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/riffomonas/phylotypr/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/riffomonas/phylotypr/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://app.codecov.io/gh/riffomonas/phylotypr?branch=main" class="external-link"><img src="https://codecov.io/gh/riffomonas/phylotypr/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://github.com/mothur/phylotypr/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/mothur/phylotypr/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://app.codecov.io/gh/mothur/phylotypr?branch=main" class="external-link"><img src="https://codecov.io/gh/mothur/phylotypr/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 
