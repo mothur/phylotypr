@@ -1,7 +1,7 @@
 Package: phylotypr
 Type: Package
 Title: Implementation of Tools for Classifying DNA Sequences
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: 
     person("Pat", "Schloss", , "pschloss@umich.edu",
            role = c("aut", "cre", "cph"),
