@@ -1,4 +1,4 @@
-install_github("riffomonas/phylotypr")
+install_github("mothur/phylotypr")
 library(phylotypr)
 
 ## code to prepare `trainset9_rdp` dataset goes here

@@ -13,4 +13,4 @@ This is the first release version of phylotypr! 🎉
     - `trainset9_rdp`
     - `trainset9_pds`
 - Vignette:
-    - [Getting started](http://riffomonas.org/phylotypr/articles/phylotypr.html)
+    - [Getting started](http://mothur.org/phylotypr/articles/phylotypr.html)

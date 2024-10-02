@@ -5,9 +5,9 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/riffomonas/phylotypr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/riffomonas/phylotypr/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/mothur/phylotypr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mothur/phylotypr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/riffomonas/phylotypr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/riffomonas/phylotypr?branch=main)
+coverage](https://codecov.io/gh/mothur/phylotypr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/mothur/phylotypr?branch=main)
 
 <!-- badges: end -->
 
@@ -26,7 +26,7 @@ You can install the development version of phylotypr from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("riffomonas/phylotypr")
+devtools::install_github("mothur/phylotypr")
 ```
 
 You can also get the official release version from CRAN
@@ -41,15 +41,27 @@ Be sure to see the [Getting Started](articles/phylotypr.html) article to
 see an example of how you would build the database and classify
 individual and multiple sequences.
 
-You will also need a reference database to classify your sequences. The
-`{phylotypr}` package ships with the [RDP training set
-(v9)](reference/trainset9_rdp.html). This is relatively small and old
-(2010) relative to their latest versions. Also, there are databases
-available from greengenes and SILVA. You are encouraged to install newer
-databases from the packages on GitHub:
+## Reference databases
 
-- [RDP’s `{trainset19}`](https://github.com/mothur/trainset19)
-- More on the way!
+The `{phylotypr}` package ships with the RDP’s v.9 of their training
+data. This is relatively small and old (2010) relative to their latest
+versions. You are encouraged to install newer versions of the RDP,
+greengenes, and SILVA databases from the `{phylotyprrefdata}` package on
+GitHub. Note that installing the package will take about 20 minutes to
+install. If it sits at “moving datasets to lazyload DB” for a long time,
+this is normal :)
+
+``` r
+devtools::install_github("mothur/phylotyprrefdata")
+library(phylotyprrefdata)
+```
+
+The following will list the references that are available in
+`{phylotyprrefdata}`:
+
+``` r
+data(package = "phylotyprrefdata")
+```
 
 ## More information about `{phylotypr}`
 
@@ -58,6 +70,6 @@ originally described the algorithm that was published in [*Applied and
 Environmental
 Microbiology*](https://journals.asm.org/doi/10.1128/aem.00062-07). If
 you want to learn more about how this package was created, be sure to
-check out the Riffomonas YouTube channel where a [playlist is
+check out the mothur YouTube channel where a [playlist is
 available](https://www.youtube.com/watch?v=XjolVT16YNw&list=PLmNrK_nkqBpIZlWa3yGEc2-wX7An2kpCL)
 showing every step.

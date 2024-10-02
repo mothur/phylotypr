@@ -14,8 +14,8 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 LazyDataCompression: xz
-URL: https://github.com/riffomonas/phylotypr, https://riffomonas.org/phylotypr/
-BugReports: https://github.com/riffomonas/phylotypr/issues
+URL: https://github.com/mothur/phylotypr, https://mothur.org/phylotypr/
+BugReports: https://github.com/mothur/phylotypr/issues
 RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)
 Suggests: 
