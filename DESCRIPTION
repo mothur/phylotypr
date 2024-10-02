@@ -3,13 +3,18 @@ Type: Package
 Title: Implementation of Tools for Classifying DNA Sequences
 Version: 0.0.0.9000
 Authors@R: 
-    person("Pat", "Schloss", , "pschloss@umich.edu", role = c("aut", "cre"),
+    person("Pat", "Schloss", , "pschloss@umich.edu",
+           role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0002-6935-4275"))
 Description: 
     Package for classification based analysis of DNA sequences. This package 
     primarily implements Naive Bayesian Classifier from the Ribosomal Database
-    Project. We will likely include other methods of classification and possibly
-    some methods of visualizing the data.
+    Project. This approach has traditionally been used to classify 16S rRNA gene
+    sequences to bacterial taxonomic outlines; however, it can be used for any
+    type of gene sequence. The method was originally described by Wang, Garrity, Tiedje, and
+    Cole in Applied and Environmental Microbiology 73(16):5261-7
+    <doi:10.1128/AEM.00062-07>. The package also provides functions to read in
+    FASTA-formatted sequence data.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

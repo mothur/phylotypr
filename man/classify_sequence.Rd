@@ -38,7 +38,7 @@ taxonomic assignment for each level. The second vector
 classifier gave the same classification at that level
 }
 \description{
-The \code{classify_seqs()} function implements the Wang et al. naive Bayesian
+The \code{classify_sequence()} function implements the Wang et al. naive Bayesian
 classification algorithm for 16S rRNA gene sequences.
 }
 \examples{
@@ -59,6 +59,6 @@ classify_sequence(
 Wang Q, Garrity GM, Tiedje JM, Cole JR. Naive Bayesian classifier for rapid
 assignment of rRNA sequences into the new bacterial taxonomy. Appl Environ
 Microbiol. 2007 Aug;73(16):5261-7.
-doi: \href{https://dx.doi.org/10.1128/AEM.00062-07}{10.1128/AEM.00062-07}.
+doi:\href{https://journals.asm.org/doi/10.1128/aem.00062-07}{10.1128/AEM.00062-07}
 PMID: 17586664; PMCID: PMC1950982.
 }

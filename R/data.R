@@ -8,10 +8,9 @@
 #' and 384 archaeal). The `pds` version contains extra eukaryotic sequences
 #' including 119 chloroplasts and mitochondria (10,168 total sequences). See the
 #' mothur reference file page in "Sources" for more information. Be sure to see
-#' the [mothur GitHub project](https://github.com/mothur) for repositories to
-#' obtain R packages containing other taxonomic reference data. For example v19
-#' of this reference is the
-#' [trainset19 package](https://github.com/mothur/trainset19).
+#' the mothur GitHub project where you can find the phylotyprrefdata package
+#' (https://github.com/mothur/phylotyprrefdata) for access to other taxonomic
+#' reference data.
 #'
 #'
 #' @format

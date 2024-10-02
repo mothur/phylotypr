@@ -22,7 +22,7 @@
 #' Wang Q, Garrity GM, Tiedje JM, Cole JR. Naive Bayesian classifier for rapid
 #' assignment of rRNA sequences into the new bacterial taxonomy. Appl Environ
 #' Microbiol. 2007 Aug;73(16):5261-7.
-#' doi: [10.1128/AEM.00062-07](https://dx.doi.org/10.1128/AEM.00062-07).
+#' doi:[10.1128/AEM.00062-07](https://journals.asm.org/doi/10.1128/aem.00062-07)
 #' PMID: 17586664; PMCID: PMC1950982.
 #'
 #' @examples
@@ -58,7 +58,7 @@ build_kmer_database <- function(sequences, genera, kmer_size = 8) {
 
 #' Classify 16S rRNA gene sequence fragment
 #'
-#' The `classify_seqs()` function implements the Wang et al. naive Bayesian
+#' The `classify_sequence()` function implements the Wang et al. naive Bayesian
 #' classification algorithm for 16S rRNA gene sequences.
 #'
 #' @param unknown_sequence   A character object representing a DNA sequence that

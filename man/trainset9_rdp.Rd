@@ -36,9 +36,8 @@ the same sequences as provided by the official RDP version (9,665 bacterial
 and 384 archaeal). The \code{pds} version contains extra eukaryotic sequences
 including 119 chloroplasts and mitochondria (10,168 total sequences). See the
 mothur reference file page in "Sources" for more information. Be sure to see
-the \href{https://github.com/mothur}{mothur GitHub project} for repositories to
-obtain R packages containing other taxonomic reference data. For example v19
-of this reference is the
-\href{https://github.com/mothur/trainset19}{trainset19 package}.
+the mothur GitHub project where you can find the phylotyprrefdata package
+(https://github.com/mothur/phylotyprrefdata) for access to other taxonomic
+reference data.
 }
 \keyword{datasets}

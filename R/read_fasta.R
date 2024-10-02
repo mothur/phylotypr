@@ -13,7 +13,7 @@
 #' acid sequences.
 #'
 #' Files ending in .gz, .bz2, .xz, or .zip will be automatically uncompressed.
-#' Files starting with ⁠http://⁠, ⁠https://⁠, ⁠ftp://⁠, or ⁠ftps://⁠ will be
+#' Files starting with `http://`, `https://`, `ftp://`, or `ftps://` will be
 #' automatically downloaded. Remote gz files can also be autom downloaded and
 #' decompressed.
 #'
