@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-In the microbiome field, 16S rRNA gene sequencing has been a popular method of characterizing the types of bacteria found in a community. The most frequently used tool for classifying these sequences has been the [naive Bayesian classifier](https://journals.asm.org/doi/10.1128/aem.00062-07) that used to be accessible through the Ribosomal Database Project and is currently found in tools like mothur and QIIME. For the first time, the `{phylotypr}` package provides an R-based implementation of that tool. There are minimal dependencies and the easy to use code executes rapidly.
+In the microbiome field, 16S rRNA gene sequencing has been a popular method of characterizing the types of bacteria found in a community. The most frequently used tool for classifying these sequences has been the [naive Bayesian classifier](https://pubmed.ncbi.nlm.nih.gov/17586664/) that used to be accessible through the Ribosomal Database Project and is currently found in tools like mothur and QIIME. For the first time, the `{phylotypr}` package provides an R-based implementation of that tool. There are minimal dependencies and the easy to use code executes rapidly.
 
 
 ## Getting started with `{phylotypr}`

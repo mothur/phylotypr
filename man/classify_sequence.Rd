@@ -59,6 +59,6 @@ classify_sequence(
 Wang Q, Garrity GM, Tiedje JM, Cole JR. Naive Bayesian classifier for rapid
 assignment of rRNA sequences into the new bacterial taxonomy. Appl Environ
 Microbiol. 2007 Aug;73(16):5261-7.
-doi:\href{https://journals.asm.org/doi/10.1128/aem.00062-07}{10.1128/AEM.00062-07}
+doi:\href{https://pubmed.ncbi.nlm.nih.gov/17586664/}{10.1128/AEM.00062-07}
 PMID: 17586664; PMCID: PMC1950982.
 }

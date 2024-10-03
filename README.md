@@ -37,8 +37,9 @@ install.packages("phylotypr")
 
 ## Usage
 
-Be sure to see the [Getting Started](articles/phylotypr.html) article to
-see an example of how you would build the database and classify
+Be sure to see the [Getting
+Started](https://mothur.org/phylotypr/articles/phylotypr.html) article
+to see an example of how you would build the database and classify
 individual and multiple sequences.
 
 ## Reference databases
@@ -67,9 +68,8 @@ data(package = "phylotyprrefdata")
 
 You can learn more about the underlying algorithm in the paper that
 originally described the algorithm that was published in [*Applied and
-Environmental
-Microbiology*](https://journals.asm.org/doi/10.1128/aem.00062-07). If
-you want to learn more about how this package was created, be sure to
+Environmental Microbiology*](https://pubmed.ncbi.nlm.nih.gov/17586664/).
+If you want to learn more about how this package was created, be sure to
 check out the mothur YouTube channel where a [playlist is
 available](https://www.youtube.com/watch?v=XjolVT16YNw&list=PLmNrK_nkqBpIZlWa3yGEc2-wX7An2kpCL)
 showing every step.
