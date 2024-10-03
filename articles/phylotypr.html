@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">phylotypr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,12 +63,12 @@
 <p>In the microbiome field, 16S rRNA gene sequencing has been a popular
 method of characterizing the types of bacteria found in a community. The
 most frequently used tool for classifying these sequences has been the
-<a href="https://journals.asm.org/doi/10.1128/aem.00062-07" class="external-link">naive
-Bayesian classifier</a> that used to be accessible through the Ribosomal
-Database Project and is currently found in tools like mothur and QIIME.
-For the first time, the <a href="https://github.com/mothur/phylotypr" class="external-link">phylotypr</a> package provides an
-R-based implementation of that tool. There are minimal dependencies and
-the easy to use code executes rapidly.</p>
+<a href="https://pubmed.ncbi.nlm.nih.gov/17586664/" class="external-link">naive Bayesian
+classifier</a> that used to be accessible through the Ribosomal Database
+Project and is currently found in tools like mothur and QIIME. For the
+first time, the <a href="https://github.com/mothur/phylotypr" class="external-link">phylotypr</a> package provides an R-based
+implementation of that tool. There are minimal dependencies and the easy
+to use code executes rapidly.</p>
 <div class="section level2">
 <h2 id="getting-started-with-phylotypr">Getting started with <code>{phylotypr}</code><a class="anchor" aria-label="anchor" href="#getting-started-with-phylotypr"></a>
 </h2>
@@ -188,25 +188,23 @@ the path to your own data.</p>
 <span>      .progress <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■                             </span>   7% |  ETA:  1m</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■                           </span>  12% |  ETA:  1m</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■                          </span>  17% |  ETA: 49s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■                        </span>  22% |  ETA: 46s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■                       </span>  27% |  ETA: 42s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■                     </span>  32% |  ETA: 39s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■                    </span>  37% |  ETA: 37s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■                  </span>  43% |  ETA: 34s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% |  ETA: 31s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■               </span>  53% |  ETA: 27s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■              </span>  58% |  ETA: 24s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■            </span>  63% |  ETA: 22s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■          </span>  68% |  ETA: 18s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span>  74% |  ETA: 15s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■       </span>  79% |  ETA: 12s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■      </span>  84% |  ETA: 10s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■    </span>  89% |  ETA:  7s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   </span>  94% |  ETA:  4s</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span>  99% |  ETA:  1s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■                             </span>   6% |  ETA:  1m</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■                            </span>  11% |  ETA:  1m</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■                          </span>  18% |  ETA: 45s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■                        </span>  24% |  ETA: 39s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■                      </span>  31% |  ETA: 35s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■                    </span>  36% |  ETA: 33s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■                  </span>  43% |  ETA: 29s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  50% |  ETA: 25s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■              </span>  55% |  ETA: 22s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■             </span>  60% |  ETA: 20s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■           </span>  65% |  ETA: 18s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■          </span>  71% |  ETA: 15s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■        </span>  76% |  ETA: 13s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■       </span>  81% |  ETA: 10s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■     </span>  86% |  ETA:  8s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■    </span>  91% |  ETA:  5s</span></span>
+<span><span class="co">#&gt;  <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span>  99% |  ETA:  0s</span></span>
 <span><span class="co">#&gt;                                               id</span></span>
 <span><span class="co">#&gt; 1     M00967_43_000000000A3JHG_1_1111_5281_15326</span></span>
 <span><span class="co">#&gt; 2     M00967_43_000000000A3JHG_1_1109_24068_9219</span></span>
