@@ -230,7 +230,7 @@ bootstrap_kmers <- function(kmers, kmer_size = 8) {
 
 
 #' @noRd
-#' @importFrom Rfast colsums
+#' @importFrom Rfast rowsums
 classify_bs <- function(unknown_kmers, conditional_prob) {
   probabilities <- Rfast::rowsums(conditional_prob[, unknown_kmers])
   which.max(probabilities)

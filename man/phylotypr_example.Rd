@@ -9,6 +9,11 @@ phylotypr_example(path = NULL)
 \arguments{
 \item{path}{Name of file. If \code{NULL}, the example files will be listed.}
 }
+\value{
+A string indicating path to the file listed in \code{path}. If \code{NULL} is
+given then the return value is a vector of file names in the
+\verb{extdata/} directory
+}
 \description{
 phylotypr comes bundled with some example files in its \code{inst/extdata}
 directory. This function make them easy to access.

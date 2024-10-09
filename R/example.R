@@ -4,6 +4,9 @@
 #' directory. This function make them easy to access.
 #'
 #' @param path Name of file. If `NULL`, the example files will be listed.
+#' @returns A string indicating path to the file listed in `path`. If `NULL` is
+#'          given then the return value is a vector of file names in the
+#'          `extdata/` directory
 #' @export
 #' @examples
 #' phylotypr_example()
