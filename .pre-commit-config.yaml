@@ -18,7 +18,7 @@ repos:
           .*\.feather|
           .*\.jpeg|
           .*\.pdf|
-          .*\.png|
+          (.*/|).*\.png|
           .*\.py|
           .*\.RData|
           .*\.rds|
@@ -40,6 +40,7 @@ repos:
           (.*/|)WORDLIST|
           \.github/workflows/.*|
           data/.*|
+          pkgdown/favicon/.*
           )$
     # -   id: lintr
     -   id: readme-rmd-rendered

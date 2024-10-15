@@ -13,11 +13,14 @@ knitr::opts_chunk$set(
 )
 ```
 
-# phylotypr
+# phylotypr <a href="https://mothur.org/phylotypr/"><img src="man/figures/logo.png" align="right" height="138" alt="phylotypr website" /></a>
 
 <!-- badges: start -->
+
+[![CRAN status](https://www.r-pkg.org/badges/version/phylotypr)](https://cran.r-project.org/package=phylotypr)
 [![R-CMD-check](https://github.com/mothur/phylotypr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mothur/phylotypr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/mothur/phylotypr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/mothur/phylotypr?branch=main)
+[![CRAN downloads](https://cranlogs.r-pkg.org/badges/phylotypr)](https://cran.rstudio.com/package=phylotypr)
 
 <!-- badges: end -->
 
