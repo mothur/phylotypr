@@ -13,6 +13,7 @@ reference:
     - filter_taxonomy
     - print_taxonomy
     - read_fasta
+    - write_fasta
     - read_taxonomy
     - phylotypr_example
 - title: Datasets
