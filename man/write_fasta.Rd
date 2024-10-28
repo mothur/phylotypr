@@ -14,8 +14,8 @@ sequence; the \code{sequence} column will contain the sequence; and the
 character on the header line. The \code{comment} column is optional.}
 
 \item{file}{Either a path to a file, a connection, or literal data (either a single
-string or a raw vector) to write to a standard FASTA formatted file. There are
-no checks to determine whether the data are DNA or amino acid sequences.
+string or a raw vector) to write to a standard FASTA formatted file. There
+are no checks to determine whether the data are DNA or amino acid sequences.
 
 Files ending in .gz, .bz2, .xz, or .zip will be automatically compressed.
 Files starting with \verb{http://}, \verb{https://}, \verb{ftp://}, or \verb{ftps://} will be
@@ -38,11 +38,11 @@ comments. There won't be a tab if there's no comment for the sequence. All
 sequence data will be on a single line
 }
 \examples{
-#'   df_d <- data.frame(
-    id = c("seqA", "seqB", "seqC"),
-    sequence = c("ATGCATGC", "ATGCATGA", "ATGCATGT"),
-    comment = c("comment 1", "", "comment 3")
-  )
+df_d <- data.frame(
+  id = c("seqA", "seqB", "seqC"),
+  sequence = c("ATGCATGC", "ATGCATGA", "ATGCATGT"),
+  comment = c("comment 1", "", "comment 3")
+)
 
-  string_d <- write_fasta(df_d)
+string_d <- write_fasta(df_d)
 }
