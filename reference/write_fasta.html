@@ -71,8 +71,8 @@ character on the header line. The <code>comment</code> column is optional.</p></
 
 <dt id="arg-file">file<a class="anchor" aria-label="anchor" href="#arg-file"></a></dt>
 <dd><p>Either a path to a file, a connection, or literal data (either a single
-string or a raw vector) to write to a standard FASTA formatted file. There are
-no checks to determine whether the data are DNA or amino acid sequences.</p>
+string or a raw vector) to write to a standard FASTA formatted file. There
+are no checks to determine whether the data are DNA or amino acid sequences.</p>
 <p>Files ending in .gz, .bz2, .xz, or .zip will be automatically compressed.
 Files starting with <code>http://</code>, <code>https://</code>, <code>ftp://</code>, or <code>ftps://</code> will be
 automatically downloaded. Remote gz files can also be autom downloaded and
@@ -89,7 +89,14 @@ file.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">df_d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"seqA"</span>, <span class="st">"seqB"</span>, <span class="st">"seqC"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  sequence <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ATGCATGC"</span>, <span class="st">"ATGCATGA"</span>, <span class="st">"ATGCATGT"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  comment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"comment 1"</span>, <span class="st">""</span>, <span class="st">"comment 3"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">string_d</span> <span class="op">&lt;-</span> <span class="fu">write_fasta</span><span class="op">(</span><span class="va">df_d</span><span class="op">)</span></span></span>
+</code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
