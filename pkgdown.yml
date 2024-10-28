@@ -3,7 +3,7 @@ pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   phylotypr: phylotypr.html
-last_built: 2024-10-15T14:37Z
+last_built: 2024-10-28T20:59Z
 urls:
   reference: https://mothur.org/phylotypr/reference
   article: https://mothur.org/phylotypr/articles
