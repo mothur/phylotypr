@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0002-6935-4275"))
 Description: Classification based analysis of DNA sequences to taxonomic groupings. This package primarily implements Naive Bayesian Classifier from the Ribosomal Database Project. This approach has traditionally been used to classify 16S rRNA gene sequences to bacterial taxonomic outlines; however, it can be used for any type of gene sequence. The method was originally described by Wang, Garrity, Tiedje, and Cole in Applied and Environmental Microbiology 73(16):5261-7 <doi:10.1128/AEM.00062-07>. The package also provides functions to read in 'FASTA'-formatted sequence data.
-License: GPL (>= 3)
+License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
 LazyDataCompression: xz

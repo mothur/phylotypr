@@ -1,0 +1,11 @@
+bibentry(
+  bibtype  = "Article",
+  title = "phylotypr: an R package for classifying DNA sequences",
+  author = "Patrick D. Schloss",
+  journal = "Microbiology Resource Announcements",
+  year = "2025",
+  volume = "14",
+  number = "2",
+  pages = "e01144-24",
+  doi = "10.1128/mra.01144-24"
+)
