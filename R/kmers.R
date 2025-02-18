@@ -150,7 +150,8 @@ base4_to_index <- function(base4_str) {
 detect_kmers <- function(sequence, kmer_size = 8) {
   seq_to_base4(sequence) |>
     get_all_kmers(kmer_size) |>
-    base4_to_index()
+    base4_to_index() |>
+    unique()
 }
 
 

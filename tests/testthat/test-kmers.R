@@ -101,6 +101,17 @@ test_that("Accurately detect kmers from a sequence", {
   detected <- detect_kmers(sequence, kmer_size = 7)
 
   expect_equal(detected, indices)
+
+  # make sure that duplicate kmers are scrubbed out
+  sequence <- "ATGCGCTATGCGCT"
+  indices <- seq_to_base4(sequence) |>
+    get_all_kmers(kmer_size = 7) |>
+    base4_to_index() |>
+    unique()
+
+  detected <- detect_kmers(sequence, kmer_size = 7)
+
+  expect_equal(detected, indices)
 })
 
 test_that("Accurately detect kmers across multiple sequences", {
