@@ -1,7 +1,7 @@
 Package: phylotypr
 Type: Package
 Title: Classifying DNA Sequences to Taxonomic Groupings
-Version: 0.1.0.9000
+Version: 0.1.1
 Authors@R: 
     person("Pat", "Schloss", , "pschloss@umich.edu",
            role = c("aut", "cre", "cph"),

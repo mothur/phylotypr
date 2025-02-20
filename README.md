@@ -11,7 +11,7 @@ status](https://www.r-pkg.org/badges/version/phylotypr)](https://cran.r-project.
 [![Codecov test
 coverage](https://codecov.io/gh/mothur/phylotypr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/mothur/phylotypr?branch=main)
 [![CRAN
-downloads](https://cranlogs.r-pkg.org/badges/phylotypr)](https://cran.rstudio.com/package=phylotypr)
+downloads](https://cranlogs.r-pkg.org/badges/phylotypr)](https://CRAN.R-project.org/package=phylotypr)
 
 <!-- badges: end -->
 

@@ -1,4 +1,10 @@
-# phylotypr (development version)
+# phylotypr 0.1.1
+
+This is a patch release to...
+* update the citation
+* change the license to GPL v3
+* make a small change to the behavior of the code for when a k-mer shows up more than once in a sequence
+
 
 # phylotypr 0.1.0
 
