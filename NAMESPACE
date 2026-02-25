@@ -2,6 +2,7 @@
 
 export(build_kmer_database)
 export(classify_sequence)
+export(classify_sequences)
 export(filter_taxonomy)
 export(phylotypr_example)
 export(print_taxonomy)

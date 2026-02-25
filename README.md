@@ -23,6 +23,7 @@ from the Ribosomal Database Project. Although you can classify any type
 of sequence (assuming you have the proper database), this algorithm is
 mainly used to classify 16S rRNA gene sequences.
 
+
 ## Installation
 
 You can install the development version of phylotypr from
@@ -77,3 +78,11 @@ If you want to learn more about how this package was created, be sure to
 check out the mothur YouTube channel where a [playlist is
 available](https://www.youtube.com/watch?v=XjolVT16YNw&list=PLmNrK_nkqBpIZlWa3yGEc2-wX7An2kpCL)
 showing every step.
+
+
+## FAQ
+Are we unnecessarily avoiding dplyr / tidyverse
+* does the dependency matter?
+* for the user? no
+  * for us? maybe if they make updates
+* does the hit to performance matter? probably not for running filter

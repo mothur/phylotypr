@@ -274,13 +274,14 @@ test_that("Return correct consensus taxonomy and confidence", {
 
 
 test_that("Can classify a unknown sequence with a database", {
+  set.seed(123)
   kmer_size <- 3
-  sequences <- c("ATGCGCTA", "ATGCGCTC", "ATGCGCTC")
+  sequences <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
   genera <- c("A", "B", "B")
 
   db <- build_kmer_database(sequences, genera, kmer_size)
 
-  unknown_sequence <- "ATGCGCTC"
+  unknown_sequence <- "ATGCGCTCCCC"
   expected <- list()
   expected[["taxonomy"]] <- "B"
   expected[["confidence"]] <- 100
@@ -289,5 +290,35 @@ test_that("Can classify a unknown sequence with a database", {
     unknown_sequence = unknown_sequence, database = db,
     kmer_size = kmer_size
   )
+  expect_equal(actual, expected)
+
+  unknown_sequence <- "AAAATCGAGTA"
+  expected <- list()
+  expected[["taxonomy"]] <- "A"
+  expected[["confidence"]] <- 100
+
+  actual <- classify_sequence(
+    unknown_sequence = unknown_sequence, database = db,
+    kmer_size = kmer_size
+  )
+  expect_equal(actual, expected)
+
+  kmer_size <- 3
+  sequences <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
+  genera <- c("A;b;C;d", "A;b;C;e", "A;b;C;e")
+
+  db <- build_kmer_database(sequences, genera, kmer_size)
+
+  unknown_sequence <- "AAAATCGAGTA"
+
+  expected <- list()
+  expected[["taxonomy"]] <- c("A", "b", "C", "d")
+  expected[["confidence"]] <- c(100, 100, 100, 100)
+
+  actual <- classify_sequence(
+    unknown_sequence = unknown_sequence, database = db,
+    kmer_size = kmer_size
+  )
+
   expect_equal(actual, expected)
 })

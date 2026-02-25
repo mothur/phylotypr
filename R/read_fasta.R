@@ -55,6 +55,9 @@
 #' @export
 #'
 read_fasta <- function(file, degap = TRUE) {
+  if (!file.exists(file)) {
+    stop("Your file does not exist.")
+  }
   fasta_data <- readr::read_lines(file)
 
   is_header <- stringi::stri_startswith_fixed(fasta_data, ">")

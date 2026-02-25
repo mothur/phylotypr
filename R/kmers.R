@@ -99,7 +99,6 @@ build_kmer_database <- function(sequences, genera, kmer_size = 8) {
 classify_sequence <- function(unknown_sequence, database,
                               kmer_size = 8, num_bootstraps = 100) {
   kmers <- detect_kmers(sequence = unknown_sequence, kmer_size)
-
   bs_class <- numeric(length = num_bootstraps)
 
   for (i in 1:num_bootstraps) {
