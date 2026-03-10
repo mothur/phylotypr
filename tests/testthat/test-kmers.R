@@ -231,10 +231,10 @@ test_that("Classify boostrap sample works", {
   genera <- c("A", "B", "B")
 
   db <- build_kmer_database(sequences, genera, kmer_size)
-  unknown_kmers <- detect_kmers("ATGCGCTC", kmer_size)
+  kmers <- detect_kmers("ATGCGCTC", kmer_size)
   expected_classification <- 2
 
-  detected_classification <- classify_bs(unknown_kmers, db$conditional_prob)
+  detected_classification <- classify_bs(kmers, db$conditional_prob)
   expect_equal(detected_classification, expected_classification)
 })
 
@@ -281,24 +281,24 @@ test_that("Can classify a unknown sequence with a database", {
 
   db <- build_kmer_database(sequences, genera, kmer_size)
 
-  unknown_sequence <- "ATGCGCTCCCC"
+  sequence <- "ATGCGCTCCCC"
   expected <- list()
   expected[["taxonomy"]] <- "B"
   expected[["confidence"]] <- 100
 
   actual <- classify_sequence(
-    unknown_sequence = unknown_sequence, database = db,
+    sequence = sequence, database = db,
     kmer_size = kmer_size
   )
   expect_equal(actual, expected)
 
-  unknown_sequence <- "AAAATCGAGTA"
+  sequence <- "AAAATCGAGTA"
   expected <- list()
   expected[["taxonomy"]] <- "A"
   expected[["confidence"]] <- 100
 
   actual <- classify_sequence(
-    unknown_sequence = unknown_sequence, database = db,
+    sequence = sequence, database = db,
     kmer_size = kmer_size
   )
   expect_equal(actual, expected)
@@ -309,14 +309,14 @@ test_that("Can classify a unknown sequence with a database", {
 
   db <- build_kmer_database(sequences, genera, kmer_size)
 
-  unknown_sequence <- "AAAATCGAGTA"
+  sequence <- "AAAATCGAGTA"
 
   expected <- list()
   expected[["taxonomy"]] <- c("A", "b", "C", "d")
   expected[["confidence"]] <- c(100, 100, 100, 100)
 
   actual <- classify_sequence(
-    unknown_sequence = unknown_sequence, database = db,
+    sequence = sequence, database = db,
     kmer_size = kmer_size
   )
 

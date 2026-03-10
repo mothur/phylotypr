@@ -4,24 +4,42 @@
 \alias{print_taxonomy}
 \title{Print taxonomy for an unknown sequence}
 \usage{
-print_taxonomy(consensus, n_levels = 6)
+print_taxonomy(
+  consensus,
+  n_levels = 0,
+  fill_levels = TRUE,
+  show_confidence = TRUE
+)
 }
 \arguments{
-\item{consensus}{A list object that contains two slots each with an equal
-sized vector. The \code{taxonomy} vector contains the
-classification at each taxonomic level and the \code{confidence}
-vector contains the percentage of bootstraps that had the
-specified classification}
+\item{consensus}{A data frame that contains at least three columns: the \code{id}
+column that contains an identifier for the sequence, the \code{taxonomy} column
+contains the classification at each taxonomic level, and the \code{confidence}
+column contains the percentage of bootstraps that had the specified
+classification}
 
 \item{n_levels}{An integer indicating the number of taxonomic levels to
 expect. If the number of observed levels is less than this
-value, then missing levels will have "_unclassified" to the
-end of the last named classification}
+value, and \code{fill_levels} is \code{TRUE} then missing levels will
+have "_unclassified" appended to the end of the last named
+classification until the desired level is reached. If
+\code{n_levels} is less than the observed number of levels, then
+the string of the output will be truncated to \code{n_levels}.
+If 0 is given then we will report the longest possible
+taxonomy. Default is 0.}
+
+\item{fill_levels}{A logical indicating whether or not to extend the
+classifications of sequences that don't meet \code{n_levels}.
+Default is \code{TRUE}.}
+
+\item{show_confidence}{A logical indicating whether or not to include the
+confidence scores. Default is \code{TRUE}}
 }
 \value{
-A character string indicating the classification at each taxonomic
-level with the corresponding confidence in parentheses. Each taxonomic
-level is separated by a semi-colon
+A vector of character strings indicating the classification at each
+taxonomic level with the corresponding confidence in parentheses (if
+\code{show_confidence} is \code{FALSE}. Each taxonomic level is separated by a
+semi-colon
 }
 \description{
 The \code{print_taxonomy()} will output the consensus taxonomy for an unknown
@@ -29,7 +47,8 @@ sequence with confidence scores for each taxonomic level and each taxonomic
 level separated by semi-colons
 }
 \examples{
-oscillospiraceae <- list(
+oscillospiraceae <- data.frame(
+  id = c("seq_1", "seq_1", "seq_1", "seq_1", "seq_1"),
   taxonomy = c(
     "Bacteria", "Bacillota", "Clostridia",
     "Eubacteriales", "Oscillospiraceae"
@@ -38,4 +57,7 @@ oscillospiraceae <- list(
 )
 
 print_taxonomy(oscillospiraceae, n_levels = 6)
+print_taxonomy(oscillospiraceae, n_levels = 4)
+print_taxonomy(oscillospiraceae, n_levels = 6, show_confidence = FALSE)
+print_taxonomy(oscillospiraceae, n_levels = 7, fill_levels = FALSE)
 }

@@ -4,16 +4,11 @@
 \alias{classify_sequence}
 \title{Classify 16S rRNA gene sequence fragment}
 \usage{
-classify_sequence(
-  unknown_sequence,
-  database,
-  kmer_size = 8,
-  num_bootstraps = 100
-)
+classify_sequence(sequence, database, kmer_size = 8, num_bootstraps = 100)
 }
 \arguments{
-\item{unknown_sequence}{A character object representing a DNA sequence that
-needs to be classified}
+\item{sequence}{A character object representing a DNA sequence that
+needs to be classified.}
 
 \item{database}{A kmer database generated using \code{\link{build_kmer_database}}}
 
@@ -28,14 +23,14 @@ fastest execution time.}
 \item{num_bootstraps}{An integer value (default of 100). The value of
 \code{num_bootstraps} is the number of randomizations to perform
 where \code{1/kmer_size} of all kmers are sampled (without
-replacement) from \code{unknown_sequence}. Higher values will
+replacement) from \code{sequence}. Higher values will
 provide greater precision on the confidence score.}
 }
 \value{
 A list object of two vectors. One vector (\code{taxonomy}) is the
 taxonomic assignment for each level. The second vector
 (\code{confidence}) is the percentage of \code{num_bootstraps} that the
-classifier gave the same classification at that level
+classifier gave the same classification at that level.
 }
 \description{
 The \code{classify_sequence()} function implements the Wang et al. naive Bayesian
@@ -43,17 +38,18 @@ classification algorithm for 16S rRNA gene sequences.
 }
 \examples{
 kmer_size <- 3
-sequences <- c("ATGCGCTA", "ATGCGCTC", "ATGCGCTC")
-genera <- c("A", "B", "B")
+reference_sequences <- c("ATGCGCTA", "ATGCGCTC", "ATGCGCTC")
+reference_genera <- c("A", "B", "B")
 
-db <- build_kmer_database(sequences, genera, kmer_size)
+db <- build_kmer_database(reference_sequences, reference_genera, kmer_size)
 unknown_sequence <- "ATGCGCTC"
 
 classify_sequence(
-  unknown_sequence = unknown_sequence,
+  sequence = unknown_sequence,
   database = db,
   kmer_size = kmer_size
 )
+
 }
 \references{
 Wang Q, Garrity GM, Tiedje JM, Cole JR. Naive Bayesian classifier for rapid

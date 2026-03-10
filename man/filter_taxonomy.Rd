@@ -7,24 +7,23 @@
 filter_taxonomy(consensus, min_confidence = 80)
 }
 \arguments{
-\item{consensus}{A list object that contains two slots each with an equal
-sized vector. The \code{taxonomy} vector contains the
-classification at each taxonomic level and the \code{confidence}
-vector contains the percentage of bootstraps that had the
-specified classification}
+\item{consensus}{A data frame that contains at least three columns: the \code{id}
+column that contains an identifier for the sequence, the \code{taxonomy} column
+contains the classification at each taxonomic level, and the \code{confidence}
+column contains the percentage of bootstraps that had the specified
+classification}
 
 \item{min_confidence}{A double value between 0 and 100 (default = 80). The
-minimum percentage of bootstrap replicates that had
-the same classification. Any confidence score below
-this value will have the corresponding taxonomy
-removed}
+minimum percentage of bootstrap replicates that had the same
+classification. Any confidence score below this value will have the
+corresponding taxonomy removed}
 }
 \value{
-A list object containing two equally sized vectors that are filtered
-to remove low confidence taxonomies. One vector, \code{taxonomy},
-contains the taxonomy at each taxonomic level and the other vector,
-\code{confidence} contains the confidence score for that taxonomy. There
-will be no taxonomies or confidence scores below \code{min_confidence}
+A data frame object that is filtered to remove low confidence
+taxonomies. One column, \code{taxonomy}, contains the taxonomy at each taxonomic
+level and the other column, \code{confidence} contains the confidence score for
+that taxonomy. There will be no taxonomies or confidence scores below
+\code{min_confidence}
 }
 \description{
 The \code{filter_taxonomy()} function will filter a consensus taxonomy to remove
@@ -32,7 +31,8 @@ any taxonomic levels where the confidence score is below a \code{min_confidence}
 level
 }
 \examples{
-oscillospiraceae <- list(
+oscillospiraceae <- data.frame(
+  id = c("seq_1", "seq_1", "seq_1", "seq_1", "seq_1", "seq_1"),
   taxonomy = c(
     "Bacteria", "Bacillota", "Clostridia",
     "Eubacteriales", "Oscillospiraceae",

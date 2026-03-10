@@ -1,29 +1,150 @@
 test_that("Print out consesnsus taxonomy", {
-  oscillospiraceae <- list(
+  classification <- data.frame(
+    id = as.character(c(
+      "seq_1", "seq_1", "seq_1",
+      "seq_2", "seq_2", "seq_2", "seq_2",
+      "seq_3", "seq_3", "seq_3", "seq_3", "seq_3"
+    )),
+    taxonomy = c("A", "b", "C", "A", "b", "C", "e", "A", "b", "C", "e", "f"),
+    confidence = c(100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100)
+  )
+
+
+  # We are truncating to a max of four and not filling anything less than four
+  actual <- print_taxonomy(classification, n_levels = 3, fill_levels = FALSE)
+  expected <- data.frame(
+    id = c("seq_1", "seq_2", "seq_3"),
+    taxonomy = c(
+      "A(100);b(100);C(100)",
+      "A(100);b(100);C(100)",
+      "A(100);b(100);C(100)"
+    )
+  )
+  expect_equal(actual, expected)
+
+  actual <- print_taxonomy(classification, n_levels = 4, fill_levels = FALSE)
+  expected <- data.frame(
+    id = c("seq_1", "seq_2", "seq_3"),
+    taxonomy = c(
+      "A(100);b(100);C(100)",
+      "A(100);b(100);C(100);e(100)",
+      "A(100);b(100);C(100);e(100)"
+    )
+  )
+  expect_equal(actual, expected)
+
+  actual <- print_taxonomy(classification, n_levels = 0, fill_levels = FALSE)
+  expected <- data.frame(
+    id = c("seq_1", "seq_2", "seq_3"),
+    taxonomy = c(
+      "A(100);b(100);C(100)",
+      "A(100);b(100);C(100);e(100)",
+      "A(100);b(100);C(100);e(100);f(100)"
+    )
+  )
+  expect_equal(actual, expected)
+
+  actual <- print_taxonomy(classification, n_levels = 3, fill_levels = TRUE)
+  expected <- data.frame(
+    id = c("seq_1", "seq_2", "seq_3"),
+    taxonomy = c(
+      "A(100);b(100);C(100)",
+      "A(100);b(100);C(100)",
+      "A(100);b(100);C(100)"
+    )
+  )
+
+  expect_equal(actual, expected)
+
+  actual <- print_taxonomy(classification, n_levels = 4, fill_levels = TRUE)
+  expected <- data.frame(
+    id = c("seq_1", "seq_2", "seq_3"),
+    taxonomy = c(
+      "A(100);b(100);C(100);C_unclassified(100)",
+      "A(100);b(100);C(100);e(100)",
+      "A(100);b(100);C(100);e(100)"
+    )
+  )
+  expect_equal(actual, expected)
+
+  actual <- print_taxonomy(classification, n_levels = 0, fill_levels = TRUE)
+  expected <- data.frame(
+    id = c("seq_1", "seq_2", "seq_3"),
+    taxonomy = c(
+      "A(100);b(100);C(100);C_unclassified(100);C_unclassified(100)",
+      "A(100);b(100);C(100);e(100);e_unclassified(100)",
+      "A(100);b(100);C(100);e(100);f(100)"
+    )
+  )
+  expect_equal(actual, expected)
+
+
+  actual <- print_taxonomy(classification,
+    n_levels = 0, fill_levels = TRUE,
+    show_confidence = FALSE
+  )
+  expected <- data.frame(
+    id = c("seq_1", "seq_2", "seq_3"),
+    taxonomy = c(
+      "A;b;C;C_unclassified;C_unclassified",
+      "A;b;C;e;e_unclassified",
+      "A;b;C;e;f"
+    )
+  )
+  expect_equal(actual, expected)
+
+  # do id, taxonomy, and confidence columns exist
+  filtered <- data.frame(
     taxonomy = c(
       "Bacteria", "Bacillota", "Clostridia",
       "Eubacteriales", "Oscillospiraceae"
     ),
     confidence = c(100, 100, 99, 99, 98)
   )
+  expect_error(print_taxonomy(filtered))
 
-  expected <- "Bacteria(100);Bacillota(100);Clostridia(99);Eubacteriales(99);Oscillospiraceae(98);Oscillospiraceae_unclassified(98)" # nolint: line_length_linter
-
-  tax_string <- print_taxonomy(oscillospiraceae, n_levels = 6)
-
-  expect_equal(tax_string, expected)
-
-
-  tax_string <- print_taxonomy(oscillospiraceae)
-  expect_equal(tax_string, expected)
+  # Is it a data.frame
+  expect_error(print_taxonomy(c()))
+})
 
 
-  bacteroidales <- list()
-  bacteroidales[["taxonomy"]] <- c("Bacteria", "Bacteroidota", "Bacteroidia", "Bacteroidales") # nolint: line_length_linter
-  bacteroidales[["confidence"]] <- c(100, 100, 97, 97)
-  expected <- "Bacteria(100);Bacteroidota(100);Bacteroidia(97);Bacteroidales(97);Bacteroidales_unclassified(97);Bacteroidales_unclassified(97)" # nolint: line_length_linter
+test_that("Paste consesnsus taxonomy under various situations", {
+  taxonomy <- c("A(100)", "b(100)", "C(100)", "e(100)")
+  observed <- paste_taxonomy(taxonomy, n_levels = 3, fill_levels = FALSE)
+  expected <- "A(100);b(100);C(100)"
+  expect_equal(observed, expected)
 
-  tax_string <- print_taxonomy(bacteroidales, n_levels = 6)
+  observed <- paste_taxonomy(taxonomy, n_levels = 4, fill_levels = FALSE)
+  expected <- "A(100);b(100);C(100);e(100)"
+  expect_equal(observed, expected)
 
-  expect_equal(tax_string, expected)
+  observed <- paste_taxonomy(taxonomy, n_levels = 5, fill_levels = FALSE)
+  expected <- "A(100);b(100);C(100);e(100)"
+  expect_equal(observed, expected)
+
+
+  observed <- paste_taxonomy(taxonomy, n_levels = 3, fill_levels = TRUE)
+  expected <- "A(100);b(100);C(100)"
+  expect_equal(observed, expected)
+
+  observed <- paste_taxonomy(taxonomy, n_levels = 4, fill_levels = TRUE)
+  expected <- "A(100);b(100);C(100);e(100)"
+  expect_equal(observed, expected)
+
+  observed <- paste_taxonomy(taxonomy, n_levels = 5, fill_levels = TRUE)
+  expected <- "A(100);b(100);C(100);e(100);e_unclassified(100)"
+  expect_equal(observed, expected)
+
+  observed <- paste_taxonomy(taxonomy, n_levels = 5) # test default fill
+  expected <- "A(100);b(100);C(100);e(100);e_unclassified(100)"
+  expect_equal(observed, expected)
+
+  taxonomy <- c("A(100)", "b(100)", "C(100)")
+  observed <- paste_taxonomy(taxonomy, n_levels = 5, fill_levels = TRUE)
+  expected <- "A(100);b(100);C(100);C_unclassified(100);C_unclassified(100)"
+
+
+  taxonomy <- c("A(100)", "b(100)", "C(100)")
+  observed <- paste_taxonomy(taxonomy, n_levels = 0, fill_levels = TRUE)
+  expected <- "A(100);b(100);C(100)"
 })

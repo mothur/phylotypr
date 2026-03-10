@@ -60,8 +60,8 @@ build_kmer_database <- function(sequences, genera, kmer_size = 8) {
 #' The `classify_sequence()` function implements the Wang et al. naive Bayesian
 #' classification algorithm for 16S rRNA gene sequences.
 #'
-#' @param unknown_sequence   A character object representing a DNA sequence that
-#'                           needs to be classified
+#' @param sequence   A character object representing a DNA sequence that
+#'                           needs to be classified.
 #' @param database  A kmer database generated using [`build_kmer_database`]
 #' @param kmer_size An integer value (default of 8) indicating the size of kmers
 #'                  to use for classifying sequences. Higher values use more
@@ -73,32 +73,33 @@ build_kmer_database <- function(sequences, genera, kmer_size = 8) {
 #' @param num_bootstraps An integer value (default of 100). The value of
 #'                  `num_bootstraps` is the number of randomizations to perform
 #'                  where `1/kmer_size` of all kmers are sampled (without
-#'                  replacement) from `unknown_sequence`. Higher values will
+#'                  replacement) from `sequence`. Higher values will
 #'                  provide greater precision on the confidence score.
 #'
 #' @returns A list object of two vectors. One vector (`taxonomy`) is the
 #'          taxonomic assignment for each level. The second vector
 #'          (`confidence`) is the percentage of `num_bootstraps` that the
-#'          classifier gave the same classification at that level
+#'          classifier gave the same classification at that level.
 #' @inherit build_kmer_database references
 #' @export
 #'
 #' @examples
 #' kmer_size <- 3
-#' sequences <- c("ATGCGCTA", "ATGCGCTC", "ATGCGCTC")
-#' genera <- c("A", "B", "B")
+#' reference_sequences <- c("ATGCGCTA", "ATGCGCTC", "ATGCGCTC")
+#' reference_genera <- c("A", "B", "B")
 #'
-#' db <- build_kmer_database(sequences, genera, kmer_size)
+#' db <- build_kmer_database(reference_sequences, reference_genera, kmer_size)
 #' unknown_sequence <- "ATGCGCTC"
 #'
 #' classify_sequence(
-#'   unknown_sequence = unknown_sequence,
+#'   sequence = unknown_sequence,
 #'   database = db,
 #'   kmer_size = kmer_size
 #' )
-classify_sequence <- function(unknown_sequence, database,
+#'
+classify_sequence <- function(sequence, database,
                               kmer_size = 8, num_bootstraps = 100) {
-  kmers <- detect_kmers(sequence = unknown_sequence, kmer_size)
+  kmers <- detect_kmers(sequence = sequence, kmer_size)
   bs_class <- numeric(length = num_bootstraps)
 
   for (i in 1:num_bootstraps) {

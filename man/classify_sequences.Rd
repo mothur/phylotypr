@@ -5,15 +5,31 @@
 \title{Classify a vector of 16S rRNA gene sequence fragments}
 \usage{
 classify_sequences(
-  unknown_sequences,
+  data = NULL,
+  sequences,
+  ids = as.character(seq_along(sequences)),
   database,
   kmer_size = 8,
-  num_bootstraps = 100
+  num_bootstraps = 100,
+  min_confidence = 80
 )
 }
 \arguments{
-\item{unknown_sequences}{A vector of character objects representing DNA
-sequences that needs to be classified}
+\item{data}{A data frame containing a column of \code{ids} and \code{sequences}.
+If provided column names need to be provided to \code{ids} and
+\code{sequences}.}
+
+\item{sequences}{A vector of character objects representing DNA
+sequences that need to be classified. If \code{data} is provided
+then only the name of the column containing sequences needs
+to be provided, quotation marks are optional.}
+
+\item{ids}{A vector of character objects containing the sequence ids
+that need to be classified. Optional. Defaults to the
+position of the sequence in the vector of sequences. If
+\code{data} is provided then only the name of the column
+containing the sequence ids needs to be provided,
+quotation marks are optional.}
 
 \item{database}{A kmer database generated using \code{\link{build_kmer_database}}}
 
@@ -30,12 +46,18 @@ fastest execution time.}
 where \code{1/kmer_size} of all kmers are sampled (without
 replacement) from \code{unknown_sequence}. Higher values will
 provide greater precision on the confidence score.}
+
+\item{min_confidence}{An integer value (default of 80). The value of
+\code{min_confidence} represents the minimum number of bootstraps
+that must have a classification that agree with each other.}
 }
 \value{
-A list object of two vectors. One vector (\code{taxonomy}) is the
-taxonomic assignment for each level. The second vector
-(\code{confidence}) is the percentage of \code{num_bootstraps} that the
-classifier gave the same classification at that level
+A data frame object with three columns: the sequence id (\code{id}),
+the taxonomic assignment for each level (\code{taxonomy}), and the
+confidence associated with that classification level (\code{confidence}).
+The value in \code{confidence} represents the percentage of
+\code{num_bootstraps} that the classifier gave the same classification
+at that level.
 }
 \description{
 The \code{classify_sequences()} function implements the Wang et al. naive Bayesian
@@ -43,17 +65,44 @@ classification algorithm for 16S rRNA gene sequences.
 }
 \examples{
 kmer_size <- 3
-sequences <- c("ATGCGCTA", "ATGCGCTC", "ATGCGCTC")
-genera <- c("A", "B", "B")
+reference_sequences <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
+reference_genera <- c("A;b;C;d", "A;b;C;e", "A;b;C;e")
 
-db <- build_kmer_database(sequences, genera, kmer_size)
-unknown_sequence <- "ATGCGCTC"
+db <- build_kmer_database(reference_sequences, reference_genera, kmer_size)
 
-classify_sequence(
-  unknown_sequence = unknown_sequence,
+unknown_sequences <- c("ATGCGCTC", "ATGCGCTC", "ATGCGCTC")
+unknown_ids <- c("seq_1", "seq_2", "seq_3")
+
+classify_sequences(
+  sequences = unknown_sequences,
   database = db,
   kmer_size = kmer_size
 )
+
+classify_sequences(
+  sequences = unknown_sequences,
+  ids = unknown_ids,
+  database = db,
+  kmer_size = kmer_size
+)
+
+classify_sequences(
+  sequences = "ATGATCGAGTC",
+  database = db,
+  kmer_size = kmer_size,
+  min_confidence = 95
+)
+
+sequence_df <- data.frame(
+  seq_names = unknown_ids,
+  seqs = unknown_sequences
+)
+
+classify_sequences(sequence_df,
+  ids = seq_names, sequences = seqs,
+  database = db, kmer_size = 3
+)
+
 }
 \references{
 Wang Q, Garrity GM, Tiedje JM, Cole JR. Naive Bayesian classifier for rapid
