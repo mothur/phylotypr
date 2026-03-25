@@ -12,5 +12,6 @@
 ^cran-comments\.md$
 ^data-raw$
 ^docs$
+^notes.*$
 ^pkgdown$
 ^revdep$

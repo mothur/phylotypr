@@ -8,7 +8,7 @@
 .quarto
 .vscode
 
-notes.md
+notes.*
 
 trainset19_072023.rdp
 inst/doc
