@@ -22,5 +22,5 @@ reference:
     Example reference sequences and taxonomy that can be used for practicing
     use of the package's functions
   contents:
-    - trainset9_rdp
-    - trainset9_pds
+    - rdp_trainset9
+    - rdp_trainset9_pds

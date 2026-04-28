@@ -15,6 +15,13 @@
   specified it adds "_unclassified". User can turn off confidence scores
 * Added type checking and check for column names in `classify_sequences()`, 
  `filter_taxonomy()`, `print_taxonomy()`.
+* `classify_sequences()` can take a `{strollur}` object and will add database
+  reference data if provided with reference database
+* `build_kmer_database()` now includes `reference_data` argument
+* `rdp_trainset9_pds` and `rdp_trainset9` now include reference data as a data frame
+  in the reference_data slot; will be incorporated in databases provided by 
+  `{phylotyprrefdata}`. These were renamed from trainset9_rdp and trainset9_pds
+
 
 # phylotypr 0.1.1
 

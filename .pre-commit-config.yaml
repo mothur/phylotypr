@@ -49,15 +49,14 @@ repos:
     -   id: no-print-statement
     -   id: no-debug-statement
     -   id: deps-in-desc
-        exclude: >
-          (?x)^(data-raw/trainset.R)$
-          ^benchmarking/.*$
+        exclude:  ^(data-raw/trainset.R|benchmarking)$
     -   id: pkgdown
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
     -   id: check-added-large-files
         args: ['--maxkb=200']
+        exclude: ^(data/rdp_trainset9.*rda)
     -   id: file-contents-sorter
         files: '^\.Rbuildignore$'
     -   id: end-of-file-fixer
@@ -84,6 +83,7 @@ repos:
           if (length(output) > 0) {print(output); stop('Files not lint free')}"
         language: system
         files: '(\.[rR]profile|\.R|\.Rmd|\.Rnw|\.r|\.rmd|\.rnw)$'
+        exclude: ^data-raw/trainset.R$
 ci:
     autoupdate_schedule: monthly
     skip: [pkgdown]

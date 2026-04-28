@@ -14,20 +14,30 @@
 #'
 #'
 #' @format
-#' A data frame with 3 columns. Each row represents a different
-#' sequence:
+#' A `classification_database` object that holds two slots: seq_taxonomy_data
+#' and reference_data. The seq_taxonomy_data slot is a data.frame containing
 #' \describe{
 #'   \item{id}{Sequence accession identifier}
 #'   \item{sequence}{DNA sequence string}
 #'   \item{taxonomy}{Taxonomic string with each level separated with a `;`}
 #' }
-#'
+#' The reference_data slot contains metadata about the database and includes
+#' fields:
+#' \describe{
+#'  \item{reference_names}
+#'  \item{reference_vendor}
+#'  \item{reference_versions}
+#'  \item{reference_usages}
+#'  \item{reference_notes}
+#'  \item{reference_urls}
+#'  \item{reference_citation}
+#' }
 #' @source
 #' * [mothur-formatted files](https://mothur.org/wiki/rdp_reference_files/)
 #' * [RDP sourceforge page](https://sourceforge.net/projects/rdp-classifier/files/RDP_Classifier_TrainingData/RDPClassifier_16S_trainsetNo9_rawtrainingdata.zip/download) # nolint: line_length_linter
 #'
-"trainset9_rdp"
+"rdp_trainset9"
 
 
-#' @rdname trainset9_rdp
-"trainset9_pds"
+#' @rdname rdp_trainset9
+"rdp_trainset9_pds"

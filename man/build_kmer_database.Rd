@@ -4,9 +4,12 @@
 \alias{build_kmer_database}
 \title{Build kmer database}
 \usage{
-build_kmer_database(sequences, genera, kmer_size = 8)
+build_kmer_database(classification_database, kmer_size = 8)
 }
 \arguments{
+\item{kmer_size}{An integer indicating the length of the nucleotide word to
+base our classification on (default = 8)}
+
 \item{sequences}{A vector of reference sequences for which we have
 genus-level taxonomic information in the same order as the
 value for genera.}
@@ -17,8 +20,12 @@ sequences. Ideally, taxonomic information will be provided
 back to the domain level with each level separated by
 semicolons and no spaces.}
 
-\item{kmer_size}{An integer indicating the length of the nucleotide word to
-base our classification on (default = 8)}
+\item{reference_data}{single row data frame object that has columns
+reference_vendor, reference_names, reference_versions,
+reference_usages, reference_notes, reference_urls,
+reference_citation. This is supplied with databases obtained
+from {phylotyprrefdata}. This information is only used if
+user supplied sequences are supplied as a {strollur} object.}
 }
 \value{
 A list object containing the genus level conditional probability

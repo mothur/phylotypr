@@ -190,7 +190,13 @@ test_that("Create kmer database from sequences, taxonomy, and kmer size", {
   sequences <- c("ATGCGCTA", "ATGCGCTC", "ATGCGCTC")
   genera <- c("A", "B", "B")
 
-  db <- build_kmer_database(sequences, genera, kmer_size)
+  class_db <- create_database(
+    id = c(1, 2, 3),
+    sequence = sequences,
+    taxonomy = genera
+  )
+
+  db <- build_kmer_database(class_db, kmer_size)
 
   expect_equal(
     db[["conditional_prob"]][, 26],
@@ -230,7 +236,12 @@ test_that("Classify boostrap sample works", {
   sequences <- c("ATGCGCTA", "ATGCGCTC", "ATGCGCTC")
   genera <- c("A", "B", "B")
 
-  db <- build_kmer_database(sequences, genera, kmer_size)
+  classification_database <- create_database(
+    id = 1:3,
+    sequence = sequences,
+    taxonomy = genera
+  )
+  db <- build_kmer_database(classification_database, kmer_size)
   kmers <- detect_kmers("ATGCGCTC", kmer_size)
   expected_classification <- 2
 
@@ -246,6 +257,7 @@ test_that("Consensus classification of bootstrap subsamples", {
   bs_class <- c(1, 1, 1, 1, 4)
 
   expected <- list()
+  expected[["level"]] <- c(1, 2, 3)
   expected[["taxonomy"]] <- c("A", "a", "A")
   expected[["confidence"]] <- c(100, 80, 80)
 
@@ -279,10 +291,16 @@ test_that("Can classify a unknown sequence with a database", {
   sequences <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
   genera <- c("A", "B", "B")
 
-  db <- build_kmer_database(sequences, genera, kmer_size)
+  classification_database <- create_database(
+    id = 1:3,
+    sequence = sequences,
+    taxonomy = genera
+  )
+  db <- build_kmer_database(classification_database, kmer_size)
 
   sequence <- "ATGCGCTCCCC"
   expected <- list()
+  expected[["level"]] <- 1
   expected[["taxonomy"]] <- "B"
   expected[["confidence"]] <- 100
 
@@ -294,6 +312,7 @@ test_that("Can classify a unknown sequence with a database", {
 
   sequence <- "AAAATCGAGTA"
   expected <- list()
+  expected[["level"]] <- 1
   expected[["taxonomy"]] <- "A"
   expected[["confidence"]] <- 100
 
@@ -307,11 +326,17 @@ test_that("Can classify a unknown sequence with a database", {
   sequences <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
   genera <- c("A;b;C;d", "A;b;C;e", "A;b;C;e")
 
-  db <- build_kmer_database(sequences, genera, kmer_size)
+  classification_database <- create_database(
+    id = 1:3,
+    sequence = sequences,
+    taxonomy = genera
+  )
+  db <- build_kmer_database(classification_database, kmer_size)
 
   sequence <- "AAAATCGAGTA"
 
   expected <- list()
+  expected[["level"]] <- c(1, 2, 3, 4)
   expected[["taxonomy"]] <- c("A", "b", "C", "d")
   expected[["confidence"]] <- c(100, 100, 100, 100)
 

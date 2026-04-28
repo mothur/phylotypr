@@ -82,33 +82,97 @@
 #'   database = db, kmer_size = 3
 #' )
 #'
+
+#' @export
 classify_sequences <- function(data = NULL,
                                sequences,
                                ids = as.character(seq_along(sequences)),
                                database, kmer_size = 8, num_bootstraps = 100,
                                min_confidence = 80) {
-  if (!is.null(data)) {
-    seq_colname <- as.character(substitute(sequences))
-    ids_colname <- as.character(substitute(ids))
-    df_name <- as.character(substitute(data))
-
-    if (!(seq_colname %in% colnames(data))) {
-      stop(paste0(
-        "Column named '", seq_colname,
-        "' does not exist in '", df_name, "'"
-      ))
-    }
-    if (!(ids_colname %in% colnames(data))) {
-      stop(paste0(
-        "Column named '", ids_colname,
-        "' does not exist in '", df_name, "'"
-      ))
-    }
-
-    sequences <- data[, seq_colname]
-    ids <- data[, ids_colname]
+  if (is.null(data)) {
+    data <- FALSE
   }
 
+  UseMethod("classify_sequences", data)
+}
+
+#' @export
+classify_sequences.strollur <- function(data,
+                                        database, kmer_size = 8,
+                                        num_bootstraps = 100,
+                                        min_confidence = 80) {
+  if (!require_namespace("strollur")) {
+    stop("Cannot use this function without strollur installed.")
+  }
+  if (strollur::xdev_has_sequence_taxonomy(data)) {
+    warning(paste(
+      "Your dataset already had taxonomy data, we are overwriting",
+      "that with new classifications."
+    ))
+  }
+
+  sequences <- strollur::xdev_get_sequences(data, degap = TRUE)
+  ids <- strollur::xdev_names(data, type = "sequences")
+  df <- do_classify(
+    sequences, ids, database, kmer_size,
+    num_bootstraps, min_confidence
+  )
+
+  if (!is.null(database$reference_data)) {
+    strollur::xdev_add_references(
+      data = data,
+      table = database$reference_data,
+      verbose = FALSE
+    )
+  }
+  strollur::xdev_assign_sequence_taxonomy_tidy(
+    data,
+    table = df,
+    sequence_name = "id",
+    taxonomy = "taxonomy",
+    level = "level",
+    confidence = "confidence"
+  )
+}
+
+#' @export
+classify_sequences.data.frame <- function(data,
+                                          sequences = "sequences",
+                                          ids = "ids",
+                                          database, kmer_size = 8,
+                                          num_bootstraps = 100,
+                                          min_confidence = 80) {
+  seq_colname <- as.character(substitute(sequences))
+  ids_colname <- as.character(substitute(ids))
+  df_name <- as.character(substitute(data))
+
+  if (!(seq_colname %in% colnames(data))) {
+    stop(paste0(
+      "Column named '", seq_colname,
+      "' does not exist in '", df_name, "'"
+    ))
+  }
+  if (!(ids_colname %in% colnames(data))) {
+    stop(paste0(
+      "Column named '", ids_colname,
+      "' does not exist in '", df_name, "'"
+    ))
+  }
+
+  sequences <- data[, seq_colname]
+  ids <- data[, ids_colname]
+  do_classify(
+    sequences, ids, database, kmer_size,
+    num_bootstraps, min_confidence
+  )
+}
+
+#' @export
+classify_sequences.default <- function(sequences,
+                                       ids = as.character(seq_along(sequences)),
+                                       database, kmer_size = 8,
+                                       num_bootstraps = 100,
+                                       min_confidence = 80) {
   # are sequences and ids the same length
   if (length(sequences) != length(ids)) {
     message <- paste0(
@@ -118,7 +182,14 @@ classify_sequences <- function(data = NULL,
     )
     stop(message)
   }
+  do_classify(
+    sequences, ids, database, kmer_size,
+    num_bootstraps, min_confidence
+  )
+}
 
+do_classify <- function(sequences, ids, database, kmer_size, num_bootstraps,
+                        min_confidence) {
   df <- lapply(seq_along(sequences), function(x) {
     list(
       id = ids[x],
@@ -134,4 +205,8 @@ classify_sequences <- function(data = NULL,
   df <- df[df$confidence >= min_confidence, ]
   rownames(df) <- NULL
   df
+}
+
+require_namespace <- function(package_name) {
+  requireNamespace("strollur", quietly = TRUE)
 }

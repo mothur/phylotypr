@@ -5,6 +5,7 @@ test_that("Print out consesnsus taxonomy", {
       "seq_2", "seq_2", "seq_2", "seq_2",
       "seq_3", "seq_3", "seq_3", "seq_3", "seq_3"
     )),
+    levels = c(1, 2, 3, 1, 2, 3, 4, 1, 2, 3, 4, 5),
     taxonomy = c("A", "b", "C", "A", "b", "C", "e", "A", "b", "C", "e", "f"),
     confidence = c(100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100)
   )

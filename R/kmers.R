@@ -13,6 +13,12 @@
 #'                  semicolons and no spaces.
 #' @param kmer_size An integer indicating the length of the nucleotide word to
 #'                  base our classification on (default = 8)
+#' @param reference_data single row data frame object that has columns
+#'                  reference_vendor, reference_names, reference_versions,
+#'                  reference_usages, reference_notes, reference_urls,
+#'                  reference_citation. This is supplied with databases obtained
+#'                  from {phylotyprrefdata}. This information is only used if
+#'                  user supplied sequences are supplied as a {strollur} object.
 #'
 #' @return  A list object containing the genus level conditional probability
 #'          (`conditional_prob`) of seeing each kmer in a given genus as well as
@@ -33,10 +39,17 @@
 #' build_kmer_database(sequences, genera, kmer_size)
 #'
 #' @export
-build_kmer_database <- function(sequences, genera, kmer_size = 8) {
-  genera_indices <- genera_str_to_index(genera)
+build_kmer_database <- function(classification_database, kmer_size = 8) {
+  if (!inherits(classification_database, "classification_database")) {
+    stop("You supplied a database that is not of type classification_database")
+  }
 
-  detected_kmers <- detect_kmers_across_sequences(sequences,
+  genera_indices <- genera_str_to_index(
+    classification_database$seq_taxonomy_data$taxonomy
+  )
+
+  detected_kmers <- detect_kmers_across_sequences(
+    classification_database$seq_taxonomy_data$sequence,
     kmer_size = kmer_size
   )
 
@@ -46,11 +59,14 @@ build_kmer_database <- function(sequences, genera, kmer_size = 8) {
     detected_kmers, genera_indices,
     priors
   )
-  genera_names <- get_unique_genera(genera)
+  genera_names <- get_unique_genera(
+    classification_database$seq_taxonomy_data$taxonomy
+  )
 
   list(
     conditional_prob = cond_prob,
-    genera = genera_names
+    genera = genera_names,
+    reference_data = classification_database$reference_data
   )
 }
 
@@ -243,6 +259,7 @@ consensus_bs_class <- function(bs_class, genera) {
   )
 
   list(
+    level = 1:n_levels,
     taxonomy = stringi::stri_split_fixed(consensus_list[[n_levels]][["id"]],
       pattern = ";"
     ) |>

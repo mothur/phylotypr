@@ -56,8 +56,7 @@ print_taxonomy <- function(consensus, n_levels = 0, fill_levels = TRUE,
   }
 
   if (n_levels <= 0) {
-    n_levels <- aggregate(taxonomy ~ id, consensus, length)$taxonomy |>
-      max()
+    n_levels <- max(consensus$levels)
   }
 
   results <- if (show_confidence) {
