@@ -97,6 +97,18 @@ read_fasta(phylotypr_example("miseq_sop.fasta.gz")) |>
   head()
 ```
 
+Alternatively, you may have your data stored as a `{strollur}` object you can do the following
+
+```{r}
+set.seed(19760620) # pat's birtday in YYYYMMDD format
+
+strollur::new_dataset(dataset_name = "sop") |>
+  strollur::add(
+    table = phylotypr::read_fasta(phylotypr_example("miseq_sop.fasta.gz"))) |>
+  classify_sequences(db) |>
+  print_taxonomy() |>
+  head()
+```
 
 ## Classifying multiple unknown sequences in parallel
 

@@ -87,8 +87,12 @@ test_that("strollur objects can be filtered", {
   )
 
   filter_taxonomy(strollur_object)
+
   expect_equal(
     strollur::xdev_report(strollur_object, type = "sequence_taxonomy"),
     strollur::xdev_report(filtered_strollur_object, type = "sequence_taxonomy"))
+
+  expect_true(strollur::is_equal(strollur_object, filtered_strollur_object))
+
 })
 

@@ -329,9 +329,8 @@ test_that("Test that strollur objects can be used in classify_sequences", {
     strollur::xdev_report(strollur_object2, type = "resource_reference")
   )
 
-  # expect_equal_strollur_object2, strollur_object_ #need way to do this
+  expect_true(strollur::is_equal(strollur_object2, strollur_object))
 
-  #####
 
   db <- build_kmer_database(classification_database, kmer_size)
 
@@ -388,7 +387,7 @@ test_that("Test that strollur objects can be used in classify_sequences", {
     strollur::xdev_report(strollur_object4, type = "resource_reference")
   )
 
-  # expect_equal_strollur_object, strollur_object2_ #need way to do this
+  expect_true(strollur::is_equal(strollur_object3, strollur_object4))
 })
 
 
