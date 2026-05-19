@@ -18,7 +18,7 @@ test_that("reading in taxonomy data works", {
   taxonomy_df <- read_taxonomy(temp)
 
   expected <- data.frame(
-    id = c(
+    sequence_name = c(
       "seqA", "seqB", "seqC", "seqD", "seqE", "seqF", "seq G",
       "seq G1", "seq G2", "seq G3", "seq H1", "seq H2", "seq H3"
     ),

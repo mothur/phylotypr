@@ -20,12 +20,11 @@ sequences. Ideally, taxonomic information will be provided
 back to the domain level with each level separated by
 semicolons and no spaces.}
 
-\item{reference_data}{single row data frame object that has columns
-reference_vendor, reference_names, reference_versions,
-reference_usages, reference_notes, reference_urls,
-reference_citation. This is supplied with databases obtained
-from {phylotyprrefdata}. This information is only used if
-user supplied sequences are supplied as a {strollur} object.}
+\item{reference_data}{single row data frame object that has columns vendor,
+name, version, usage, notes, method_url, documentation_url, and citation.
+This is supplied with databases obtained from {phylotyprrefdata}. This
+information is only used if user supplied sequences are supplied as a
+{strollur} object.}
 }
 \value{
 A list object containing the genus level conditional probability

@@ -9,7 +9,7 @@ read_taxonomy(file)
 \arguments{
 \item{file}{Either a path to a file, a connection, or literal data
 (either a single string or a raw vector) containing the
-sequence id and the taxonomy information for each sequence.
+sequence name and the taxonomy information for each sequence.
 
 Files ending in .gz, .bz2, .xz, or .zip will be automatically uncompressed.
 Files starting with \verb{http://}, \verb{https://}, \verb{ftp://}, or \verb{ftps://} will be
@@ -17,8 +17,8 @@ automatically downloaded. Remote gz files can also be autom downloaded and
 decompressed.}
 }
 \value{
-A data frame with two columns. The \code{id} column contains a name for each
-sequence and the \code{taxonomy} column, which contains the taxonomy for each
+A data frame with two columns. The \code{sequence_name} column contains a name for
+each sequence and the \code{taxonomy} column, which contains the taxonomy for each
 sequence. The string in the \code{taxonomy} column is a series of taxonomic names
 separated by semi-colons. The string does not have a semi-colon at the end of
 the sequence
@@ -29,7 +29,7 @@ Read a
 into R as a data frame
 }
 \note{
-There are no checks to insure that each sequence has a unique id value. It is
+There are no checks to insure that each sequence has a unique name. It is
 also assumed that each sequence has the same number of taxonomic levels
 represented in the second column of the input file.
 }

@@ -12,11 +12,12 @@ print_taxonomy(
 )
 }
 \arguments{
-\item{consensus}{A data frame that contains at least three columns: the \code{id}
-column that contains an identifier for the sequence, the \code{taxonomy} column
-contains the classification at each taxonomic level, and the \code{confidence}
-column contains the percentage of bootstraps that had the specified
-classification}
+\item{consensus}{A data frame that contains at least three columns: the
+\code{sequence_name} column that contains an identifier for the sequence, the
+\code{taxonomy} column contains the classification at each taxonomic level, and
+the \code{confidence} column contains the percentage of bootstraps that had the
+specified classification. The \code{level} column is optional and contains the
+numeric level of the level (e.g., Kingdom = 1, Genus = 6)}
 
 \item{n_levels}{An integer indicating the number of taxonomic levels to
 expect. If the number of observed levels is less than this
@@ -48,7 +49,7 @@ level separated by semi-colons
 }
 \examples{
 oscillospiraceae <- data.frame(
-  id = c("seq_1", "seq_1", "seq_1", "seq_1", "seq_1"),
+  sequence_name = c("seq_1", "seq_1", "seq_1", "seq_1", "seq_1"),
   taxonomy = c(
     "Bacteria", "Bacillota", "Clostridia",
     "Eubacteriales", "Oscillospiraceae"

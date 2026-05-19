@@ -3,7 +3,7 @@
 #' Given a
 #' [standard FASTA-formatted file](https://en.wikipedia.org/wiki/FASTA_format),
 #' `read_fasta` will read in the contents of the file and create a three column
-#' data frame with columns for the sequence id, the sequence itself, and any
+#' data frame with columns for the sequence name, the sequence itself, and any
 #' comments found in the header line for each sequence.
 #'
 #' @param file
@@ -25,9 +25,9 @@
 #' The sequences in the FASTA file can have line breaks within them and
 #' `read_fasta()` will put those separate lines into the same sequence
 #'
-#' @returns A data frame object with three columns. The `id` column will contain
-#'   the non-space characters following the `>` in the header line of each
-#'   sequence; the `sequence` column will contain the sequence; and the
+#' @returns A data frame object with three columns. The `sequence_name` column
+#'   will contain the non-space characters following the `>` in the header line
+#'   of each sequence; the `sequence` column will contain the sequence; and the
 #'   `comment` column will contain any text found after the first whitespace
 #'   character on the header line.
 #' @examples
@@ -51,7 +51,7 @@
 #'
 #' @importFrom readr read_lines
 #' @importFrom stringi stri_startswith_fixed stri_replace_first_regex stri_c
-#' stri_replace_all_regex
+#' @importFrom stringi stri_replace_all_regex
 #' @export
 #'
 read_fasta <- function(file, degap = TRUE) {
@@ -63,7 +63,7 @@ read_fasta <- function(file, degap = TRUE) {
   is_header <- stringi::stri_startswith_fixed(fasta_data, ">")
   header_lines <- fasta_data[is_header]
 
-  id <- header_lines |>
+  sequence_name <- header_lines |>
     stringi::stri_replace_first_regex("^>(\\S*)\\s*.*", "$1")
 
   comment <- header_lines |>
@@ -85,7 +85,7 @@ read_fasta <- function(file, degap = TRUE) {
   }
 
   data.frame(
-    id = id,
+    sequence_name = sequence_name,
     sequence = sequence,
     comment = comment
   )

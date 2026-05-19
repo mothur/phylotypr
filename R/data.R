@@ -15,22 +15,23 @@
 #'
 #' @format
 #' A `classification_database` object that holds two slots: seq_taxonomy_data
-#' and reference_data. The seq_taxonomy_data slot is a data.frame containing
+#' and `reference_data.` The seq_taxonomy_data slot is a data.frame containing
 #' \describe{
-#'   \item{id}{Sequence accession identifier}
-#'   \item{sequence}{DNA sequence string}
-#'   \item{taxonomy}{Taxonomic string with each level separated with a `;`}
+#' \item{sequence_name}{Sequence accession identifier}
+#' \item{sequence}{DNA sequence string}
+#' \item{taxonomy}{Taxonomic string with each level separated with a `;`}
 #' }
-#' The reference_data slot contains metadata about the database and includes
+#' The `reference_data` slot contains metadata about the database and includes
 #' fields:
 #' \describe{
-#'  \item{reference_names}
-#'  \item{reference_vendor}
-#'  \item{reference_versions}
-#'  \item{reference_usages}
-#'  \item{reference_notes}
-#'  \item{reference_urls}
-#'  \item{reference_citation}
+#' \item{reference_vendor}{Entity that created original database (e.g., RDP)}
+#' \item{reference_versions}{The version of database provided by original
+#'  entity}
+#' \item{reference_usages}{For classification or alignment}
+#' \item{reference_notes}{Any additional notes about the database. Currently the
+#'  version of phylotypr that provided the database}
+#' \item{reference_urls}{URLs where database can be obtained}
+#' \item{reference_citation}{Citation for database in BibTeX format}
 #' }
 #' @source
 #' * [mothur-formatted files](https://mothur.org/wiki/rdp_reference_files/)

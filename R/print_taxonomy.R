@@ -27,7 +27,7 @@
 #'
 #' @examples
 #' oscillospiraceae <- data.frame(
-#'   id = c("seq_1", "seq_1", "seq_1", "seq_1", "seq_1"),
+#'   sequence_name = c("seq_1", "seq_1", "seq_1", "seq_1", "seq_1"),
 #'   taxonomy = c(
 #'     "Bacteria", "Bacillota", "Clostridia",
 #'     "Eubacteriales", "Oscillospiraceae"
@@ -43,20 +43,43 @@
 #' @export
 print_taxonomy <- function(consensus, n_levels = 0, fill_levels = TRUE,
                            show_confidence = TRUE) {
-  # do id, taxonomy, and confidence columns exist
-  if (!inherits(consensus, "data.frame")) {
-    stop("`filter_taxonomy()` expects that consensus is a data.frame.")
+  if (!inherits(consensus, c("data.frame", "strollur"))) {
+    stop("`print_taxonomy()` expects that consensus is either a data.frame or a strollur object.")
   }
-  if (!all(c("id", "taxonomy", "confidence") %in% colnames(consensus))) {
+
+  UseMethod("print_taxonomy", consensus)
+}
+
+#' @export
+print_taxonomy.strollur <- function(consensus, n_levels = 0, fill_levels = TRUE,
+                           show_confidence = TRUE) {
+  df <- strollur::xdev_report(consensus, type = "sequence_taxonomy")
+  do_print_taxonomy(df, n_levels, fill_levels,
+                    show_confidence)
+}
+
+#' @export
+print_taxonomy.data.frame <- function(consensus,
+                                      n_levels = 0, fill_levels = TRUE,
+                                      show_confidence = TRUE) {
+  do_print_taxonomy(consensus, n_levels, fill_levels,
+                    show_confidence)
+}
+
+do_print_taxonomy <- function(consensus, n_levels = 0, fill_levels = TRUE,
+                           show_confidence = TRUE) {
+
+  if (!all(c("sequence_name", "taxonomy", "confidence", "level") %in%
+           colnames(consensus))) {
     message <- paste0(
-      "`filter_taxonomy()` requires a data.frame with columns",
-      " named id, taxonomy, and confidence."
+     "`print_taxonomy()` requires a data.frame or strollur object with columns",
+     " named: sequence_name, taxonomy, level, and confidence."
     )
     stop(message)
   }
 
   if (n_levels <= 0) {
-    n_levels <- max(consensus$levels)
+    n_levels <- max(consensus$level)
   }
 
   results <- if (show_confidence) {
@@ -67,12 +90,12 @@ print_taxonomy <- function(consensus, n_levels = 0, fill_levels = TRUE,
 
   results <- results |>
     aggregate(
-      x = _, by = list(id = consensus$id),
+      x = _, by = list(sequence_name = consensus$sequence_name),
       paste_taxonomy, n_levels = n_levels, fill_levels = fill_levels,
       show_confidence = show_confidence
     )
 
-  colnames(results) <- c("id", "taxonomy")
+  colnames(results) <- c("sequence_name", "taxonomy")
   results
 }
 
@@ -103,3 +126,5 @@ paste_taxonomy <- function(taxonomy, n_levels, fill_levels = TRUE,
     na.omit() |>
     paste0(collapse = ";")
 }
+
+

@@ -21,7 +21,7 @@ test_that("Read in fasta formatted data generates data frame", {
   sequence_df <- read_fasta(temp)
 
   expected <- data.frame(
-    id = c(
+    sequence_name = c(
       "seqA", "seqB", "seqC", "seqC", "seqD", "seq4", "seq_4", "seqE",
       "seqD|B.cereus", "seqD.B.cereus"
     ),

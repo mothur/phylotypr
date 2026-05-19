@@ -36,13 +36,10 @@ set.seed(19760620) # pat's birtday in YYYYMMDD format
 
 ## Building the database
 
-Before we can classify a sequence, we need to generate the database. This can be done using the `build_kmer_database()` function and takes several seconds to execute. Unless you save the database object (e.g. `db` below) to a `Rda`-formatted file, you'll need to run this function each time you load `{phylotypr}`
+Before we can classify a sequence, we need to generate the database. This can be done using the `build_kmer_database()` function and takes several seconds to execute. `{phylotypr}` includes two databases: `rdp_trainset9` and `rdp_trainset9_pds`. If you want others, you are encouraged to install the `{phylotyprrefdata}` package from GitHub. You can also create your own reference set using `create_database()`. For more details, see the "Alternative databases" section at the end of this vignette. We'll use `rdp_trainset9_pds` for this tutorial.
 
 ```{r}
-db <- build_kmer_database(
-  trainset9_pds$sequence,
-  trainset9_pds$taxonomy
-)
+db <- build_kmer_database(rdp_trainset9_pds)
 ```
 
 By default, `build_kmer_database()` will use 8-nt long kmers to calculate its probabilities. This size can be altered by the user if needed, but 8-nt performs very well and shouldn't need to be adjusted.
@@ -59,7 +56,7 @@ unknown <- "TACGGAGGATGCGAGCGTTATCCGGATTTATTGGGTTTAAAGGGTGCGTAGGCGGATCGTTAAGTCAG
 The `unknown` object can then be classified using `classify_sequences()` along with the database object from above (i.e., `db`).
 
 ```{r}
-consensus <- classify_sequences(sequences = unknown, database = db)
+consensus <- classify_sequences(sequence = unknown, database = db)
 ```
 
 The output of `classify_sequence` is a list with taxonomic levels from kingdom (or domain) down to the genus and the confidence scores for that sequence in each of those taxonomic levels
@@ -89,13 +86,13 @@ print_taxonomy(filtered)
 
 ## Classifying multiple unknown sequences
 
-Most likely you will have multiple sequences that you would like to classify. The `{phylotypr}` package installs with an example FASTA-formatted file, "miseq_sop.fasta". The code below shows you can read in a FASTA-formatted file and classify the sequences. Below, I show how you can use the `map_chr()` function from `{purrr}`, or something like it. Note that for classifying your own data you would replace `phylotypr_example(...)` with the path to your own data.
+Most likely you will have multiple sequences that you would like to classify. The `{phylotypr}` package installs with an example FASTA-formatted file, "miseq_sop.fasta". The code below shows you can read in a FASTA-formatted file and classify the sequences. Note that for classifying your own data you would replace `phylotypr_example(...)` with the path to your own data.
 
 ```{r}
 set.seed(19760620) # pat's birtday in YYYYMMDD format
 
 read_fasta(phylotypr_example("miseq_sop.fasta.gz")) |>
-  classify_sequences(sequences = sequence, ids = id, database = db) |>
+  classify_sequences(database = db) |>
   print_taxonomy() |>
   head()
 ```
@@ -133,22 +130,22 @@ miseq |>
 Consider the results of classifying `unknown` three times:
 
 ```{r}
-classify_sequences(sequences = unknown, database = db, num_bootstraps = 100) |>
+classify_sequences(sequence = unknown, database = db, num_bootstraps = 100) |>
   print_taxonomy()
-classify_sequences(sequences = unknown, database = db, num_bootstraps = 100) |>
+classify_sequences(sequence = unknown, database = db, num_bootstraps = 100) |>
   print_taxonomy()
-classify_sequences(sequences = unknown, database = db, num_bootstraps = 100) |>
+classify_sequences(sequence = unknown, database = db, num_bootstraps = 100) |>
   print_taxonomy()
 ```
 
 You'll notice that the classification of the three replicates varies slightly. Again, this is due to the use of the random number generator and getting confidence scores that bounce around 80%, which results in different levels of filtering. To get a more stable classification, you should be setting your random number generator seed with `set.seed()`. To get a more precise confidence score, you could set `num_bootstraps = 1000` in `classify_sequences()`. Be forewarned that the function will take 10-times longer to run with 10-times the number of bootstraps!
 
 ```{r}
-classify_sequences(sequences = unknown, database = db, num_bootstraps = 100) |>
+classify_sequences(sequence = unknown, database = db, num_bootstraps = 100) |>
   print_taxonomy()
-classify_sequences(sequences = unknown, database = db, num_bootstraps = 100) |>
+classify_sequences(sequence = unknown, database = db, num_bootstraps = 100) |>
   print_taxonomy()
-classify_sequences(sequences = unknown, database = db, num_bootstraps = 100) |>
+classify_sequences(sequence = unknown, database = db, num_bootstraps = 100) |>
   print_taxonomy()
 ```
 

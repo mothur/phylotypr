@@ -191,7 +191,7 @@ test_that("Create kmer database from sequences, taxonomy, and kmer size", {
   genera <- c("A", "B", "B")
 
   class_db <- create_database(
-    id = c(1, 2, 3),
+    sequence_name = c(1, 2, 3),
     sequence = sequences,
     taxonomy = genera
   )
@@ -237,7 +237,7 @@ test_that("Classify boostrap sample works", {
   genera <- c("A", "B", "B")
 
   classification_database <- create_database(
-    id = 1:3,
+    sequence_name = 1:3,
     sequence = sequences,
     taxonomy = genera
   )
@@ -271,7 +271,7 @@ test_that("Return correct consensus taxonomy and confidence", {
   taxonomy <- c("A", "A", "A", "A", "A")
   expected <- list()
   expected[["frac"]] <- 100
-  expected[["id"]] <- "A"
+  expected[["sequence_name"]] <- "A"
   observed <- get_consensus(taxonomy)
   expect_equal(observed, expected)
 
@@ -279,7 +279,7 @@ test_that("Return correct consensus taxonomy and confidence", {
   taxonomy <- c("A;a", "A;a", "A;b", "A;b", "A;b")
   expected <- list()
   expected[["frac"]] <- 60
-  expected[["id"]] <- "A;b"
+  expected[["sequence_name"]] <- "A;b"
   observed <- get_consensus(taxonomy)
   expect_equal(observed, expected)
 })
@@ -292,7 +292,7 @@ test_that("Can classify a unknown sequence with a database", {
   genera <- c("A", "B", "B")
 
   classification_database <- create_database(
-    id = 1:3,
+    sequence_name = 1:3,
     sequence = sequences,
     taxonomy = genera
   )
@@ -327,7 +327,7 @@ test_that("Can classify a unknown sequence with a database", {
   genera <- c("A;b;C;d", "A;b;C;e", "A;b;C;e")
 
   classification_database <- create_database(
-    id = 1:3,
+    sequence_name = 1:3,
     sequence = sequences,
     taxonomy = genera
   )

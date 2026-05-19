@@ -13,12 +13,11 @@
 #'                  semicolons and no spaces.
 #' @param kmer_size An integer indicating the length of the nucleotide word to
 #'                  base our classification on (default = 8)
-#' @param reference_data single row data frame object that has columns
-#'                  reference_vendor, reference_names, reference_versions,
-#'                  reference_usages, reference_notes, reference_urls,
-#'                  reference_citation. This is supplied with databases obtained
-#'                  from {phylotyprrefdata}. This information is only used if
-#'                  user supplied sequences are supplied as a {strollur} object.
+#' @param reference_data single row data frame object that has columns vendor,
+#'   name, version, usage, notes, method_url, documentation_url, and citation.
+#'   This is supplied with databases obtained from {phylotyprrefdata}. This
+#'   information is only used if user supplied sequences are supplied as a
+#'   {strollur} object.
 #'
 #' @return  A list object containing the genus level conditional probability
 #'          (`conditional_prob`) of seeing each kmer in a given genus as well as
@@ -139,7 +138,7 @@ get_all_kmers <- function(x, kmer_size = 8) {
 
 #' @noRd
 #' @importFrom stringi stri_trans_toupper stri_replace_all_charclass
-#'   stri_trans_char
+#' @importFrom stringi stri_trans_char
 seq_to_base4 <- function(sequence) {
   stringi::stri_trans_toupper(sequence) |>
     stringi::stri_replace_all_charclass(
@@ -260,7 +259,8 @@ consensus_bs_class <- function(bs_class, genera) {
 
   list(
     level = 1:n_levels,
-    taxonomy = stringi::stri_split_fixed(consensus_list[[n_levels]][["id"]],
+    taxonomy = stringi::stri_split_fixed(
+      consensus_list[[n_levels]][["sequence_name"]],
       pattern = ";"
     ) |>
       unlist(),
@@ -277,6 +277,6 @@ get_consensus <- function(taxonomy) {
 
   list(
     frac = 100 * taxonomy_table[[max_index]] / n_bs,
-    id = names(max_index)
+    sequence_name = names(max_index)
   )
 }

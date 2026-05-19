@@ -21,9 +21,9 @@ decompressed.}
 indicated by "." or "-"}
 }
 \value{
-A data frame object with three columns. The \code{id} column will contain
-the non-space characters following the \code{>} in the header line of each
-sequence; the \code{sequence} column will contain the sequence; and the
+A data frame object with three columns. The \code{sequence_name} column
+will contain the non-space characters following the \code{>} in the header line
+of each sequence; the \code{sequence} column will contain the sequence; and the
 \code{comment} column will contain any text found after the first whitespace
 character on the header line.
 }
@@ -31,7 +31,7 @@ character on the header line.
 Given a
 \href{https://en.wikipedia.org/wiki/FASTA_format}{standard FASTA-formatted file},
 \code{read_fasta} will read in the contents of the file and create a three column
-data frame with columns for the sequence id, the sequence itself, and any
+data frame with columns for the sequence name, the sequence itself, and any
 comments found in the header line for each sequence.
 }
 \note{

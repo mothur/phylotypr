@@ -2,9 +2,10 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 classify_bs <- function(unknown_kmers, conditional_probs) {
-  .Call(`_phylotypr_classify_bs`, unknown_kmers, conditional_probs)
+    .Call(`_phylotypr_classify_bs`, unknown_kmers, conditional_probs)
 }
 
 calculate_log_probability <- function(kmer_genus_count, word_specific_priors, genus_counts) {
-  .Call(`_phylotypr_calculate_log_probability`, kmer_genus_count, word_specific_priors, genus_counts)
+    .Call(`_phylotypr_calculate_log_probability`, kmer_genus_count, word_specific_priors, genus_counts)
 }
+

@@ -7,11 +7,11 @@
 write_fasta(data_frame, file = NULL)
 }
 \arguments{
-\item{data_frame}{A data frame object with three columns. The \code{id} column will contain
-the non-space characters following the \code{>} in the header line of each
-sequence; the \code{sequence} column will contain the sequence; and the
-\code{comment} column will contain any text found after the first whitespace
-character on the header line. The \code{comment} column is optional.}
+\item{data_frame}{A data frame object with three columns. The \code{sequence_name} column will
+contain the non-space characters following the \code{>} in the header line of each
+sequence; the \code{sequence} column will contain the sequence; and the \code{comment}
+column will contain any text found after the first whitespace character on
+the header line. The \code{comment} column is optional.}
 
 \item{file}{Either a path to a file, a connection, or literal data (either a single
 string or a raw vector) to write to a standard FASTA formatted file. There
@@ -30,16 +30,16 @@ Sequence data is either written out to the screen (\code{file = NULL}) or to a
 file.
 }
 \description{
-Writes a data frame containing id, sequence, and comment columns,
+Writes a data frame containing sequence_name, sequence, and comment columns,
 \code{write_fasta} will write the data frame out to a
 \href{https://en.wikipedia.org/wiki/FASTA_format}{standard FASTA-formatted file}.
-The header will have a tab character between the sequence id and any
+The header will have a tab character between the sequence name and any
 comments. There won't be a tab if there's no comment for the sequence. All
 sequence data will be on a single line
 }
 \examples{
 df_d <- data.frame(
-  id = c("seqA", "seqB", "seqC"),
+  sequence_name = c("seqA", "seqB", "seqC"),
   sequence = c("ATGCATGC", "ATGCATGA", "ATGCATGT"),
   comment = c("comment 1", "", "comment 3")
 )

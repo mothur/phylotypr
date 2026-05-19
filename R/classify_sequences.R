@@ -1,24 +1,24 @@
 #' Classify a vector of 16S rRNA gene sequence fragments
 #'
 #' The `classify_sequences()` function implements the Wang et al. naive Bayesian
-#' classification algorithm for 16S rRNA gene sequences.
+#' classification algorithm for 16S rRNA gene sequence.
 #'
-#' @param data      A data frame containing a column of `ids` and `sequences`.
-#'                  If provided column names need to be provided to `ids` and
-#'                  `sequences`.
-#' @param sequences A vector of character objects representing DNA
-#'                  sequences that need to be classified. If `data` is provided
-#'                  then only the name of the column containing sequences needs
+#' @param data      A data frame containing a column of `sequence_name` and
+#'   `sequence`. If provided column names need to be provided to `sequence_name`
+#'   and `sequence`.
+#' @param sequence A vector of character objects representing DNA
+#'                  sequence that need to be classified. If `data` is provided
+#'                  then only the name of the column containing sequence needs
 #'                  to be provided, quotation marks are optional.
-#' @param ids       A vector of character objects containing the sequence ids
-#'                  that need to be classified. Optional. Defaults to the
-#'                  position of the sequence in the vector of sequences. If
-#'                  `data` is provided then only the name of the column
-#'                  containing the sequence ids needs to be provided,
-#'                  quotation marks are optional.
+#' @param sequence_name       A vector of character objects containing the
+#'                  sequence name that need to be classified. Optional. Defaults
+#'                  to the position of the sequence in the vector of sequence.
+#'                  If `data` is provided then only the name of the column
+#'                  containing the sequence name needs to be provided, quotation
+#'                  marks are optional.
 #' @param database  A kmer database generated using [`build_kmer_database`]
 #' @param kmer_size An integer value (default of 8) indicating the size of kmers
-#'                  to use for classifying sequences. Higher values use more
+#'                  to use for classifying sequence. Higher values use more
 #'                  RAM with potentially more specificity Lower values use
 #'                  less RAM with potentially less specificity. Benchmarking
 #'                  has found that the default of 8 provides the best
@@ -33,62 +33,63 @@
 #'                  `min_confidence` represents the minimum number of bootstraps
 #'                  that must have a classification that agree with each other.
 #'
-#' @returns A data frame object with three columns: the sequence id (`id`),
-#'          the taxonomic assignment for each level (`taxonomy`), and the
-#'          confidence associated with that classification level (`confidence`).
-#'          The value in `confidence` represents the percentage of
-#'          `num_bootstraps` that the classifier gave the same classification
-#'          at that level.
+#' @returns A data frame object with three columns: the sequence name
+#'   (`sequence_name`), the taxonomic assignment for each level (`taxonomy`),
+#'   and the confidence associated with that classification level
+#'   (`confidence`). The value in `confidence` represents the percentage of
+#'   `num_bootstraps` that the classifier gave the same classification at that
+#'   level.
 #' @inherit build_kmer_database references
 #' @export
 #'
 #' @examples
 #' kmer_size <- 3
-#' reference_sequences <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
+#' reference_sequence <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
 #' reference_genera <- c("A;b;C;d", "A;b;C;e", "A;b;C;e")
 #'
-#' db <- build_kmer_database(reference_sequences, reference_genera, kmer_size)
+#' db <- build_kmer_database(reference_sequence, reference_genera, kmer_size)
 #'
-#' unknown_sequences <- c("ATGCGCTC", "ATGCGCTC", "ATGCGCTC")
-#' unknown_ids <- c("seq_1", "seq_2", "seq_3")
+#' unknown_sequence <- c("ATGCGCTC", "ATGCGCTC", "ATGCGCTC")
+#' unknown_id <- c("seq_1", "seq_2", "seq_3")
 #'
 #' classify_sequences(
-#'   sequences = unknown_sequences,
+#'   sequence = unknown_sequence,
 #'   database = db,
 #'   kmer_size = kmer_size
 #' )
 #'
 #' classify_sequences(
-#'   sequences = unknown_sequences,
-#'   ids = unknown_ids,
+#'   sequence = unknown_sequence,
+#'   sequence_name = unknown_id,
 #'   database = db,
 #'   kmer_size = kmer_size
 #' )
 #'
 #' classify_sequences(
-#'   sequences = "ATGATCGAGTC",
+#'   sequence = "ATGATCGAGTC",
 #'   database = db,
 #'   kmer_size = kmer_size,
 #'   min_confidence = 95
 #' )
 #'
 #' sequence_df <- data.frame(
-#'   seq_names = unknown_ids,
-#'   seqs = unknown_sequences
+#'   seq_names = unknown_id,
+#'   seqs = unknown_sequence
 #' )
 #'
 #' classify_sequences(sequence_df,
-#'   ids = seq_names, sequences = seqs,
+#'   sequence_name = seq_names, sequence = seqs,
 #'   database = db, kmer_size = 3
 #' )
 #'
 
 #' @export
-classify_sequences <- function(data = NULL,
-                               sequences,
-                               ids = as.character(seq_along(sequences)),
-                               database, kmer_size = 8, num_bootstraps = 100,
-                               min_confidence = 80) {
+classify_sequences <- function(
+      data = NULL,
+      sequence,
+      sequence_name = as.character(seq_along(sequence)),
+      database, kmer_size = 8, num_bootstraps = 100,
+      min_confidence = 80) {
   if (is.null(data)) {
     data <- FALSE
   }
@@ -111,10 +112,10 @@ classify_sequences.strollur <- function(data,
     ))
   }
 
-  sequences <- strollur::xdev_get_sequences(data, degap = TRUE)
-  ids <- strollur::xdev_names(data, type = "sequences")
+  sequence <- strollur::xdev_get_sequences(data, degap = TRUE)
+  sequence_name <- strollur::xdev_names(data, type = "sequence")
   df <- do_classify(
-    sequences, ids, database, kmer_size,
+    sequence, sequence_name, database, kmer_size,
     num_bootstraps, min_confidence
   )
 
@@ -127,23 +128,19 @@ classify_sequences.strollur <- function(data,
   }
   strollur::xdev_assign_sequence_taxonomy_tidy(
     data,
-    table = df,
-    sequence_name = "id",
-    taxonomy = "taxonomy",
-    level = "level",
-    confidence = "confidence"
+    table = df
   )
 }
 
 #' @export
 classify_sequences.data.frame <- function(data,
-                                          sequences = "sequences",
-                                          ids = "ids",
+                                          sequence = "sequence",
+                                          sequence_name = "sequence_name",
                                           database, kmer_size = 8,
                                           num_bootstraps = 100,
                                           min_confidence = 80) {
-  seq_colname <- as.character(substitute(sequences))
-  ids_colname <- as.character(substitute(ids))
+  seq_colname <- as.character(substitute(sequence))
+  sequence_name_colname <- as.character(substitute(sequence_name))
   df_name <- as.character(substitute(data))
 
   if (!(seq_colname %in% colnames(data))) {
@@ -152,48 +149,50 @@ classify_sequences.data.frame <- function(data,
       "' does not exist in '", df_name, "'"
     ))
   }
-  if (!(ids_colname %in% colnames(data))) {
+  if (!(sequence_name_colname %in% colnames(data))) {
     stop(paste0(
-      "Column named '", ids_colname,
+      "Column named '", sequence_name_colname,
       "' does not exist in '", df_name, "'"
     ))
   }
 
-  sequences <- data[, seq_colname]
-  ids <- data[, ids_colname]
+  sequence <- data[, seq_colname]
+  sequence_name <- data[, sequence_name_colname]
   do_classify(
-    sequences, ids, database, kmer_size,
+    sequence, sequence_name, database, kmer_size,
     num_bootstraps, min_confidence
   )
 }
 
 #' @export
-classify_sequences.default <- function(sequences,
-                                       ids = as.character(seq_along(sequences)),
-                                       database, kmer_size = 8,
-                                       num_bootstraps = 100,
-                                       min_confidence = 80) {
-  # are sequences and ids the same length
-  if (length(sequences) != length(ids)) {
+classify_sequences.default <- function(
+      sequence,
+      sequence_name = as.character(seq_along(sequence)),
+      database, kmer_size = 8,
+      num_bootstraps = 100,
+      min_confidence = 80) {
+  # are sequence and sequence_name the same length
+  if (length(sequence) != length(sequence_name)) {
     message <- paste0(
-      "You provided ", length(sequences), " sequences and ",
-      length(ids), " ids. `classify_sequences()` requires the ",
-      "same number of sequences as ids"
+      "You provided ", length(sequence), " sequence and ",
+      length(sequence_name),
+      " sequence_name `classify_sequences()` requires the ",
+      "same number of sequence as sequence_name"
     )
     stop(message)
   }
   do_classify(
-    sequences, ids, database, kmer_size,
+    sequence, sequence_name, database, kmer_size,
     num_bootstraps, min_confidence
   )
 }
 
-do_classify <- function(sequences, ids, database, kmer_size, num_bootstraps,
-                        min_confidence) {
-  df <- lapply(seq_along(sequences), function(x) {
+do_classify <- function(sequence, sequence_name, database, kmer_size,
+                        num_bootstraps, min_confidence) {
+  df <- lapply(seq_along(sequence), function(x) {
     list(
-      id = ids[x],
-      classify_sequence(sequences[x],
+      sequence_name = sequence_name[x],
+      classify_sequence(sequence[x],
         database = database,
         kmer_size = kmer_size, num_bootstraps = num_bootstraps
       )

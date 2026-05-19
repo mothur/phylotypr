@@ -22,18 +22,19 @@ taxonomy <- list.files(temp_dir,
 fasta_df <- read_fasta(fasta)
 genera <- read_taxonomy(taxonomy)
 
-rdp_trainset9 <- dplyr::inner_join(fasta_df, genera, by = "id")
-rdp_trainset9 <- rdp_trainset9[, c("id", "sequence", "taxonomy")]
+rdp_trainset9 <- dplyr::inner_join(fasta_df, genera, by = "sequence_name")
+rdp_trainset9 <- rdp_trainset9[, c("sequence_name", "sequence", "taxonomy")]
 
 reference_data <-
   data.frame(
-    reference_names = "rdp_trainset9", # rdp_trainset_10
-    reference_vendor = "rdp", # rdp, pds, silva, greengenes, ncbi
-    reference_versions = "9", # 10_pds, v8,
-    reference_usages = "classification", # "classification"
-    reference_notes = paste0("phylotypr v.", packageVersion("phylotypr")), # phylotyprrefdata version
-    reference_urls = "https://sourceforge.net/projects/rdp-classifier/files/RDP_Classifier_TrainingData/", # "mothur blog post creating reference?"
-    reference_citation =
+    name = "rdp_trainset9", # rdp_trainset_10
+    vendor = "rdp", # rdp, pds, silva, greengenes, ncbi
+    version = "9", # 10_pds, v8,
+    usage = "classification", # "classification"
+    note = paste0("phylotypr v.", packageVersion("phylotypr")), # phylotyprrefdata version
+    method_url = "https://sourceforge.net/projects/rdp-classifier/files/RDP_Classifier_TrainingData/", # "mothur blog post creating reference?"
+    documentation_url = "https://mothur.org/wiki/rdp_reference_files/#version-9, ",
+    citation =
       "@article{doi:10.1128/AEM.00062-07,
                     author = {Qiong Wang and George M. Garrity and James M. Tiedje and James R. Cole},
                     title = {Naïve Bayesian Classifier for Rapid Assignment of rRNA Sequences into the New Bacterial Taxonomy},
@@ -49,13 +50,10 @@ reference_data <-
                   }"
   )
 
-rdp_trainset9 <- structure(
-  list(
-    seq_taxonomy_data = rdp_trainset9,
-    reference_data = reference_data
-  ),
-  class = "classification_database"
-)
+rdp_trainset9 <- create_database(sequence_name = rdp_trainset9$sequence_name,
+                                 sequence = rdp_trainset9$sequence,
+                                 taxonomy = rdp_trainset9$taxonomy,
+                                 reference_data = reference_data)
 
 usethis::use_data(rdp_trainset9, compress = "xz", overwrite = TRUE)
 
@@ -80,19 +78,20 @@ taxonomy <- list.files(temp_dir,
 fasta_df <- read_fasta(fasta)
 genera <- read_taxonomy(taxonomy)
 
-rdp_trainset9_pds <- dplyr::inner_join(fasta_df, genera, by = "id")
-rdp_trainset9_pds <- rdp_trainset9_pds[, c("id", "sequence", "taxonomy")]
+rdp_trainset9_pds <- dplyr::inner_join(fasta_df, genera, by = "sequence_name")
+rdp_trainset9_pds <- rdp_trainset9_pds[, c("sequence_name", "sequence", "taxonomy")]
 
 
 reference_data <-
   data.frame(
-    reference_names = "rdp_trainset9_pds", # rdp_trainset_10
-    reference_vendor = "rdp", # rdp, pds, silva, greengenes, ncbi
-    reference_versions = "9_pds", # 10_pds, v8,
-    reference_usages = "classification", # "classification"
-    reference_notes = paste0("phylotypr v.", packageVersion("phylotypr")), # phylotyprrefdata version
-    reference_urls = "https://sourceforge.net/projects/rdp-classifier/files/RDP_Classifier_TrainingData/", # "mothur blog post creating reference?"
-    reference_citation =
+    name = "rdp_trainset9_pds", # rdp_trainset_10
+    vendor = "rdp", # rdp, pds, silva, greengenes, ncbi
+    version = "9_pds", # 10_pds, v8,
+    usage = "classification", # "classification"
+    note = paste0("phylotypr v.", packageVersion("phylotypr")), # phylotyprrefdata version
+    method_url = "https://sourceforge.net/projects/rdp-classifier/files/RDP_Classifier_TrainingData/", # "mothur blog post creating reference?"
+    documentation_url = "https://mothur.org/wiki/rdp_reference_files/#version-9, ",
+    citation =
       "@article{doi:10.1128/AEM.00062-07,
                     author = {Qiong Wang and George M. Garrity and James M. Tiedje and James R. Cole},
                     title = {Naïve Bayesian Classifier for Rapid Assignment of rRNA Sequences into the New Bacterial Taxonomy},
@@ -109,12 +108,10 @@ reference_data <-
   )
 
 
-rdp_trainset9_pds <- structure(
-  list(
-    seq_taxonomy_data = rdp_trainset9_pds,
-    reference_data = reference_data
-  ),
-  class = "classification_database"
-)
+rdp_trainset9_pds <- create_database(
+  sequence_name = rdp_trainset9_pds$sequence_name,
+  sequence = rdp_trainset9_pds$sequence,
+  taxonomy = rdp_trainset9_pds$taxonomy,
+  reference_data = reference_data)
 
 usethis::use_data(rdp_trainset9_pds, compress = "xz", overwrite = TRUE)

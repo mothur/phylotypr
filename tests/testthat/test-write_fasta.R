@@ -1,6 +1,6 @@
 test_that("Output fasta-formatted data from a sequence data frame", {
   df_a <- data.frame(
-    id = "seqA",
+    sequence_name = "seqA",
     sequence = "ATGCATGC",
     comment = ""
   )
@@ -10,7 +10,7 @@ test_that("Output fasta-formatted data from a sequence data frame", {
 
 
   df_b <- data.frame(
-    id = "seqA",
+    sequence_name = "seqA",
     sequence = "ATGCATGC",
     comment = "this is a comment"
   )
@@ -20,7 +20,7 @@ test_that("Output fasta-formatted data from a sequence data frame", {
 
 
   df_c <- data.frame(
-    id = "seqA",
+    sequence_name = "seqA",
     sequence = "ATGCATGC"
   )
 
@@ -29,7 +29,7 @@ test_that("Output fasta-formatted data from a sequence data frame", {
 
 
   df_d <- data.frame(
-    id = c("seqA", "seqB", "seqC"),
+    sequence_name = c("seqA", "seqB", "seqC"),
     sequence = c("ATGCATGC", "ATGCATGA", "ATGCATGT"),
     comment = c("comment 1", "", "comment 3")
   )

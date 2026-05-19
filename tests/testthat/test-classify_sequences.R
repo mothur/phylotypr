@@ -3,74 +3,74 @@ test_that("Can classify a unknown sequence with a database", {
   sequences <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
   genera <- c("A", "B", "B")
   classification_database <- create_database(
-    id = 1:3,
+    sequence_name = 1:3,
     sequence = sequences,
     taxonomy = genera
   )
   db <- build_kmer_database(classification_database, kmer_size)
 
-  sequences <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
+  sequence <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
 
   expected <- data.frame(
-    id = as.character(1:3),
+    sequence_name = as.character(1:3),
     level = c(1, 1, 1),
     taxonomy = c("A", "B", "B"),
     confidence = c(100, 100, 100)
   )
 
   actual <- classify_sequences(
-    sequences = sequences, database = db,
+    sequence = sequence, database = db,
     kmer_size = kmer_size
   )
 
   expect_equal(actual, expected)
 
 
-  sequences <- "AAAATCGAGTA" # test giving a vector of one sequence
+  sequence <- "AAAATCGAGTA" # test giving a vector of one sequence
 
 
   expected <- data.frame(
-    id = c("1"),
+    sequence_name = c("1"),
     level = 1,
     taxonomy = c("A"),
     confidence = c(100)
   )
 
   actual <- classify_sequences(
-    sequences = sequences, database = db,
+    sequence = sequence, database = db,
     kmer_size = kmer_size
   )
 
   expect_equal(actual, expected)
 
   kmer_size <- 3
-  sequences <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
+  sequence <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
   genera <- c("A;b;C;d", "A;b;C;e", "A;b;C;e")
 
   classification_database <- create_database(
-    id = 1:3,
-    sequence = sequences,
+    sequence_name = 1:3,
+    sequence = sequence,
     taxonomy = genera
   )
   db <- build_kmer_database(classification_database, kmer_size)
 
-  sequences <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
-  ids <- c("seq_1")
+  sequence <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
+  sequence_name <- c("seq_1")
 
   expect_error(classify_sequences(
-    sequences = sequences, database = db,
-    kmer_size = kmer_size, ids = ids
+    sequence = sequence, database = db,
+    kmer_size = kmer_size, sequence_name = sequence_name
   ))
 
   expected <- data.frame(
-    id = as.character(c(1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3)),
+    sequence_name = as.character(c(1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3)),
     level = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4),
     taxonomy = c("A", "b", "C", "d", "A", "b", "C", "e", "A", "b", "C", "e"),
     confidence = c(100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100)
   )
 
   actual <- classify_sequences(
-    sequences = sequences, database = db,
+    sequence = sequence, database = db,
     kmer_size = kmer_size
   )
 
@@ -80,21 +80,21 @@ test_that("Can classify a unknown sequence with a database", {
 
 test_that("Can classify a unknown sequence when names are provided", {
   kmer_size <- 3
-  sequences <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
+  sequence <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
   genera <- c("A;b;C;d", "A;b;C;e", "A;b;C;e")
 
   classification_database <- create_database(
-    id = 1:3,
-    sequence = sequences,
+    sequence_name = 1:3,
+    sequence = sequence,
     taxonomy = genera
   )
   db <- build_kmer_database(classification_database, kmer_size)
 
-  sequences <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
-  ids <- c("seq_1", "seq_2", "seq_3")
+  sequence <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
+  sequence_name <- c("seq_1", "seq_2", "seq_3")
 
   expected <- data.frame(
-    id = as.character(c(
+    sequence_name = as.character(c(
       "seq_1", "seq_1", "seq_1", "seq_1",
       "seq_2", "seq_2", "seq_2", "seq_2",
       "seq_3", "seq_3", "seq_3", "seq_3"
@@ -105,8 +105,8 @@ test_that("Can classify a unknown sequence when names are provided", {
   )
 
   actual <- classify_sequences(
-    sequences = sequences,
-    ids = ids,
+    sequence = sequence,
+    sequence_name = sequence_name,
     database = db,
     kmer_size = kmer_size
   )
@@ -117,30 +117,30 @@ test_that("Can classify a unknown sequence when names are provided", {
 
 test_that("classify_sequences with confidence filters the classification", {
   kmer_size <- 3
-  ref_sequences <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
+  ref_sequence <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
   genera <- c("A;b;C;d", "A;b;C;e", "A;b;C;e")
 
   classification_database <- create_database(
-    id = 1:3,
-    sequence = ref_sequences,
+    sequence_name = 1:3,
+    sequence = ref_sequence,
     taxonomy = genera
   )
   db <- build_kmer_database(classification_database, kmer_size)
 
-  sequences <- c("ATGATCGAGTC", "ATGCGCTCCCC", "ATGCGCTCCCC")
-  ids <- c("seq_1", "seq_2", "seq_3")
+  sequence <- c("ATGATCGAGTC", "ATGCGCTCCCC", "ATGCGCTCCCC")
+  sequence_name <- c("seq_1", "seq_2", "seq_3")
 
   set.seed(19760620)
   actual <- classify_sequences(
-    sequences = sequences,
-    ids = ids,
+    sequence = sequence,
+    sequence_name = sequence_name,
     database = db,
     kmer_size = kmer_size,
     min_confidence = 95
   )
 
   expected <- data.frame(
-    id = as.character(c(
+    sequence_name = as.character(c(
       "seq_1", "seq_1", "seq_1",
       "seq_2", "seq_2", "seq_2", "seq_2",
       "seq_3", "seq_3", "seq_3", "seq_3"
@@ -151,27 +151,39 @@ test_that("classify_sequences with confidence filters the classification", {
   )
 
   expect_equal(actual, expected)
+
+
+  set.seed(19760620)
+  actual <- classify_sequences(
+    data.frame(sequence = sequence,
+               sequence_name = sequence_name),
+    database = db,
+    kmer_size = kmer_size,
+    min_confidence = 95
+  )
+  expect_equal(actual, expected)
+
 })
 
 
 test_that("Can classify when a data frame is provided to data argument", {
   kmer_size <- 3
-  sequences <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
+  sequence <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
   genera <- c("A;b;C;d", "A;b;C;e", "A;b;C;e")
 
   classification_database <- create_database(
-    id = 1:3,
-    sequence = sequences,
+    sequence_name = 1:3,
+    sequence = sequence,
     taxonomy = genera
   )
   db <- build_kmer_database(classification_database, kmer_size)
 
   sequences <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
-  ids <- c("seq_1", "seq_2", "seq_3")
-  df <- data.frame(s = sequences, i = ids)
+  sequence_name <- c("seq_1", "seq_2", "seq_3")
+  df <- data.frame(s = sequence, i = sequence_name)
 
   expected <- data.frame(
-    id = as.character(c(
+    sequence_name = as.character(c(
       "seq_1", "seq_1", "seq_1", "seq_1",
       "seq_2", "seq_2", "seq_2", "seq_2",
       "seq_3", "seq_3", "seq_3", "seq_3"
@@ -183,8 +195,8 @@ test_that("Can classify when a data frame is provided to data argument", {
 
   actual <- classify_sequences(
     data = df,
-    sequences = "s",
-    ids = "i",
+    sequence = "s",
+    sequence_name = "i",
     database = db,
     kmer_size = kmer_size
   )
@@ -194,8 +206,8 @@ test_that("Can classify when a data frame is provided to data argument", {
 
   actual <- classify_sequences(
     data = df,
-    sequences = s,
-    ids = i,
+    sequence = s,
+    sequence_name = i,
     database = db,
     kmer_size = kmer_size
   )
@@ -206,8 +218,8 @@ test_that("Can classify when a data frame is provided to data argument", {
   expect_error(
     classify_sequences(
       data = df,
-      sequences = a,
-      ids = i,
+      sequence = a,
+      sequence_name = i,
       database = db,
       kmer_size = kmer_size
     ),
@@ -217,8 +229,8 @@ test_that("Can classify when a data frame is provided to data argument", {
   expect_error(
     classify_sequences(
       data = df,
-      sequences = s,
-      ids = j,
+      sequence = s,
+      sequence_name = j,
       database = db,
       kmer_size = kmer_size
     ),
@@ -232,16 +244,16 @@ test_that("Test that strollur objects can be used in classify_sequences", {
   sequences <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
   genera <- c("A;b;C;d", "A;b;C;e", "A;b;C;e")
   reference <- data.frame(
-    reference_names = "trainset9_pds",
-    reference_vendor = "pds",
-    reference_versions = "9",
-    reference_usages = "classification",
-    reference_notes = paste0("phylotypr v.", packageVersion("phylotypr")),
-    reference_urls = paste0(
+    name = "rdp_trainset9_pds",
+    vendor = "rdp", # rdp, pds, silva, greengenes, ncbi
+    version = "9_pds", # 10_pds, v8,
+    usage = "classification",
+    note = paste0("phylotypr v.", packageVersion("phylotypr")),
+    documentation_url = paste0(
       "https://sourceforge.net/projects/rdp-classifier/",
       "files/RDP_Classifier_TrainingData/"
     ),
-    reference_citation =
+    citation =
       "@article{doi:10.1128/AEM.00062-07,
         author = {Qiong Wang and George M. Garrity and James M. Tiedje and
           James R. Cole},
@@ -260,16 +272,16 @@ test_that("Test that strollur objects can be used in classify_sequences", {
   )
 
   classification_database <- create_database(
-    id = 1:3,
+    sequence_name = 1:3,
     sequence = sequences,
     taxonomy = genera,
     reference_data = reference
   )
   db <- build_kmer_database(classification_database, kmer_size)
 
-  sequences <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
-  ids <- c("seq_1", "seq_2", "seq_3")
-  df <- data.frame(s = sequences, i = ids)
+  sequence <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
+  sequence_name <- c("seq_1", "seq_2", "seq_3")
+  df <- data.frame(s = sequence, i = sequence_name)
   strollur_object <- strollur::new_dataset("test")
   strollur::xdev_add_sequences(strollur_object, df,
     sequence_name = "i",
@@ -281,16 +293,16 @@ test_that("Test that strollur objects can be used in classify_sequences", {
   expected <- strollur::xdev_assign_sequence_taxonomy_tidy(
     data = strollur_object2,
     table = data.frame(
-      sequence_names = as.character(c(
+      sequence_name = as.character(c(
         "seq_1", "seq_1", "seq_1", "seq_1",
         "seq_2", "seq_2", "seq_2", "seq_2",
         "seq_3", "seq_3", "seq_3", "seq_3"
       )),
-      levels = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4),
-      taxonomies = c(
+      level = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4),
+      taxonomy = c(
         "A", "b", "C", "d", "A", "b", "C", "e", "A", "b", "C", "e"
       ),
-      confidences = c(
+      confidence = c(
         100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100
       )
     )
@@ -307,14 +319,14 @@ test_that("Test that strollur objects can be used in classify_sequences", {
   expect_equal(
     strollur::xdev_report(
       strollur_object2,
-      type = "references"
+      type = "resource_reference"
     )$reference_names,
     reference$reference_names
   )
 
   expect_equal(
-    strollur::xdev_report(strollur_object, type = "references"),
-    strollur::xdev_report(strollur_object2, type = "references")
+    strollur::xdev_report(strollur_object, type = "resource_reference"),
+    strollur::xdev_report(strollur_object2, type = "resource_reference")
   )
 
   # expect_equal_strollur_object2, strollur_object_ #need way to do this
@@ -324,8 +336,8 @@ test_that("Test that strollur objects can be used in classify_sequences", {
   db <- build_kmer_database(classification_database, kmer_size)
 
   sequences <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
-  ids <- c("seq_1", "seq_2", "seq_3")
-  df <- data.frame(s = sequences, i = ids)
+  sequence_name <- c("seq_1", "seq_2", "seq_3")
+  df <- data.frame(s = sequences, i = sequence_name)
 
   strollur_object3 <- strollur::new_dataset("test")
   strollur::xdev_add_sequences(strollur_object3, df,
@@ -338,16 +350,16 @@ test_that("Test that strollur objects can be used in classify_sequences", {
   expected <- strollur::xdev_assign_sequence_taxonomy_tidy(
     data = strollur_object4,
     table = data.frame(
-      sequence_names = as.character(c(
+      sequence_name = as.character(c(
         "seq_1", "seq_1", "seq_1", "seq_1",
         "seq_2", "seq_2", "seq_2", "seq_2",
         "seq_3", "seq_3", "seq_3", "seq_3"
       )),
-      levels = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4),
-      taxonomies = c(
+      level = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4),
+      taxonomy = c(
         "A", "b", "C", "d", "A", "b", "C", "e", "A", "b", "C", "e"
       ),
-      confidences = c(
+      confidence = c(
         100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100
       )
     )
@@ -366,14 +378,14 @@ test_that("Test that strollur objects can be used in classify_sequences", {
 
   expect_equal(
     strollur::xdev_report(strollur_object4,
-      type = "references"
-    )$reference_names,
-    "trainset9_pds"
+      type = "resource_reference"
+    )$name,
+    "rdp_trainset9_pds"
   )
 
   expect_equal(
-    strollur::xdev_report(strollur_object3, type = "references"),
-    strollur::xdev_report(strollur_object4, type = "references")
+    strollur::xdev_report(strollur_object3, type = "resource_reference"),
+    strollur::xdev_report(strollur_object4, type = "resource_reference")
   )
 
   # expect_equal_strollur_object, strollur_object2_ #need way to do this
@@ -386,15 +398,15 @@ test_that("Classify_sequences will error if strollur is not installed", {
   genera <- c("A;b;C;d", "A;b;C;e", "A;b;C;e")
 
   classification_database <- create_database(
-    id = 1:3,
+    sequence_name = 1:3,
     sequence = sequences,
     taxonomy = genera
   )
   db <- build_kmer_database(classification_database, kmer_size)
 
-  sequences <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
-  ids <- c("seq_1", "seq_2", "seq_3")
-  df <- data.frame(i = ids, s = sequences)
+  sequence <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
+  sequence_name <- c("seq_1", "seq_2", "seq_3")
+  df <- data.frame(i = sequence_name, s = sequence)
   strollur_object <- strollur::new_dataset("test")
   strollur::xdev_add_sequences(
     strollur_object, df,

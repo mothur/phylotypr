@@ -13,7 +13,6 @@ LazyData: true
 LazyDataCompression: xz
 URL: https://github.com/mothur/phylotypr, https://mothur.org/phylotypr/
 BugReports: https://github.com/mothur/phylotypr/issues
-RoxygenNote: 7.3.3
 Roxygen: list(markdown = TRUE)
 Suggests: 
     knitr,
@@ -33,3 +32,4 @@ LinkingTo:
 Depends: 
     R (>= 4.2)
 VignetteBuilder: knitr
+Config/roxygen2/version: 8.0.0

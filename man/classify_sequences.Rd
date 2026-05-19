@@ -6,8 +6,8 @@
 \usage{
 classify_sequences(
   data = NULL,
-  sequences,
-  ids = as.character(seq_along(sequences)),
+  sequence,
+  sequence_name = as.character(seq_along(sequence)),
   database,
   kmer_size = 8,
   num_bootstraps = 100,
@@ -15,26 +15,26 @@ classify_sequences(
 )
 }
 \arguments{
-\item{data}{A data frame containing a column of \code{ids} and \code{sequences}.
-If provided column names need to be provided to \code{ids} and
-\code{sequences}.}
+\item{data}{A data frame containing a column of \code{sequence_name} and
+\code{sequence}. If provided column names need to be provided to \code{sequence_name}
+and \code{sequence}.}
 
-\item{sequences}{A vector of character objects representing DNA
-sequences that need to be classified. If \code{data} is provided
-then only the name of the column containing sequences needs
+\item{sequence}{A vector of character objects representing DNA
+sequence that need to be classified. If \code{data} is provided
+then only the name of the column containing sequence needs
 to be provided, quotation marks are optional.}
 
-\item{ids}{A vector of character objects containing the sequence ids
-that need to be classified. Optional. Defaults to the
-position of the sequence in the vector of sequences. If
-\code{data} is provided then only the name of the column
-containing the sequence ids needs to be provided,
-quotation marks are optional.}
+\item{sequence_name}{A vector of character objects containing the
+sequence name that need to be classified. Optional. Defaults
+to the position of the sequence in the vector of sequence.
+If \code{data} is provided then only the name of the column
+containing the sequence name needs to be provided, quotation
+marks are optional.}
 
 \item{database}{A kmer database generated using \code{\link{build_kmer_database}}}
 
 \item{kmer_size}{An integer value (default of 8) indicating the size of kmers
-to use for classifying sequences. Higher values use more
+to use for classifying sequence. Higher values use more
 RAM with potentially more specificity Lower values use
 less RAM with potentially less specificity. Benchmarking
 has found that the default of 8 provides the best
@@ -52,54 +52,54 @@ provide greater precision on the confidence score.}
 that must have a classification that agree with each other.}
 }
 \value{
-A data frame object with three columns: the sequence id (\code{id}),
-the taxonomic assignment for each level (\code{taxonomy}), and the
-confidence associated with that classification level (\code{confidence}).
-The value in \code{confidence} represents the percentage of
-\code{num_bootstraps} that the classifier gave the same classification
-at that level.
+A data frame object with three columns: the sequence name
+(\code{sequence_name}), the taxonomic assignment for each level (\code{taxonomy}),
+and the confidence associated with that classification level
+(\code{confidence}). The value in \code{confidence} represents the percentage of
+\code{num_bootstraps} that the classifier gave the same classification at that
+level.
 }
 \description{
 The \code{classify_sequences()} function implements the Wang et al. naive Bayesian
-classification algorithm for 16S rRNA gene sequences.
+classification algorithm for 16S rRNA gene sequence.
 }
 \examples{
 kmer_size <- 3
-reference_sequences <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
+reference_sequence <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
 reference_genera <- c("A;b;C;d", "A;b;C;e", "A;b;C;e")
 
-db <- build_kmer_database(reference_sequences, reference_genera, kmer_size)
+db <- build_kmer_database(reference_sequence, reference_genera, kmer_size)
 
-unknown_sequences <- c("ATGCGCTC", "ATGCGCTC", "ATGCGCTC")
-unknown_ids <- c("seq_1", "seq_2", "seq_3")
+unknown_sequence <- c("ATGCGCTC", "ATGCGCTC", "ATGCGCTC")
+unknown_id <- c("seq_1", "seq_2", "seq_3")
 
 classify_sequences(
-  sequences = unknown_sequences,
+  sequence = unknown_sequence,
   database = db,
   kmer_size = kmer_size
 )
 
 classify_sequences(
-  sequences = unknown_sequences,
-  ids = unknown_ids,
+  sequence = unknown_sequence,
+  sequence_name = unknown_id,
   database = db,
   kmer_size = kmer_size
 )
 
 classify_sequences(
-  sequences = "ATGATCGAGTC",
+  sequence = "ATGATCGAGTC",
   database = db,
   kmer_size = kmer_size,
   min_confidence = 95
 )
 
 sequence_df <- data.frame(
-  seq_names = unknown_ids,
-  seqs = unknown_sequences
+  seq_names = unknown_id,
+  seqs = unknown_sequence
 )
 
 classify_sequences(sequence_df,
-  ids = seq_names, sequences = seqs,
+  sequence_name = seq_names, sequence = seqs,
   database = db, kmer_size = 3
 )
 

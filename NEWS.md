@@ -21,7 +21,7 @@
 * `rdp_trainset9_pds` and `rdp_trainset9` now include reference data as a data frame
   in the reference_data slot; will be incorporated in databases provided by 
   `{phylotyprrefdata}`. These were renamed from trainset9_rdp and trainset9_pds
-
+* Changed `id` to `sequence_name` across functions
 
 # phylotypr 0.1.1
 
