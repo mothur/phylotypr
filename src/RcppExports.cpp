@@ -22,6 +22,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// do_classify_rcpp
+Rcpp::List do_classify_rcpp(const std::vector<std::vector<int> >& sequence_kmers, const Rcpp::NumericMatrix& conditional_prob, const int& num_bootstraps, const int& kmer_size);
+RcppExport SEXP _phylotypr_do_classify_rcpp(SEXP sequence_kmersSEXP, SEXP conditional_probSEXP, SEXP num_bootstrapsSEXP, SEXP kmer_sizeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<std::vector<int> >& >::type sequence_kmers(sequence_kmersSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type conditional_prob(conditional_probSEXP);
+    Rcpp::traits::input_parameter< const int& >::type num_bootstraps(num_bootstrapsSEXP);
+    Rcpp::traits::input_parameter< const int& >::type kmer_size(kmer_sizeSEXP);
+    rcpp_result_gen = Rcpp::wrap(do_classify_rcpp(sequence_kmers, conditional_prob, num_bootstraps, kmer_size));
+    return rcpp_result_gen;
+END_RCPP
+}
 // calculate_log_probability
 NumericMatrix calculate_log_probability(NumericMatrix& kmer_genus_count, const NumericVector& word_specific_priors, const NumericVector& genus_counts);
 RcppExport SEXP _phylotypr_calculate_log_probability(SEXP kmer_genus_countSEXP, SEXP word_specific_priorsSEXP, SEXP genus_countsSEXP) {
@@ -38,6 +52,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_phylotypr_classify_bs", (DL_FUNC) &_phylotypr_classify_bs, 2},
+    {"_phylotypr_do_classify_rcpp", (DL_FUNC) &_phylotypr_do_classify_rcpp, 4},
     {"_phylotypr_calculate_log_probability", (DL_FUNC) &_phylotypr_calculate_log_probability, 3},
     {NULL, NULL, 0}
 };

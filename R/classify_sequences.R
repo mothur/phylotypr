@@ -85,11 +85,11 @@
 
 #' @export
 classify_sequences <- function(
-      data = NULL,
-      sequence,
-      sequence_name = as.character(seq_along(sequence)),
-      database, kmer_size = 8, num_bootstraps = 100,
-      min_confidence = 80) {
+  data = NULL,
+  sequence,
+  sequence_name = as.character(seq_along(sequence)),
+  database, kmer_size = 8, num_bootstraps = 100, min_confidence = 80
+) {
   if (is.null(data)) {
     data <- FALSE
   }
@@ -166,11 +166,10 @@ classify_sequences.data.frame <- function(data,
 
 #' @export
 classify_sequences.default <- function(
-      sequence,
-      sequence_name = as.character(seq_along(sequence)),
-      database, kmer_size = 8,
-      num_bootstraps = 100,
-      min_confidence = 80) {
+  sequence,
+  sequence_name = as.character(seq_along(sequence)),
+  database, kmer_size = 8, num_bootstraps = 100, min_confidence = 80
+) {
   # are sequence and sequence_name the same length
   if (length(sequence) != length(sequence_name)) {
     message <- paste0(
@@ -189,20 +188,23 @@ classify_sequences.default <- function(
 
 do_classify <- function(sequence, sequence_name, database, kmer_size,
                         num_bootstraps, min_confidence) {
-  df <- lapply(seq_along(sequence), function(x) {
-    list(
-      sequence_name = sequence_name[x],
-      classify_sequence(sequence[x],
-        database = database,
-        kmer_size = kmer_size, num_bootstraps = num_bootstraps
-      )
-    )
-  }) |>
+  df <- lapply(sequence, detect_kmers, kmer_size) |>
+    do_classify_rcpp(database$conditional_prob, num_bootstraps, kmer_size) |>
+    lapply(consensus_bs_class, database$genera)
+
+
+  df <- lapply(
+    seq_along(along.with = df),
+    \(x) {
+      list(sequence_name = sequence_name[x], df[[x]])
+    }
+  ) |>
     lapply(X = _, as.data.frame) |>
     do.call(rbind, args = _)
 
   df <- df[df$confidence >= min_confidence, ]
   rownames(df) <- NULL
+
   df
 }
 

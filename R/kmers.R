@@ -114,15 +114,11 @@ build_kmer_database <- function(classification_database, kmer_size = 8) {
 #'
 classify_sequence <- function(sequence, database,
                               kmer_size = 8, num_bootstraps = 100) {
-  kmers <- detect_kmers(sequence = sequence, kmer_size)
-  bs_class <- numeric(length = num_bootstraps)
-
-  for (i in 1:num_bootstraps) {
-    bs_kmers <- bootstrap_kmers(kmers, kmer_size)
-    bs_class[[i]] <- classify_bs(bs_kmers, database$conditional_prob)
-  }
-
-  consensus_bs_class(bs_class, database$genera)
+  .Deprecated("classify_sequences")
+  classify_sequences(
+    sequence = sequence, database = database,
+    kmer_size = kmer_size, num_bootstraps = num_bootstraps
+  )
 }
 
 

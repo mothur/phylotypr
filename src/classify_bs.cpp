@@ -1,9 +1,7 @@
-#include <Rcpp.h>
-using namespace Rcpp;
+#include "classify_bs.h"
 
-// [[Rcpp::export]]
 int classify_bs(const IntegerVector& unknown_kmers,
-                     const NumericMatrix& conditional_probs){
+                const NumericMatrix& conditional_probs){
 
   int nrow = conditional_probs.nrow();
   int ncol = unknown_kmers.size();

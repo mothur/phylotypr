@@ -59,7 +59,7 @@ The `unknown` object can then be classified using `classify_sequences()` along w
 consensus <- classify_sequences(sequence = unknown, database = db)
 ```
 
-The output of `classify_sequence` is a list with taxonomic levels from kingdom (or domain) down to the genus and the confidence scores for that sequence in each of those taxonomic levels
+The output of `classify_sequences` is a data fram with taxonomic levels from kingdom (or domain) down to the genus and the confidence scores for that sequence in each of those taxonomic levels
 
 ```{r}
 consensus
@@ -104,7 +104,8 @@ set.seed(19760620) # pat's birtday in YYYYMMDD format
 
 strollur::new_dataset(dataset_name = "sop") |>
   strollur::add(
-    table = phylotypr::read_fasta(phylotypr_example("miseq_sop.fasta.gz"))) |>
+    table = phylotypr::read_fasta(phylotypr_example("miseq_sop.fasta.gz"))
+  ) |>
   classify_sequences(db) |>
   print_taxonomy() |>
   head()
@@ -115,25 +116,24 @@ strollur::new_dataset(dataset_name = "sop") |>
 The `{furrr}` package allows you to run `classify_sequences()` in parallel. So, if your computer has 8 processors, `{furrr}` will split your data into 4 chunks and then classify each chunk separately before pulling it all together. You can alter the number of processors by changing the value assigned to the `workers` argument of `plan()`. In testing, we found that increasing the number of processors provides diminishing returns. For the example, 4 and 10 processors took about the same amount of time to execute. The value for `future.globals.maxSize` may need to be increased if your database gets larger. Finally, because `classify_sequences()` uses a random number generator to create its bootstrap replicates, we need to provide the seed to `future_map_chr()`. You'll notice that in the `furrr_options()` argument. Feel free to adjust it to your desired seed.
 
 ```{r, eval = FALSE}
-library(dplyr)
-library(furrr)
-
-miseq <- read_fasta(phylotypr_example("miseq_sop.fasta.gz"))
-
-plan(strategy = multisession, workers = 4)
-options(future.globals.maxSize = 10000000000)
-
-miseq |>
-  mutate(
-    classification = future_map_chr(
-      sequence,
-      ~ classify_sequence(unknown = .x, database = db) |>
-        filter_taxonomy() |>
-        print_taxonomy(),
-      .progress = TRUE,
-      .options = furrr_options(seed = 19760620)
-    )
-  )
+# install.packages("furrr")
+# library(dplyr)
+# library(furrr)
+#
+# miseq <- read_fasta(phylotypr_example("miseq_sop.fasta.gz"))
+#
+# plan(strategy = multisession, workers = 4)
+# options(future.globals.maxSize = 10000000000)
+#
+# miseq |>
+#   mutate(
+#     classification = future_map(
+#       sequence,
+#       ~ classify_sequences(sequence = .x, database = db),
+#       .progress = TRUE,
+#       .options = furrr_options(seed = 19760620)
+#     )
+#   )
 ```
 
 
