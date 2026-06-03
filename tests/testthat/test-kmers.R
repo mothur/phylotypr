@@ -83,7 +83,7 @@ test_that("Accurately detect kmers from a sequence", {
 
   detected <- detect_kmers(sequence)
 
-  expect_equal(detected, indices)
+  expect_equal(detected, list(indices))
 
   sequence <- "ATGCGCTAGTAGCATGCN"
   kmers <- seq_to_base4(sequence) |> get_all_kmers()
@@ -91,7 +91,7 @@ test_that("Accurately detect kmers from a sequence", {
 
   detected <- detect_kmers(sequence)
 
-  expect_equal(detected, indices)
+  expect_equal(detected, list(indices))
 
 
   sequence <- "ATGCGCTAGTAGCATGCN"
@@ -100,7 +100,7 @@ test_that("Accurately detect kmers from a sequence", {
 
   detected <- detect_kmers(sequence, kmer_size = 7)
 
-  expect_equal(detected, indices)
+  expect_equal(detected, list(indices))
 
   # make sure that duplicate kmers are scrubbed out
   sequence <- "ATGCGCTATGCGCT"
@@ -111,7 +111,7 @@ test_that("Accurately detect kmers from a sequence", {
 
   detected <- detect_kmers(sequence, kmer_size = 7)
 
-  expect_equal(detected, indices)
+  expect_equal(detected, list(indices))
 })
 
 test_that("Accurately detect kmers across multiple sequences", {
@@ -123,7 +123,7 @@ test_that("Accurately detect kmers across multiple sequences", {
   expected[[1]] <- base4_to_index(get_all_kmers(base4_sequences[1], kmer_size))
   expected[[2]] <- base4_to_index(get_all_kmers(base4_sequences[2], kmer_size))
 
-  detect_matrix <- detect_kmers_across_sequences(sequences, kmer_size)
+  detect_matrix <- detect_kmers(sequences, kmer_size)
 
   expect_equal(detect_matrix, expected)
 })
@@ -131,7 +131,7 @@ test_that("Accurately detect kmers across multiple sequences", {
 test_that("Calcuate word specific priors", {
   kmer_size <- 3
   sequences <- c("ATGCGCTA", "ATGCGCTC", "ATGCGCTC")
-  detect_list <- detect_kmers_across_sequences(sequences, kmer_size)
+  detect_list <- detect_kmers(sequences, kmer_size)
 
   # nolint start: commented_code_linter
   # 26 - all 3 = (3+0.5) / (1 + 3) =0.875
@@ -154,7 +154,7 @@ test_that("Calculate genus-specific conditional probabilities", {
   sequences <- c("ATGCGCTA", "ATGCGCTC", "ATGCGCTC")
   genera <- c(1, 2, 2)
 
-  detect_list <- detect_kmers_across_sequences(sequences, kmer_size)
+  detect_list <- detect_kmers(sequences, kmer_size)
   priors <- calc_word_specific_priors(detect_list, kmer_size)
 
   # nolint start: commented_code_linter
@@ -242,7 +242,7 @@ test_that("Classify boostrap sample works", {
     taxonomy = genera
   )
   db <- build_kmer_database(classification_database, kmer_size)
-  kmers <- detect_kmers("ATGCGCTC", kmer_size)
+  kmers <- detect_kmers("ATGCGCTC", kmer_size)[[1]]
   expected_classification <- 2
 
   detected_classification <- classify_bs(kmers, db$conditional_prob)
@@ -254,14 +254,14 @@ test_that("Consensus classification of bootstrap subsamples", {
   db <- list()
   db[["genera"]] <- c("A;a;A", "A;a;B", "A;a;C", "A;b;A", "A;b;B", "A;b;C")
 
-  bs_class <- c(1, 1, 1, 1, 4)
+  bs_class <- list(c(1, 1, 1, 1, 4))
 
   expected <- list()
   expected[["level"]] <- c(1, 2, 3)
   expected[["taxonomy"]] <- c("A", "a", "A")
   expected[["confidence"]] <- c(100, 80, 80)
 
-  observed <- consensus_bs_class(bs_class, db$genera)
+  observed <- consensus_bs_class(bs_class, db$genera)[[1]]
 
   expect_equal(observed, expected)
 })

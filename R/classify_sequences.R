@@ -188,9 +188,9 @@ classify_sequences.default <- function(
 
 do_classify <- function(sequence, sequence_name, database, kmer_size,
                         num_bootstraps, min_confidence) {
-  df <- lapply(sequence, detect_kmers, kmer_size) |>
+  df <- detect_kmers(sequence, kmer_size) |>
     do_classify_rcpp(database$conditional_prob, num_bootstraps, kmer_size) |>
-    lapply(consensus_bs_class, database$genera)
+    consensus_bs_class(database$genera)
 
 
   df <- lapply(

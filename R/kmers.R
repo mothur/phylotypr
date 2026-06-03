@@ -47,7 +47,7 @@ build_kmer_database <- function(classification_database, kmer_size = 8) {
     classification_database$seq_taxonomy_data$taxonomy
   )
 
-  detected_kmers <- detect_kmers_across_sequences(
+  detected_kmers <- detect_kmers(
     classification_database$seq_taxonomy_data$sequence,
     kmer_size = kmer_size
   )
@@ -157,23 +157,15 @@ base4_to_index <- function(base4_str) {
 
 #' @noRd
 detect_kmers <- function(sequence, kmer_size = 8) {
-  seq_to_base4(sequence) |>
-    get_all_kmers(kmer_size) |>
-    base4_to_index() |>
-    unique()
-}
-
-
-#' @noRd
-detect_kmers_across_sequences <- function(sequences, kmer_size = 8) {
-  n_sequences <- length(sequences)
-  kmer_list <- vector(mode = "list", length = n_sequences)
-
-  for (i in seq_along(1:n_sequences)) {
-    kmer_list[[i]] <- detect_kmers(sequences[[i]], kmer_size = kmer_size)
-  }
-
-  kmer_list
+  lapply(
+    sequence,
+    \(x) {
+      seq_to_base4(x) |>
+        get_all_kmers(kmer_size) |>
+        base4_to_index() |>
+        unique()
+    }
+  )
 }
 
 
@@ -240,27 +232,32 @@ bootstrap_kmers <- function(kmers, kmer_size = 8) {
 
 #' @noRd
 consensus_bs_class <- function(bs_class, genera) {
-  taxonomy <- genera[bs_class]
-  taxonomy_split <- stringi::stri_split_fixed(taxonomy, pattern = ";")
+  lapply(
+    bs_class,
+    \(x) {
+      taxonomy <- genera[x]
+      taxonomy_split <- stringi::stri_split_fixed(taxonomy, pattern = ";")
 
-  n_levels <- length(taxonomy_split[[1]])
+      n_levels <- length(taxonomy_split[[1]])
 
-  consensus_list <- lapply(
-    1:n_levels,
-    \(i) {
-      sapply(taxonomy_split, \(p) paste(p[1:i], collapse = ";")) |>
-        get_consensus()
+      consensus_list <- lapply(
+        1:n_levels,
+        \(i) {
+          sapply(taxonomy_split, \(p) paste(p[1:i], collapse = ";")) |>
+            get_consensus()
+        }
+      )
+
+      list(
+        level = 1:n_levels,
+        taxonomy = stringi::stri_split_fixed(
+          consensus_list[[n_levels]][["sequence_name"]],
+          pattern = ";"
+        ) |>
+          unlist(),
+        confidence = sapply(consensus_list, `[[`, "frac")
+      )
     }
-  )
-
-  list(
-    level = 1:n_levels,
-    taxonomy = stringi::stri_split_fixed(
-      consensus_list[[n_levels]][["sequence_name"]],
-      pattern = ";"
-    ) |>
-      unlist(),
-    confidence = sapply(consensus_list, `[[`, "frac")
   )
 }
 
