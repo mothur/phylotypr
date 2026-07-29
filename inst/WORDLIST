@@ -9,6 +9,7 @@ Affero
 al
 Appl
 archaeal
+ATGCU
 aut
 autom
 ba
@@ -47,6 +48,7 @@ cre
 ctype
 darwin
 desc
+DetectKmers
 dev
 df
 DL
@@ -95,9 +97,11 @@ greengenes
 gz
 http
 https
+idx
 ifdef
 ifndef
 IntegerVector
+iostream
 JHG
 JM
 kmer
@@ -172,6 +176,7 @@ RoxygenNote
 rRNA
 rstudio
 RStudio
+sequenceSEXP
 SEXP
 SHA
 sizeSEXP
@@ -2641,10 +2646,13 @@ Tiedje
 trainset
 tz
 ui
+uint
+ULL
 umich
 unkown
 useDynamicSymbols
 VignetteBuilder
 WIPO
+xFF
 xz
 Δ

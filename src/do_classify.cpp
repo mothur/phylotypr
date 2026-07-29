@@ -1,5 +1,5 @@
-#ifndef do_classify_cpp
-#define do_classify_cpp
+#ifndef DO_CLASSIFY_CPP
+#define DO_CLASSIFY_CPP
 
 #include <Rcpp.h>
 #include <vector>

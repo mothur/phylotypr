@@ -22,6 +22,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// DetectKmers
+std::vector<std::vector<uint64_t> > DetectKmers(std::vector<std::string>& sequence, const int kmer_size);
+RcppExport SEXP _phylotypr_DetectKmers(SEXP sequenceSEXP, SEXP kmer_sizeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::vector<std::string>& >::type sequence(sequenceSEXP);
+    Rcpp::traits::input_parameter< const int >::type kmer_size(kmer_sizeSEXP);
+    rcpp_result_gen = Rcpp::wrap(DetectKmers(sequence, kmer_size));
+    return rcpp_result_gen;
+END_RCPP
+}
 // do_classify_rcpp
 Rcpp::List do_classify_rcpp(const std::vector<std::vector<int> >& sequence_kmers, const Rcpp::NumericMatrix& conditional_prob, const int& num_bootstraps, const int& kmer_size);
 RcppExport SEXP _phylotypr_do_classify_rcpp(SEXP sequence_kmersSEXP, SEXP conditional_probSEXP, SEXP num_bootstrapsSEXP, SEXP kmer_sizeSEXP) {
@@ -52,6 +64,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_phylotypr_classify_bs", (DL_FUNC) &_phylotypr_classify_bs, 2},
+    {"_phylotypr_DetectKmers", (DL_FUNC) &_phylotypr_DetectKmers, 2},
     {"_phylotypr_do_classify_rcpp", (DL_FUNC) &_phylotypr_do_classify_rcpp, 4},
     {"_phylotypr_calculate_log_probability", (DL_FUNC) &_phylotypr_calculate_log_probability, 3},
     {NULL, NULL, 0}

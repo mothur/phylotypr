@@ -8,10 +8,10 @@ db <- build_kmer_database(
   trainset9_pds$taxonomy
 )
 
-kmers <- phylotypr:::detect_kmers(
-  sequence = miseq$sequence[1L]
-)
-kmers_int <- as.integer(kmers)
+# kmers <- phylotypr:::detect_kmers(
+#   sequence = miseq$sequence[1L]
+# )
+# kmers_int <- as.integer(kmers)
 
 set.seed(19760620)
 res <- mark(

@@ -86,7 +86,15 @@ read_fasta <- function(file, degap = TRUE) {
 
   data.frame(
     sequence_name = sequence_name,
-    sequence = sequence,
+    sequence = clean_sequence(sequence),
     comment = comment
   )
+}
+
+
+clean_sequence <- function(x) {
+  x |>
+    toupper() |>
+    stringi::stri_replace_all(regex = "U", "T") |>
+    stringi::stri_replace_all(regex = "[^ATGCN\\-\\.]", "N")
 }

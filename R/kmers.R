@@ -47,7 +47,7 @@ build_kmer_database <- function(classification_database, kmer_size = 8) {
     classification_database$seq_taxonomy_data$taxonomy
   )
 
-  detected_kmers <- detect_kmers(
+  detected_kmers <- DetectKmers(
     classification_database$seq_taxonomy_data$sequence,
     kmer_size = kmer_size
   )
@@ -123,53 +123,6 @@ classify_sequence <- function(sequence, database,
 
 
 #' @noRd
-#' @importFrom stringi stri_length stri_sub
-get_all_kmers <- function(x, kmer_size = 8) {
-  seq_length <- stringi::stri_length(x)
-  n_kmers <- seq_length - kmer_size + 1
-
-  stringi::stri_sub(x, 1:n_kmers, kmer_size:seq_length)
-}
-
-
-#' @noRd
-#' @importFrom stringi stri_trans_toupper stri_replace_all_charclass
-#' @importFrom stringi stri_trans_char
-seq_to_base4 <- function(sequence) {
-  stringi::stri_trans_toupper(sequence) |>
-    stringi::stri_replace_all_charclass(
-      str = _,
-      pattern = "[^ACGT]",
-      replacement = "N"
-    ) |>
-    stringi::stri_trans_char(str = _, pattern = "ACGT", replacement = "0123")
-}
-
-
-#' @noRd
-#' @importFrom stats na.omit
-base4_to_index <- function(base4_str) {
-  # I want output to be indexed to start at position 1 rather than 0 so we're
-  # adding 1 to all base10 values
-  stats::na.omit(strtoi(base4_str, base = 4) + 1) |> as.integer()
-}
-
-
-#' @noRd
-detect_kmers <- function(sequence, kmer_size = 8) {
-  lapply(
-    sequence,
-    \(x) {
-      seq_to_base4(x) |>
-        get_all_kmers(kmer_size) |>
-        base4_to_index() |>
-        unique()
-    }
-  )
-}
-
-
-#' @noRd
 calc_word_specific_priors <- function(detect_list, kmer_size) {
   priors <- detect_list |>
     unlist() |>
@@ -231,45 +184,47 @@ bootstrap_kmers <- function(kmers, kmer_size = 8) {
 
 
 #' @noRd
+#' @importFrom stringi stri_split_fixed stri_c
 consensus_bs_class <- function(bs_class, genera) {
   lapply(
     bs_class,
     \(x) {
       taxonomy <- genera[x]
-      taxonomy_split <- stringi::stri_split_fixed(taxonomy, pattern = ";")
-
-      n_levels <- length(taxonomy_split[[1]])
-
-      consensus_list <- lapply(
-        1:n_levels,
-        \(i) {
-          sapply(taxonomy_split, \(p) paste(p[1:i], collapse = ";")) |>
-            get_consensus()
-        }
-      )
-
-      list(
-        level = 1:n_levels,
-        taxonomy = stringi::stri_split_fixed(
-          consensus_list[[n_levels]][["sequence_name"]],
-          pattern = ";"
-        ) |>
-          unlist(),
-        confidence = sapply(consensus_list, `[[`, "frac")
-      )
+      # think about storing as already split in create_database...
+      taxonomy_split <- stringi::stri_split_fixed(taxonomy, pattern = ";") |>
+        get_consensus()
     }
   )
 }
 
-
 #' @noRd
-get_consensus <- function(taxonomy) {
-  n_bs <- length(taxonomy)
-  taxonomy_table <- table(taxonomy)
-  max_index <- which.max(taxonomy_table)
+get_consensus <- function(bs_data) {
+  max_depth <- sapply(bs_data, length) |> max()
+  n_bootstraps <- length(bs_data)
+
+  tax_table <- lapply(bs_data, \(x) {
+    # if number of levels < max_depth, add "" to get to max_depth
+    if (length(x) < max_depth) {
+      x <- c(x, rep("", max_depth - length(x)))
+    } else {
+      x
+    }
+  }) |> do.call(rbind, args = _)
+
+  max_count <- integer(length = max_depth)
+  max_tax <- character(length = max_depth)
+
+  for (column in 1:max_depth) {
+    tax_count <- table(tax_table[, column])
+    max_index <- which.max(tax_count)
+    max_count[column] <- tax_count[max_index]
+    max_tax[column] <- names(tax_count[max_index])
+    tax_table <- tax_table[tax_table[, column] == max_tax[column], ]
+  }
 
   list(
-    frac = 100 * taxonomy_table[[max_index]] / n_bs,
-    sequence_name = names(max_index)
+    level = 1:max_depth,
+    taxonomy = max_tax,
+    confidence = 100 * max_count / n_bootstraps
   )
 }

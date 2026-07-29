@@ -1,5 +1,5 @@
-#ifndef classify_bs_cpp
-#define classify_bs_cpp
+#ifndef CLASSIFY_BS_CPP
+#define CLASSIFY_BS_CPP
 
 #include <Rcpp.h>
 using namespace Rcpp;

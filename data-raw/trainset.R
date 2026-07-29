@@ -50,10 +50,12 @@ reference_data <-
                   }"
   )
 
-rdp_trainset9 <- create_database(sequence_name = rdp_trainset9$sequence_name,
-                                 sequence = rdp_trainset9$sequence,
-                                 taxonomy = rdp_trainset9$taxonomy,
-                                 reference_data = reference_data)
+rdp_trainset9 <- create_database(
+  sequence_name = rdp_trainset9$sequence_name,
+  sequence = rdp_trainset9$sequence,
+  taxonomy = rdp_trainset9$taxonomy,
+  reference_data = reference_data
+)
 
 usethis::use_data(rdp_trainset9, compress = "xz", overwrite = TRUE)
 
@@ -112,6 +114,7 @@ rdp_trainset9_pds <- create_database(
   sequence_name = rdp_trainset9_pds$sequence_name,
   sequence = rdp_trainset9_pds$sequence,
   taxonomy = rdp_trainset9_pds$taxonomy,
-  reference_data = reference_data)
+  reference_data = reference_data
+)
 
 usethis::use_data(rdp_trainset9_pds, compress = "xz", overwrite = TRUE)

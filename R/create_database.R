@@ -24,21 +24,22 @@
 #'    data.frame objects.
 #'
 #' @examples
-#'   sequence_name <- c("seq_a", "seq_b", "seq_c")
-#'   sequence <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
-#'   genera <- c("A;b;C;d", "A;b;C;e", "A;b;C;e")
+#' sequence_name <- c("seq_a", "seq_b", "seq_c")
+#' sequence <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
+#' genera <- c("A;b;C;d", "A;b;C;e", "A;b;C;e")
 #'
-#'   create_database(
-#'     sequence_name = sequence_name,
-#'     sequence = sequence,
-#'     taxonomy = genera)
+#' create_database(
+#'   sequence_name = sequence_name,
+#'   sequence = sequence,
+#'   taxonomy = genera
+#' )
 #'
 #' @export
 create_database <- function(sequence_name, sequence, taxonomy,
                             reference_data = NULL) {
-
-  if(length(sequence_name) != length(sequence) ||
-     length(sequence_name) != length(taxonomy)) {
+  if (length(sequence_name) != length(sequence) ||
+    length(sequence_name) != length(taxonomy)
+  ) {
     stop("sequence_name, sequence, and taxonomy should all be the same length")
   }
 
@@ -46,7 +47,7 @@ create_database <- function(sequence_name, sequence, taxonomy,
     list(
       seq_taxonomy_data = data.frame(
         sequence_name = sequence_name,
-        sequence = sequence,
+        sequence = clean_sequence(sequence),
         taxonomy = taxonomy
       ),
       reference_data = reference_data

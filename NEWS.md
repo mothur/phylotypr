@@ -20,6 +20,7 @@
   in the reference_data slot; will be incorporated in databases provided by 
   `{phylotyprrefdata}`. These were renamed from trainset9_rdp and trainset9_pds
 * Changed `id` to `sequence_name` across functions
+* Modify read_fasta to convert non-ATGCU-. to N; force capitalization. This was also applied to built in reference data
 
 # phylotypr 0.1.1
 
