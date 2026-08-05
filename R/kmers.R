@@ -141,7 +141,7 @@ calc_genus_conditional_prob <- function(detect_list,
                                         word_specific_priors) {
   genus_counts <- tabulate(genera)
   n_genera <- length(genus_counts)
-  n_sequences <- length(genera)
+  n_sequences <- length(detect_list)
   n_kmers <- length(word_specific_priors)
 
   kmer_genus_count <- matrix(0,
@@ -165,14 +165,21 @@ calc_genus_conditional_prob <- function(detect_list,
 
 
 #' @noRd
-genera_str_to_index <- function(string) {
-  factor(string) |> as.numeric()
+genera_str_to_index <- function(string_matrix) {
+  apply(string_matrix, 1, paste, collapse = ";") |>
+    factor() |>
+    as.numeric()
 }
 
 
 #' @noRd
-get_unique_genera <- function(string) {
-  factor(string) |> levels()
+get_unique_genera <- function(string_matrix) {
+  apply(string_matrix, 1, paste, collapse = ";") |>
+    factor() |>
+    levels() |>
+    strsplit(";") |>
+    do.call(rbind, args = _) |>
+    I()
 }
 
 
@@ -189,27 +196,21 @@ consensus_bs_class <- function(bs_class, genera) {
   lapply(
     bs_class,
     \(x) {
-      taxonomy <- genera[x]
-      # think about storing as already split in create_database...
-      taxonomy_split <- stringi::stri_split_fixed(taxonomy, pattern = ";") |>
-        get_consensus()
+      # taxonomy <- genera[x]
+      # # think about storing as already split in create_database...
+      # stringi::stri_split_fixed(taxonomy, pattern = ";") |>
+      #   get_consensus()
+
+        get_consensus(genera[x, , drop = FALSE])
+
     }
   )
 }
 
 #' @noRd
-get_consensus <- function(bs_data) {
-  max_depth <- sapply(bs_data, length) |> max()
-  n_bootstraps <- length(bs_data)
-
-  tax_table <- lapply(bs_data, \(x) {
-    # if number of levels < max_depth, add "" to get to max_depth
-    if (length(x) < max_depth) {
-      x <- c(x, rep("", max_depth - length(x)))
-    } else {
-      x
-    }
-  }) |> do.call(rbind, args = _)
+get_consensus <- function(tax_table) {
+  n_bootstraps <- nrow(tax_table)
+  max_depth <- ncol(tax_table)
 
   max_count <- integer(length = max_depth)
   max_tax <- character(length = max_depth)

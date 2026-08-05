@@ -40,13 +40,14 @@ your own database or modifying one of the existing databases provided in
 \code{{phylotypr}} or \code{{phylotyprrefdata}}.
 }
 \examples{
-  sequence_name <- c("seq_a", "seq_b", "seq_c")
-  sequence <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
-  genera <- c("A;b;C;d", "A;b;C;e", "A;b;C;e")
+sequence_name <- c("seq_a", "seq_b", "seq_c")
+sequence <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
+genera <- c("A;b;C;d", "A;b;C;e", "A;b;C;e")
 
-  create_database(
-    sequence_name = sequence_name,
-    sequence = sequence,
-    taxonomy = genera)
+create_database(
+  sequence_name = sequence_name,
+  sequence = sequence,
+  taxonomy = genera
+)
 
 }

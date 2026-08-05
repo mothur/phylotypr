@@ -114,11 +114,20 @@ test_that("Calculate genus-specific conditional probabilities", {
 })
 
 test_that("Convert back and forth between genus names and indices", {
-  genera_str <- c("A", "B", "B")
+  genera_str <- matrix(c("A", "B", "B"), ncol = 1)
   genera_index <- c(1, 2, 2)
 
   expect_equal(genera_str_to_index(genera_str), genera_index)
-  expect_equal(get_unique_genera(genera_str), c("A", "B"))
+  expect_equal(get_unique_genera(genera_str), I(matrix(c("A", "B"), ncol = 1)))
+
+
+  genera_str <- matrix(c("A", "B", "B", "C", "a", "b", "b", "b"), ncol = 2)
+  genera_index <- c(1, 2, 2, 3)
+
+  expect_equal(genera_str_to_index(genera_str), genera_index)
+  expect_equal(get_unique_genera(genera_str),
+               I(matrix(c("A", "B", "C", "a", "b", "b"), ncol = 2)))
+
 })
 
 test_that("Create kmer database from sequences, taxonomy, and kmer size", {
@@ -151,8 +160,8 @@ test_that("Create kmer database from sequences, taxonomy, and kmer size", {
     log((c(0, 0) + 0.125) / (c(1, 2) + 1))
   )
 
-  expect_equal(db[["genera"]][1], "A")
-  expect_equal(db[["genera"]][2], "B")
+  expect_equal(db[["genera"]][[1]], "A")
+  expect_equal(db[["genera"]][[2]], "B")
 })
 
 test_that("Bootstrap sample 1/kmer_size of kmers from unknowns", {
@@ -188,7 +197,11 @@ test_that("Classify boostrap sample works", {
 
 test_that("Consensus classification of bootstrap subsamples", {
   db <- list()
-  db[["genera"]] <- c("A;a;A", "A;a;B", "A;a;C", "A;b;A", "A;b;B", "A;b;C")
+  db[["genera"]] <- matrix(c("A", "a", "A",
+                             "A", "a", "B",
+                             "A", "a", "C",
+                             "A", "b", "A",
+                             "A", "b", "C"), nrow = 5, byrow = TRUE)
 
   bs_class <- list(c(1, 1, 1, 1, 4))
 
@@ -204,7 +217,7 @@ test_that("Consensus classification of bootstrap subsamples", {
 
 
 test_that("Return correct consensus taxonomy and confidence", {
-  taxonomy <- c("A", "A", "A", "A", "A")
+  taxonomy <- matrix(c("A", "A", "A", "A", "A"), ncol = 1)
   expected <- list()
   expected[["level"]] <- 1
   expected[["taxonomy"]] <- "A"
@@ -214,7 +227,7 @@ test_that("Return correct consensus taxonomy and confidence", {
 
   taxonomy <- stri_split_fixed(c("A;a", "A;a", "A;b", "A;b", "A;b"),
     pattern = ";"
-  )
+  ) |> do.call(rbind, args = _)
   expected <- list()
   expected[["level"]] <- c(1, 2)
   expected[["taxonomy"]] <- c("A", "b")
@@ -222,12 +235,12 @@ test_that("Return correct consensus taxonomy and confidence", {
   observed <- get_consensus(taxonomy)
   expect_equal(observed, expected)
 
-  taxonomy <- stri_split_fixed(c("A;a;A;c", "A;a;A", "A;a;A", "A;a;A", "A;b;A"),
+  taxonomy <- stri_split_fixed(c("A;a;A;c", "A;a;A;A_unclassified", "A;a;A;A_unclassified", "A;a;A;A_unclassified", "A;b;A;A_unclassified"),
     pattern = ";"
-  )
+  ) |> do.call(rbind, args = _)
   expected <- list()
   expected[["level"]] <- c(1, 2, 3, 4)
-  expected[["taxonomy"]] <- c("A", "a", "A", "")
+  expected[["taxonomy"]] <- c("A", "a", "A", "A_unclassified")
   expected[["confidence"]] <- c(100, 80, 80, 60)
   observed <- get_consensus(taxonomy)
   expect_equal(observed, expected)

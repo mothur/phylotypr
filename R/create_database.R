@@ -43,15 +43,36 @@ create_database <- function(sequence_name, sequence, taxonomy,
     stop("sequence_name, sequence, and taxonomy should all be the same length")
   }
 
+  seq_taxonomy_data <- data.frame(sequence_name = sequence_name)
+  seq_taxonomy_data["sequence"] <- clean_sequence(sequence)
+  seq_taxonomy_data["taxonomy"] <- parse_taxonomy(taxonomy)
+
   structure(
     list(
-      seq_taxonomy_data = data.frame(
-        sequence_name = sequence_name,
-        sequence = clean_sequence(sequence),
-        taxonomy = taxonomy
-      ),
+      seq_taxonomy_data = seq_taxonomy_data,
       reference_data = reference_data
     ),
     class = "classification_database"
   )
+}
+
+
+parse_taxonomy <- function(taxonomy){
+
+  split_taxonomy <- stringi::stri_split_fixed(taxonomy, pattern = ";")
+
+  max_depth <- sapply(split_taxonomy, length) |> max()
+
+  lapply(split_taxonomy, \(x) {
+      # if number of levels < max_depth, add "" to get to max_depth
+      if (length(x) < max_depth) {
+        x <- c(x, rep(paste0(x[length(x)], "_unclassified"), max_depth - length(x)))
+      } else {
+        x
+      }
+    }) |>
+    do.call(rbind, args = _) |>
+    as.matrix() |>
+    I()
+
 }
