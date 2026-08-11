@@ -215,12 +215,27 @@ get_consensus <- function(tax_table) {
   max_count <- integer(length = max_depth)
   max_tax <- character(length = max_depth)
 
+  prior_tax_count <- 0
+
   for (column in 1:max_depth) {
-    tax_count <- table(tax_table[, column])
+
+    tax_column <- tax_table[, column]
+
+    column_factor <- factor(
+      tax_column, levels = unique(tax_column)
+    )
+
+    tax_count <- tabulate(column_factor)
     max_index <- which.max(tax_count)
     max_count[column] <- tax_count[max_index]
-    max_tax[column] <- names(tax_count[max_index])
+    max_tax[column] <- levels(column_factor)[max_index]
+
+    if(length(tax_count) == prior_tax_count){
+      next
+    }
+
     tax_table <- tax_table[tax_table[, column] == max_tax[column], ]
+    prior_tax_count <- length(tax_count)
   }
 
   list(
