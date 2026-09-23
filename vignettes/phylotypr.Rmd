@@ -25,12 +25,10 @@ To get started you'll need to install `{phylotypr}` using either of these comman
 install.packages("phylotypr") # install stable version from CRAN
 ```
 
-To get access to the packages function and a demonstration version of the training data, you'll need to run the `library()` function. Because the classification algorithm makes use of a random number generator, I strongly encourage you to set the seed to get consistent results:
+To get access to the packages function and a demonstration version of the training data, you'll need to run the `library()` function.
 
 ```{r setup}
 library(phylotypr)
-
-set.seed(19760620) # pat's birtday in YYYYMMDD format
 ```
 
 
@@ -45,7 +43,7 @@ db <- build_kmer_database(rdp_trainset9_pds)
 By default, `build_kmer_database()` will use 8-nt long kmers to calculate its probabilities. This size can be altered by the user if needed, but 8-nt performs very well and shouldn't need to be adjusted.
 
 
-## Classifying a single unkown sequence
+## Classifying a single unknown sequence
 
 To classify a sequence we need the DNA sequence to be a character object like `unknown` is below.
 
@@ -53,13 +51,18 @@ To classify a sequence we need the DNA sequence to be a character object like `u
 unknown <- "TACGGAGGATGCGAGCGTTATCCGGATTTATTGGGTTTAAAGGGTGCGTAGGCGGATCGTTAAGTCAGTGGTCAAATTGAGGGGCTCAACCCCTTCCCGCCATTGAAACTGGCGATCTTGAGTGGAAGAGAAGTATGCGGAATGCGTGGTGTAGCGGTGAAATGCATAGATATCACGCAGAACCCCGATTGCGAAGGCAGCATGCCGGCTTCCTACTGACGCTCATGCACGAAAGTGTGGGTAACGAACAGG"
 ```
 
-The `unknown` object can then be classified using `classify_sequences()` along with the database object from above (i.e., `db`).
+The `unknown` object can then be classified using `classify_sequences()` along with the database object from above (i.e., `db`). Because the classification algorithm makes use of a random number generator, I strongly encourage you to set the seed to get consistent results. This needs to be set in `classify_sequences()` and not with `set.seed()`. The default seed is 1.
 
-```{r}
-consensus <- classify_sequences(sequence = unknown, database = db)
+```{r, echo = TRUE, eval = FALSE}
+consensus <- classify_sequences(sequence = unknown, database = db, seed = 123)
 ```
 
-The output of `classify_sequences` is a data fram with taxonomic levels from kingdom (or domain) down to the genus and the confidence scores for that sequence in each of those taxonomic levels
+```{r, echo = FALSE}
+consensus <- classify_sequences(sequence = unknown, database = db, seed = 123,
+                                num_processors = 2)
+```
+
+The output of `classify_sequences` is a data frame with taxonomic levels from kingdom (or domain) down to the genus and the confidence scores for that sequence in each of those taxonomic levels
 
 ```{r}
 consensus
@@ -86,78 +89,82 @@ print_taxonomy(filtered)
 
 ## Classifying multiple unknown sequences
 
-Most likely you will have multiple sequences that you would like to classify. The `{phylotypr}` package installs with an example FASTA-formatted file, "miseq_sop.fasta". The code below shows you can read in a FASTA-formatted file and classify the sequences. Note that for classifying your own data you would replace `phylotypr_example(...)` with the path to your own data.
+Most likely you will have multiple sequences that you would like to classify. The `{phylotypr}` package installs with an example FASTA-formatted file, "miseq_sop.fasta". The code below shows you can read in a FASTA-formatted file and classify the sequences. Note that for classifying your own data you would replace `phylotypr_example(...)` with the path to your own data. By default `classify_sequences()` will use as many processors as your computer will allow. We will show how to limit the number of processors later in this vignette:
 
-```{r}
-set.seed(19760620) # pat's birtday in YYYYMMDD format
-
+```{r, echo = TRUE, eval = FALSE}
 read_fasta(phylotypr_example("miseq_sop.fasta.gz")) |>
-  classify_sequences(database = db) |>
+  classify_sequences(database = db, seed = 123) |>
+  print_taxonomy() |>
+  head()
+```
+
+```{r, echo = FALSE}
+read_fasta(phylotypr_example("miseq_sop.fasta.gz")) |>
+  classify_sequences(database = db, seed = 123, num_processors = 2) |>
   print_taxonomy() |>
   head()
 ```
 
 Alternatively, you may have your data stored as a `{strollur}` object you can do the following
 
-```{r}
-set.seed(19760620) # pat's birtday in YYYYMMDD format
-
+```{r, echo = TRUE, eval = FALSE}
 strollur::new_dataset(dataset_name = "sop") |>
   strollur::add(
     table = phylotypr::read_fasta(phylotypr_example("miseq_sop.fasta.gz"))
   ) |>
-  classify_sequences(db) |>
+  classify_sequences(db, seed = 123) |>
+  print_taxonomy() |>
+  head()
+```
+
+```{r, echo = FALSE}
+strollur::new_dataset(dataset_name = "sop") |>
+  strollur::add(
+    table = phylotypr::read_fasta(phylotypr_example("miseq_sop.fasta.gz"))
+  ) |>
+  classify_sequences(db, seed = 123, num_processors = 2) |>
   print_taxonomy() |>
   head()
 ```
 
 ## Classifying multiple unknown sequences in parallel
 
-The `{furrr}` package allows you to run `classify_sequences()` in parallel. So, if your computer has 8 processors, `{furrr}` will split your data into 4 chunks and then classify each chunk separately before pulling it all together. You can alter the number of processors by changing the value assigned to the `workers` argument of `plan()`. In testing, we found that increasing the number of processors provides diminishing returns. For the example, 4 and 10 processors took about the same amount of time to execute. The value for `future.globals.maxSize` may need to be increased if your database gets larger. Finally, because `classify_sequences()` uses a random number generator to create its bootstrap replicates, we need to provide the seed to `future_map_chr()`. You'll notice that in the `furrr_options()` argument. Feel free to adjust it to your desired seed.
+The `{phylotypr}` package allows you to run `classify_sequences()` in parallel. So, if your computer has 8 processors, `classify_sequences()` will split your data into 8 chunks and then classify each chunk separately before pulling it all together. To see how many processors you have available, you can run the following:
 
-```{r, eval = FALSE}
-# install.packages("furrr")
-# library(dplyr)
-# library(furrr)
-#
-# miseq <- read_fasta(phylotypr_example("miseq_sop.fasta.gz"))
-#
-# plan(strategy = multisession, workers = 4)
-# options(future.globals.maxSize = 10000000000)
-#
-# miseq |>
-#   mutate(
-#     classification = future_map(
-#       sequence,
-#       ~ classify_sequences(sequence = .x, database = db),
-#       .progress = TRUE,
-#       .options = furrr_options(seed = 19760620)
-#     )
-#   )
+```{r}
+parallelly::availableCores()
+```
+
+By default, `classify_sequences()` will use all of those processors. If you need to limit the number of processors, you can use the `num_processors` argument
+
+```{r}
+read_fasta(phylotypr_example("miseq_sop.fasta.gz")) |>
+  classify_sequences(database = db, seed = 123, num_processors = 2) |>
+  print_taxonomy() |>
+  head()
 ```
 
 
 ## Run-to-run variation
 
-Consider the results of classifying `unknown` three times:
+Consider the results of classifying `unknown` three times with three different seeds:
 
 ```{r}
-classify_sequences(sequence = unknown, database = db, num_bootstraps = 100) |>
+classify_sequences(sequence = unknown, database = db, seed = 1) |>
   print_taxonomy()
-classify_sequences(sequence = unknown, database = db, num_bootstraps = 100) |>
+classify_sequences(sequence = unknown, database = db, seed = 2) |>
   print_taxonomy()
-classify_sequences(sequence = unknown, database = db, num_bootstraps = 100) |>
+classify_sequences(sequence = unknown, database = db, seed = 3) |>
   print_taxonomy()
 ```
 
-You'll notice that the classification of the three replicates varies slightly. Again, this is due to the use of the random number generator and getting confidence scores that bounce around 80%, which results in different levels of filtering. To get a more stable classification, you should be setting your random number generator seed with `set.seed()`. To get a more precise confidence score, you could set `num_bootstraps = 1000` in `classify_sequences()`. Be forewarned that the function will take 10-times longer to run with 10-times the number of bootstraps!
+You'll notice that the classification of the three replicates varies slightly. Again, this is due to the use of the random number generator and getting confidence scores that bounce around 80%, which results in different levels of filtering. To get a more stable classification, you should be setting your random number generator seed with a consistent value of `seed`.
+
+To get a more precise confidence score, you could set `num_bootstraps = 1000` in `classify_sequences()`. Be forewarned that the function will take 10-times longer to run with 10-times the number of bootstraps!
 
 ```{r}
-classify_sequences(sequence = unknown, database = db, num_bootstraps = 100) |>
-  print_taxonomy()
-classify_sequences(sequence = unknown, database = db, num_bootstraps = 100) |>
-  print_taxonomy()
-classify_sequences(sequence = unknown, database = db, num_bootstraps = 100) |>
+classify_sequences(sequence = unknown, database = db, num_bootstraps = 1000,
+                   seed = 123) |>
   print_taxonomy()
 ```
 

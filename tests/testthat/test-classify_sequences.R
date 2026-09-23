@@ -18,6 +18,16 @@ test_that("Can classify a unknown sequence with a database", {
     confidence = c(100, 100, 100)
   )
 
+  # one processor
+  actual <- classify_sequences(
+    sequence = sequence, database = db, num_processors = 1,
+    kmer_size = kmer_size
+  )
+
+  expect_equal(actual, expected)
+
+
+  # two processors
   actual <- classify_sequences(
     sequence = sequence, database = db,
     kmer_size = kmer_size
@@ -420,4 +430,28 @@ test_that("Classify_sequences will error if strollur is not installed", {
     database = db,
     kmer_size = kmer_size
   ), "Cannot use this function without strollur installed.")
+})
+
+
+test_that("Running multiple times with the same seed gives the same result and
+          different result with different seeds", {
+
+  db <- build_kmer_database(rdp_trainset9_pds)
+  miseq <- read_fasta(phylotypr_example("miseq_sop.fasta.gz"))[c(1, 3, 5),]
+
+  a <- miseq |>
+    classify_sequences(database = db, seed = 1) |>
+    print_taxonomy()
+
+  a2 <- miseq |>
+    classify_sequences(database = db, seed = 1) |>
+    print_taxonomy()
+
+  b <- miseq |>
+    classify_sequences(database = db, seed = 2) |>
+    print_taxonomy()
+
+  expect_equal(a$taxonomy, a2$taxonomy)
+  expect_false(all(a$taxonomy == b$taxonomy))
+
 })

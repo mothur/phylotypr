@@ -11,7 +11,9 @@ classify_sequences(
   database,
   kmer_size = 8,
   num_bootstraps = 100,
-  min_confidence = 80
+  min_confidence = 80,
+  seed = 1,
+  num_processors = parallelly::availableCores()
 )
 }
 \arguments{
@@ -50,6 +52,13 @@ provide greater precision on the confidence score.}
 \item{min_confidence}{An integer value (default of 80). The value of
 \code{min_confidence} represents the minimum number of bootstraps
 that must have a classification that agree with each other.}
+
+\item{seed}{An integer value (default of 1). The value of \code{seed} sets the
+seed for the random number generator.}
+
+\item{num_processors}{An integer value. The value of \code{num_processors}
+indicates the number of desired processors. Defaults to all
+available cores using \code{parallelly::availableCores()}}
 }
 \value{
 A data frame object with three columns: the sequence name
@@ -76,7 +85,9 @@ unknown_id <- c("seq_1", "seq_2", "seq_3")
 classify_sequences(
   sequence = unknown_sequence,
   database = db,
-  kmer_size = kmer_size
+  kmer_size = kmer_size,
+  seed = 1,
+  num_processors = 1
 )
 
 classify_sequences(

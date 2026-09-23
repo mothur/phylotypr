@@ -11,16 +11,20 @@ inline uint64_t base_to_bits(char base) {
 }
 
 // Generates 2-bit hashes for all sliding k-mers in a sequence
-std::vector<std::vector<uint64_t> > DetectKmers(std::vector<std::string>& sequence,
-                                                const int kmer_size) {
+std::vector<std::vector<uint64_t> > detect_kmers_rcpp(
+    const std::vector<std::string>& sequence, const int kmer_size,
+    long long start, long long end) {
+
+  if(end == 0) { end = sequence.size(); }
 
   uint64_t max_kmer = std::pow(4, kmer_size) + 1;
 
-  std::vector<std::vector<uint64_t> > kmers(sequence.size());
+  std::vector<std::vector<uint64_t> > kmers(end - start);
+  int counter = 0;
 
   uint64_t mask = (kmer_size == 32) ? ~0ULL : (1ULL << (2 * kmer_size)) - 1;
 
-  for(int s = 0;s<sequence.size();s++){
+  for(int s = start; s < end; s++){
     if (kmer_size > 32 || sequence[s].length() < kmer_size) return {};
 
     std::vector<uint64_t> hashes(sequence[s].length() - kmer_size + 1);
@@ -70,11 +74,12 @@ std::vector<std::vector<uint64_t> > DetectKmers(std::vector<std::string>& sequen
     }
     std::sort(hashes.begin(), hashes.end());
     auto hashes_iterator = std::unique(hashes.begin(), hashes.end());
-    kmers[s] = {hashes.begin(), hashes_iterator};
+    kmers[counter] = {hashes.begin(), hashes_iterator};
 
-    if(kmers[s][kmers[s].size() - 1] == max_kmer){
-      kmers[s].pop_back();
+    if(kmers[counter][kmers[counter].size() - 1] == max_kmer){
+      kmers[counter].pop_back();
     }
+    counter++;
   }
   return kmers;
 }

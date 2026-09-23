@@ -32,6 +32,11 @@
 #' @param min_confidence An integer value (default of 80). The value of
 #'                  `min_confidence` represents the minimum number of bootstraps
 #'                  that must have a classification that agree with each other.
+#' @param seed An integer value (default of 1). The value of `seed` sets the
+#'                  seed for the random number generator.
+#' @param num_processors An integer value. The value of `num_processors`
+#'                  indicates the number of desired processors. Defaults to all
+#'                  available cores using `parallelly::availableCores()`
 #'
 #' @returns A data frame object with three columns: the sequence name
 #'   (`sequence_name`), the taxonomic assignment for each level (`taxonomy`),
@@ -55,7 +60,9 @@
 #' classify_sequences(
 #'   sequence = unknown_sequence,
 #'   database = db,
-#'   kmer_size = kmer_size
+#'   kmer_size = kmer_size,
+#'   seed = 1,
+#'   num_processors = 1
 #' )
 #'
 #' classify_sequences(
@@ -84,11 +91,14 @@
 #'
 
 #' @export
+#'@importFrom parallelly availableCores
 classify_sequences <- function(
   data = NULL,
   sequence,
   sequence_name = as.character(seq_along(sequence)),
-  database, kmer_size = 8, num_bootstraps = 100, min_confidence = 80
+  database, kmer_size = 8, num_bootstraps = 100, min_confidence = 80,
+  seed = 1,
+  num_processors = parallelly::availableCores()
 ) {
   if (is.null(data)) {
     data <- FALSE
@@ -98,10 +108,10 @@ classify_sequences <- function(
 }
 
 #' @export
-classify_sequences.strollur <- function(data,
-                                        database, kmer_size = 8,
-                                        num_bootstraps = 100,
-                                        min_confidence = 80) {
+classify_sequences.strollur <- function(
+    data, database, kmer_size = 8, num_bootstraps = 100, min_confidence = 80,
+    seed = 1,
+    num_processors = parallelly::availableCores()) {
   if (!require_namespace("strollur")) {
     stop("Cannot use this function without strollur installed.")
   }
@@ -116,7 +126,7 @@ classify_sequences.strollur <- function(data,
   sequence_name <- strollur::xdev_names(data, type = "sequence")
   df <- do_classify(
     sequence, sequence_name, database, kmer_size,
-    num_bootstraps, min_confidence
+    num_bootstraps, min_confidence, seed, num_processors
   )
 
   if (!is.null(database$reference_data)) {
@@ -133,12 +143,11 @@ classify_sequences.strollur <- function(data,
 }
 
 #' @export
-classify_sequences.data.frame <- function(data,
-                                          sequence = "sequence",
-                                          sequence_name = "sequence_name",
-                                          database, kmer_size = 8,
-                                          num_bootstraps = 100,
-                                          min_confidence = 80) {
+classify_sequences.data.frame <- function(
+    data, sequence = "sequence", sequence_name = "sequence_name",
+    database, kmer_size = 8, num_bootstraps = 100, min_confidence = 80,
+    seed = 1,
+    num_processors = parallelly::availableCores()) {
   seq_colname <- as.character(substitute(sequence))
   sequence_name_colname <- as.character(substitute(sequence_name))
   df_name <- as.character(substitute(data))
@@ -160,7 +169,7 @@ classify_sequences.data.frame <- function(data,
   sequence_name <- data[, sequence_name_colname]
   do_classify(
     sequence, sequence_name, database, kmer_size,
-    num_bootstraps, min_confidence
+    num_bootstraps, min_confidence, seed, num_processors
   )
 }
 
@@ -168,8 +177,9 @@ classify_sequences.data.frame <- function(data,
 classify_sequences.default <- function(
   sequence,
   sequence_name = as.character(seq_along(sequence)),
-  database, kmer_size = 8, num_bootstraps = 100, min_confidence = 80
-) {
+  database, kmer_size = 8, num_bootstraps = 100, min_confidence = 80,
+  seed = 1,
+  num_processors = parallelly::availableCores()) {
   # are sequence and sequence_name the same length
   if (length(sequence) != length(sequence_name)) {
     message <- paste0(
@@ -182,15 +192,17 @@ classify_sequences.default <- function(
   }
   do_classify(
     sequence, sequence_name, database, kmer_size,
-    num_bootstraps, min_confidence
+    num_bootstraps, min_confidence, seed, num_processors
   )
 }
 
 do_classify <- function(sequence, sequence_name, database, kmer_size,
-                        num_bootstraps, min_confidence) {
+                        num_bootstraps, min_confidence, seed,
+                        num_processors) {
   df <- clean_sequence(sequence) |>
-    DetectKmers(kmer_size) |>
-    do_classify_rcpp(database$conditional_prob, num_bootstraps, kmer_size) |>
+    # detect_kmers_rcpp(kmer_size) |>
+    do_classify_rcpp(database$conditional_prob, num_bootstraps, kmer_size,
+                     nrow(database$genera), seed, num_processors) |>
     consensus_bs_class(database$genera)
 
 

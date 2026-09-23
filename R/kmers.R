@@ -47,7 +47,7 @@ build_kmer_database <- function(classification_database, kmer_size = 8) {
     classification_database$seq_taxonomy_data$taxonomy
   )
 
-  detected_kmers <- DetectKmers(
+  detected_kmers <- detect_kmers_rcpp(
     classification_database$seq_taxonomy_data$sequence,
     kmer_size = kmer_size
   )
@@ -160,8 +160,17 @@ calc_genus_conditional_prob <- function(detect_list,
     word_specific_priors,
     genus_counts
   ) |>
-    t()
-}
+    t() |>
+    as.vector()
+
+  # flatten matrix to vector. matrix unloads rowwise
+  # row = genus; nrows = n_genera
+  # column = kmer; ncols = 4^kmer_size
+  # 1 4 7
+  # 2 5 8 => 1 2 3 4 5 6 7 8 9
+  # 3 6 9
+  # math: (column - 1) * nrows + row
+ }
 
 
 #' @noRd

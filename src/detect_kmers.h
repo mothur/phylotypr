@@ -12,8 +12,10 @@ using namespace Rcpp;
 
 //' @export
 // [[Rcpp::export]]
-std::vector<std::vector<uint64_t> > DetectKmers(std::vector<std::string>& sequence,
-                                                const int kmer_size = 8);
+std::vector<std::vector<uint64_t> > detect_kmers_rcpp(
+    const std::vector<std::string>& sequence,
+    const int kmer_size = 8,
+    long long start = 0, long long end = 0);
 
 
 #endif
