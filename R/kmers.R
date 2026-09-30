@@ -3,21 +3,14 @@
 #' Build kmer database for classifying 16S rRNA and other gene sequences to
 #' a genus when a kmer size is provided.
 #'
-#' @param sequences A vector of reference sequences for which we have
-#'                  genus-level taxonomic information in the same order as the
-#'                  value for genera.
-#' @param genera    A character vector of genus-level taxonomic information for
-#'                  reference sequences in the same order as the value for
-#'                  sequences. Ideally, taxonomic information will be provided
-#'                  back to the domain level with each level separated by
-#'                  semicolons and no spaces.
+#' @param classification_database A `classification_database` object, which is a
+#'            list containing the fields `seq_taxonomy_data` and
+#'            `reference_data`. These are both data.frame objects. The package
+#'            includes rdp_trainset9 and rdp_trainset9_pds. Other databases can
+#'            be obtained from {phylotyprrefdata} or by using
+#'            `create_database()`
 #' @param kmer_size An integer indicating the length of the nucleotide word to
 #'                  base our classification on (default = 8)
-#' @param reference_data single row data frame object that has columns vendor,
-#'   name, version, usage, notes, method_url, documentation_url, and citation.
-#'   This is supplied with databases obtained from {phylotyprrefdata}. This
-#'   information is only used if user supplied sequences are supplied as a
-#'   {strollur} object.
 #'
 #' @return  A list object containing the genus level conditional probability
 #'          (`conditional_prob`) of seeing each kmer in a given genus as well as
@@ -31,11 +24,8 @@
 #' PMID: 17586664; PMCID: PMC1950982.
 #'
 #' @examples
-#' kmer_size <- 3
-#' sequences <- c("ATGCGCTA", "ATGCGCTC", "ATGCGCTC")
-#' genera <- c("A", "B", "B")
-#'
-#' build_kmer_database(sequences, genera, kmer_size)
+#' kmer_size <- 8
+#' build_kmer_database(rdp_trainset9_pds, kmer_size)
 #'
 #' @export
 build_kmer_database <- function(classification_database, kmer_size = 8) {
@@ -77,7 +67,6 @@ build_kmer_database <- function(classification_database, kmer_size = 8) {
 #'
 #' @param sequence   A character object representing a DNA sequence that
 #'                           needs to be classified.
-#' @param database  A kmer database generated using [`build_kmer_database`]
 #' @param kmer_size An integer value (default of 8) indicating the size of kmers
 #'                  to use for classifying sequences. Higher values use more
 #'                  RAM with potentially more specificity Lower values use
@@ -95,15 +84,17 @@ build_kmer_database <- function(classification_database, kmer_size = 8) {
 #'          taxonomic assignment for each level. The second vector
 #'          (`confidence`) is the percentage of `num_bootstraps` that the
 #'          classifier gave the same classification at that level.
-#' @inherit build_kmer_database references
+#' @inheritParams build_kmer_database classification_database
 #' @export
 #'
 #' @examples
 #' kmer_size <- 3
+#' reference_names <- c("seq_1", "seq_2", "seq_3")
 #' reference_sequences <- c("ATGCGCTA", "ATGCGCTC", "ATGCGCTC")
 #' reference_genera <- c("A", "B", "B")
+#' reference <- create_database(reference_names, reference_sequences, reference_genera)
 #'
-#' db <- build_kmer_database(reference_sequences, reference_genera, kmer_size)
+#' db <- build_kmer_database(reference, kmer_size)
 #' unknown_sequence <- "ATGCGCTC"
 #'
 #' classify_sequence(
@@ -140,28 +131,13 @@ calc_genus_conditional_prob <- function(detect_list,
                                         genera,
                                         word_specific_priors) {
   genus_counts <- tabulate(genera)
-  n_genera <- length(genus_counts)
-  n_sequences <- length(detect_list)
-  n_kmers <- length(word_specific_priors)
 
-  kmer_genus_count <- matrix(0,
-    nrow = n_kmers,
-    ncol = n_genera
-  )
-
-  for (i in 1:n_sequences) {
-    kmer_genus_count[detect_list[[i]], genera[i]] <-
-      kmer_genus_count[detect_list[[i]], genera[i]] + 1
-  }
-
-  # this calls the Rcpp version of the function
-  calculate_log_probability(
-    kmer_genus_count,
+  calculate_log_probability_rcpp(
+    detect_list,
     word_specific_priors,
+    genera,
     genus_counts
-  ) |>
-    t() |>
-    as.vector()
+  )
 
   # flatten matrix to vector. matrix unloads rowwise
   # row = genus; nrows = n_genera

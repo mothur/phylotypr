@@ -14,7 +14,7 @@ do_classify_rcpp <- function(sequence, conditional_prob, num_bootstraps, kmer_si
     .Call(`_phylotypr_do_classify_rcpp`, sequence, conditional_prob, num_bootstraps, kmer_size, n_genera, seed, num_processors)
 }
 
-calculate_log_probability <- function(kmer_genus_count, word_specific_priors, genus_counts) {
-    .Call(`_phylotypr_calculate_log_probability`, kmer_genus_count, word_specific_priors, genus_counts)
+calculate_log_probability_rcpp <- function(detect_list, word_specific_priors, genera, genus_counts) {
+    .Call(`_phylotypr_calculate_log_probability_rcpp`, detect_list, word_specific_priors, genera, genus_counts)
 }
 

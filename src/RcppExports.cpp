@@ -55,16 +55,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// calculate_log_probability
-NumericMatrix calculate_log_probability(NumericMatrix& kmer_genus_count, const NumericVector& word_specific_priors, const NumericVector& genus_counts);
-RcppExport SEXP _phylotypr_calculate_log_probability(SEXP kmer_genus_countSEXP, SEXP word_specific_priorsSEXP, SEXP genus_countsSEXP) {
+// calculate_log_probability_rcpp
+std::vector<double> calculate_log_probability_rcpp(const Rcpp::List& detect_list, const NumericVector& word_specific_priors, const NumericVector& genera, const NumericVector& genus_counts);
+RcppExport SEXP _phylotypr_calculate_log_probability_rcpp(SEXP detect_listSEXP, SEXP word_specific_priorsSEXP, SEXP generaSEXP, SEXP genus_countsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix& >::type kmer_genus_count(kmer_genus_countSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::List& >::type detect_list(detect_listSEXP);
     Rcpp::traits::input_parameter< const NumericVector& >::type word_specific_priors(word_specific_priorsSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type genera(generaSEXP);
     Rcpp::traits::input_parameter< const NumericVector& >::type genus_counts(genus_countsSEXP);
-    rcpp_result_gen = Rcpp::wrap(calculate_log_probability(kmer_genus_count, word_specific_priors, genus_counts));
+    rcpp_result_gen = Rcpp::wrap(calculate_log_probability_rcpp(detect_list, word_specific_priors, genera, genus_counts));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -73,7 +74,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_phylotypr_classify_bs_rcpp", (DL_FUNC) &_phylotypr_classify_bs_rcpp, 3},
     {"_phylotypr_detect_kmers_rcpp", (DL_FUNC) &_phylotypr_detect_kmers_rcpp, 4},
     {"_phylotypr_do_classify_rcpp", (DL_FUNC) &_phylotypr_do_classify_rcpp, 7},
-    {"_phylotypr_calculate_log_probability", (DL_FUNC) &_phylotypr_calculate_log_probability, 3},
+    {"_phylotypr_calculate_log_probability_rcpp", (DL_FUNC) &_phylotypr_calculate_log_probability_rcpp, 4},
     {NULL, NULL, 0}
 };
 
