@@ -24,14 +24,16 @@ and \code{sequence}.}
 \item{sequence}{A vector of character objects representing DNA
 sequence that need to be classified. If \code{data} is provided
 then only the name of the column containing sequence needs
-to be provided, quotation marks are optional.}
+to be provided, quotation marks are optional. This argument
+can be ignored when using a \code{{strollur}} object}
 
 \item{sequence_name}{A vector of character objects containing the
 sequence name that need to be classified. Optional. Defaults
 to the position of the sequence in the vector of sequence.
 If \code{data} is provided then only the name of the column
 containing the sequence name needs to be provided, quotation
-marks are optional.}
+marks are optional. This argument can be ignored when using
+a \code{{strollur}} object}
 
 \item{database}{A kmer database generated using \code{\link{build_kmer_database}}}
 
@@ -74,10 +76,12 @@ classification algorithm for 16S rRNA gene sequence.
 }
 \examples{
 kmer_size <- 3
-reference_sequence <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
-reference_genera <- c("A;b;C;d", "A;b;C;e", "A;b;C;e")
+reference_names <- c("seq_1", "seq_2", "seq_3")
+reference_sequences <- c("ATGCGCTA", "ATGCGCTC", "ATGCGCTC")
+reference_genera <- c("A", "B", "B")
+reference <- create_database(reference_names, reference_sequences, reference_genera)
 
-db <- build_kmer_database(reference_sequence, reference_genera, kmer_size)
+db <- build_kmer_database(reference, kmer_size)
 
 unknown_sequence <- c("ATGCGCTC", "ATGCGCTC", "ATGCGCTC")
 unknown_id <- c("seq_1", "seq_2", "seq_3")

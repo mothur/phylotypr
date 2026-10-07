@@ -5,7 +5,6 @@ classify_bs_rcpp <- function(unknown_kmers, conditional_probs, n_genera) {
     .Call(`_phylotypr_classify_bs_rcpp`, unknown_kmers, conditional_probs, n_genera)
 }
 
-#' @export
 detect_kmers_rcpp <- function(sequence, kmer_size = 8L, start = 0L, end = 0L) {
     .Call(`_phylotypr_detect_kmers_rcpp`, sequence, kmer_size, start, end)
 }

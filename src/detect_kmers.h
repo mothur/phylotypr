@@ -10,7 +10,6 @@
 
 using namespace Rcpp;
 
-//' @export
 // [[Rcpp::export]]
 std::vector<std::vector<uint64_t> > detect_kmers_rcpp(
     const std::vector<std::string>& sequence,

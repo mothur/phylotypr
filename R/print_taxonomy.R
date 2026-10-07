@@ -28,6 +28,7 @@
 #' @examples
 #' oscillospiraceae <- data.frame(
 #'   sequence_name = c("seq_1", "seq_1", "seq_1", "seq_1", "seq_1"),
+#'   level = 1:5,
 #'   taxonomy = c(
 #'     "Bacteria", "Bacillota", "Clostridia",
 #'     "Eubacteriales", "Oscillospiraceae"
@@ -66,6 +67,7 @@ print_taxonomy.data.frame <- function(consensus,
                     show_confidence)
 }
 
+#' @importFrom stats aggregate na.omit
 do_print_taxonomy <- function(consensus, n_levels = 0, fill_levels = TRUE,
                            show_confidence = TRUE) {
 

@@ -7,24 +7,15 @@
 build_kmer_database(classification_database, kmer_size = 8)
 }
 \arguments{
+\item{classification_database}{A \code{classification_database} object, which is a
+list containing the fields \code{seq_taxonomy_data} and
+\code{reference_data}. These are both data.frame objects. The package
+includes rdp_trainset9 and rdp_trainset9_pds. Other databases can
+be obtained from \pkg{phylotyprrefdata} or by using
+\code{create_database()}}
+
 \item{kmer_size}{An integer indicating the length of the nucleotide word to
 base our classification on (default = 8)}
-
-\item{sequences}{A vector of reference sequences for which we have
-genus-level taxonomic information in the same order as the
-value for genera.}
-
-\item{genera}{A character vector of genus-level taxonomic information for
-reference sequences in the same order as the value for
-sequences. Ideally, taxonomic information will be provided
-back to the domain level with each level separated by
-semicolons and no spaces.}
-
-\item{reference_data}{single row data frame object that has columns vendor,
-name, version, usage, notes, method_url, documentation_url, and citation.
-This is supplied with databases obtained from {phylotyprrefdata}. This
-information is only used if user supplied sequences are supplied as a
-{strollur} object.}
 }
 \value{
 A list object containing the genus level conditional probability
@@ -36,11 +27,8 @@ Build kmer database for classifying 16S rRNA and other gene sequences to
 a genus when a kmer size is provided.
 }
 \examples{
-kmer_size <- 3
-sequences <- c("ATGCGCTA", "ATGCGCTC", "ATGCGCTC")
-genera <- c("A", "B", "B")
-
-build_kmer_database(sequences, genera, kmer_size)
+kmer_size <- 8
+build_kmer_database(rdp_trainset9_pds, kmer_size)
 
 }
 \references{

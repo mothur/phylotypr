@@ -122,7 +122,7 @@ strollur::new_dataset(dataset_name = "sop") |>
   strollur::add(
     table = phylotypr::read_fasta(phylotypr_example("miseq_sop.fasta.gz"))
   ) |>
-  classify_sequences(db, seed = 123, num_processors = 2) |>
+  classify_sequences(database = db, seed = 123, num_processors = 2) |>
   print_taxonomy() |>
   head()
 ```

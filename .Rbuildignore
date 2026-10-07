@@ -6,6 +6,7 @@
 ^\.Rproj\.user$
 ^\.github$
 ^\.pre-commit-config\.yaml$
+^\_pre-commit-config\.yaml$
 ^\.vscode$
 ^_pkgdown\.yml$
 ^benchmarking$

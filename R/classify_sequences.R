@@ -6,16 +6,18 @@
 #' @param data      A data frame containing a column of `sequence_name` and
 #'   `sequence`. If provided column names need to be provided to `sequence_name`
 #'   and `sequence`.
-#' @param sequence A vector of character objects representing DNA
+#' @param sequence  A vector of character objects representing DNA
 #'                  sequence that need to be classified. If `data` is provided
 #'                  then only the name of the column containing sequence needs
-#'                  to be provided, quotation marks are optional.
+#'                  to be provided, quotation marks are optional. This argument
+#'                  can be ignored when using a `{strollur}` object
 #' @param sequence_name       A vector of character objects containing the
 #'                  sequence name that need to be classified. Optional. Defaults
 #'                  to the position of the sequence in the vector of sequence.
 #'                  If `data` is provided then only the name of the column
 #'                  containing the sequence name needs to be provided, quotation
-#'                  marks are optional.
+#'                  marks are optional. This argument can be ignored when using
+#'                  a `{strollur}` object
 #' @param database  A kmer database generated using [`build_kmer_database`]
 #' @param kmer_size An integer value (default of 8) indicating the size of kmers
 #'                  to use for classifying sequence. Higher values use more
@@ -49,10 +51,12 @@
 #'
 #' @examples
 #' kmer_size <- 3
-#' reference_sequence <- c("AAAATCGAGTA", "ATGCGCTCCCC", "ATGCGCTCCCC")
-#' reference_genera <- c("A;b;C;d", "A;b;C;e", "A;b;C;e")
+#' reference_names <- c("seq_1", "seq_2", "seq_3")
+#' reference_sequences <- c("ATGCGCTA", "ATGCGCTC", "ATGCGCTC")
+#' reference_genera <- c("A", "B", "B")
+#' reference <- create_database(reference_names, reference_sequences, reference_genera)
 #'
-#' db <- build_kmer_database(reference_sequence, reference_genera, kmer_size)
+#' db <- build_kmer_database(reference, kmer_size)
 #'
 #' unknown_sequence <- c("ATGCGCTC", "ATGCGCTC", "ATGCGCTC")
 #' unknown_id <- c("seq_1", "seq_2", "seq_3")
@@ -107,9 +111,14 @@ classify_sequences <- function(
   UseMethod("classify_sequences", data)
 }
 
+
+
 #' @export
 classify_sequences.strollur <- function(
-    data, database, kmer_size = 8, num_bootstraps = 100, min_confidence = 80,
+    data,
+    sequence = NULL,
+    sequence_name = NULL,
+    database, kmer_size = 8, num_bootstraps = 100, min_confidence = 80,
     seed = 1,
     num_processors = parallelly::availableCores()) {
   if (!require_namespace("strollur")) {
@@ -141,6 +150,7 @@ classify_sequences.strollur <- function(
     table = df
   )
 }
+
 
 #' @export
 classify_sequences.data.frame <- function(
@@ -175,6 +185,7 @@ classify_sequences.data.frame <- function(
 
 #' @export
 classify_sequences.default <- function(
+  data = NULL,
   sequence,
   sequence_name = as.character(seq_along(sequence)),
   database, kmer_size = 8, num_bootstraps = 100, min_confidence = 80,

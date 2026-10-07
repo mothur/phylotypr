@@ -25,8 +25,8 @@ Config/testthat/edition: 3
 Imports: 
     Rcpp,
     readr (>= 2.1.0),
-    stats (>= 4.0.0),
     stringi (>= 1.8.0),
+    stats,
     parallelly
 LinkingTo: 
     Rcpp, RcppThread

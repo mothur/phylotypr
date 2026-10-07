@@ -38,10 +38,12 @@ classification algorithm for 16S rRNA gene sequences.
 }
 \examples{
 kmer_size <- 3
+reference_names <- c("seq_1", "seq_2", "seq_3")
 reference_sequences <- c("ATGCGCTA", "ATGCGCTC", "ATGCGCTC")
 reference_genera <- c("A", "B", "B")
+reference <- create_database(reference_names, reference_sequences, reference_genera)
 
-db <- build_kmer_database(reference_sequences, reference_genera, kmer_size)
+db <- build_kmer_database(reference, kmer_size)
 unknown_sequence <- "ATGCGCTC"
 
 classify_sequence(
@@ -50,11 +52,4 @@ classify_sequence(
   kmer_size = kmer_size
 )
 
-}
-\references{
-Wang Q, Garrity GM, Tiedje JM, Cole JR. Naive Bayesian classifier for rapid
-assignment of rRNA sequences into the new bacterial taxonomy. Appl Environ
-Microbiol. 2007 Aug;73(16):5261-7.
-doi:\href{https://pubmed.ncbi.nlm.nih.gov/17586664/}{10.1128/AEM.00062-07}
-PMID: 17586664; PMCID: PMC1950982.
 }

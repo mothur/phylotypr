@@ -23,9 +23,9 @@ with each taxonomic level separated by a semicolon. Ideally each value in
 
 \item{reference_data}{single row data frame object that has columns vendor,
 name, version, usage, notes, method_url, documentation_url, and citation.
-This is supplied with databases obtained from {phylotyprrefdata}. This
+This is supplied with databases obtained from \pkg{phylotyprrefdata}. This
 information is only used if user supplied sequences are supplied as a
-{strollur} object.}
+\pkg{strollur} object.}
 }
 \value{
 A \code{classification_database} object, which is a list containing

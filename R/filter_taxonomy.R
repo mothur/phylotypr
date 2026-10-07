@@ -24,6 +24,7 @@
 #' @examples
 #' oscillospiraceae <- data.frame(
 #'   sequence_name = c("seq_1", "seq_1", "seq_1", "seq_1", "seq_1", "seq_1"),
+#'   level = 1:6,
 #'   taxonomy = c(
 #'     "Bacteria", "Bacillota", "Clostridia",
 #'     "Eubacteriales", "Oscillospiraceae",

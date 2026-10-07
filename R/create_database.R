@@ -17,7 +17,11 @@
 #'    `sequence_name` and `sequence` vectors. The format of each value should be
 #'    with each taxonomic level separated by a semicolon. Ideally each value in
 #'    `taxonomy` will have the same number of levels.
-#' @inheritParams build_kmer_database reference_data
+#' @param reference_data single row data frame object that has columns vendor,
+#'   name, version, usage, notes, method_url, documentation_url, and citation.
+#'   This is supplied with databases obtained from \pkg{phylotyprrefdata}. This
+#'   information is only used if user supplied sequences are supplied as a
+#'   \pkg{strollur} object.
 #'
 #' @returns A `classification_database` object, which is a list containing
 #'    the fields `seq_taxonomy_data` and `reference_data`. These are both

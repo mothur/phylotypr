@@ -7,7 +7,7 @@
 #'            list containing the fields `seq_taxonomy_data` and
 #'            `reference_data`. These are both data.frame objects. The package
 #'            includes rdp_trainset9 and rdp_trainset9_pds. Other databases can
-#'            be obtained from {phylotyprrefdata} or by using
+#'            be obtained from \pkg{phylotyprrefdata} or by using
 #'            `create_database()`
 #' @param kmer_size An integer indicating the length of the nucleotide word to
 #'                  base our classification on (default = 8)
@@ -84,7 +84,7 @@ build_kmer_database <- function(classification_database, kmer_size = 8) {
 #'          taxonomic assignment for each level. The second vector
 #'          (`confidence`) is the percentage of `num_bootstraps` that the
 #'          classifier gave the same classification at that level.
-#' @inheritParams build_kmer_database classification_database
+#' @inheritParams classify_sequences database
 #' @export
 #'
 #' @examples
