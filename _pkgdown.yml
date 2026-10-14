@@ -9,6 +9,7 @@ reference:
     unknown sequence
   contents:
     - build_kmer_database
+    - create_database
     - classify_sequences
     - classify_sequence
     - filter_taxonomy

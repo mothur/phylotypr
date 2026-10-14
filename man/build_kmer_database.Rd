@@ -34,7 +34,6 @@ build_kmer_database(rdp_trainset9_pds, kmer_size)
 \references{
 Wang Q, Garrity GM, Tiedje JM, Cole JR. Naive Bayesian classifier for rapid
 assignment of rRNA sequences into the new bacterial taxonomy. Appl Environ
-Microbiol. 2007 Aug;73(16):5261-7.
-doi:\href{https://pubmed.ncbi.nlm.nih.gov/17586664/}{10.1128/AEM.00062-07}
+Microbiol. 2007 Aug;73(16):5261-7. \doi{doi:10.1128/AEM.00062-07}
 PMID: 17586664; PMCID: PMC1950982.
 }

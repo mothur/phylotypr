@@ -33,4 +33,4 @@ LinkingTo:
 Depends: 
     R (>= 4.2)
 VignetteBuilder: knitr
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.1

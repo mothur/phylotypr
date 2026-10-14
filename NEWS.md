@@ -1,4 +1,4 @@
-# phylotypr 0.X.X
+# phylotypr 0.2.0
 
 ## New features
 * Add new function `classify_sequences()`, which has confidence score filtering 
