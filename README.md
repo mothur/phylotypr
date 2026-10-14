@@ -7,7 +7,7 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/phylotypr)](https://cran.r-project.org/package=phylotypr)
-[![R-CMD-check](https://github.com/mothur/phylotypr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mothur/phylotypr/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/mothur/phylotypr/actions/workflows/check-full.yaml/badge.svg)](https://github.com/mothur/phylotypr/actions/workflows/check-full.yaml.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/mothur/phylotypr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/mothur/phylotypr?branch=main)
 [![CRAN
