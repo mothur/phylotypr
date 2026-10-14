@@ -14,10 +14,12 @@ filter_taxonomy(consensus, min_confidence = 80)
 
 - consensus:
 
-  A list object that contains two slots each with an equal sized vector.
-  The `taxonomy` vector contains the classification at each taxonomic
-  level and the `confidence` vector contains the percentage of
-  bootstraps that had the specified classification
+  A data frame that contains at least three columns: the `sequence_name`
+  column that contains an identifier for the sequence, the `taxonomy`
+  column contains the classification at each taxonomic level, and the
+  `confidence` column contains the percentage of bootstraps that had the
+  specified classification. The `level` column is optional and contains
+  the numeric level of the level (e.g., Kingdom = 1, Genus = 6)
 
 - min_confidence:
 
@@ -28,16 +30,18 @@ filter_taxonomy(consensus, min_confidence = 80)
 
 ## Value
 
-A list object containing two equally sized vectors that are filtered to
-remove low confidence taxonomies. One vector, `taxonomy`, contains the
-taxonomy at each taxonomic level and the other vector, `confidence`
-contains the confidence score for that taxonomy. There will be no
-taxonomies or confidence scores below `min_confidence`
+A data frame object that is filtered to remove low confidence
+taxonomies. One column, `taxonomy`, contains the taxonomy at each
+taxonomic level and the other column, `confidence` contains the
+confidence score for that taxonomy. There will be no taxonomies or
+confidence scores below `min_confidence`
 
 ## Examples
 
 ``` r
-oscillospiraceae <- list(
+oscillospiraceae <- data.frame(
+  sequence_name = c("seq_1", "seq_1", "seq_1", "seq_1", "seq_1", "seq_1"),
+  level = 1:6,
   taxonomy = c(
     "Bacteria", "Bacillota", "Clostridia",
     "Eubacteriales", "Oscillospiraceae",
@@ -47,11 +51,10 @@ oscillospiraceae <- list(
 )
 
 filter_taxonomy(oscillospiraceae, min_confidence = 80)
-#> $taxonomy
-#> [1] "Bacteria"         "Bacillota"        "Clostridia"       "Eubacteriales"   
-#> [5] "Oscillospiraceae"
-#> 
-#> $confidence
-#> [1] 100 100  99  99  98
-#> 
+#>   sequence_name level         taxonomy confidence
+#> 1         seq_1     1         Bacteria        100
+#> 2         seq_1     2        Bacillota        100
+#> 3         seq_1     3       Clostridia         99
+#> 4         seq_1     4    Eubacteriales         99
+#> 5         seq_1     5 Oscillospiraceae         98
 ```

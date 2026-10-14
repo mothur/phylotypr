@@ -1,9 +1,9 @@
 # Write to a FASTA-formatted file
 
-Writes a data frame containing id, sequence, and comment columns,
-`write_fasta` will write the data frame out to a [standard
+Writes a data frame containing sequence_name, sequence, and comment
+columns, `write_fasta` will write the data frame out to a [standard
 FASTA-formatted file](https://en.wikipedia.org/wiki/FASTA_format). The
-header will have a tab character between the sequence id and any
+header will have a tab character between the sequence name and any
 comments. There won't be a tab if there's no comment for the sequence.
 All sequence data will be on a single line
 
@@ -17,12 +17,12 @@ write_fasta(data_frame, file = NULL)
 
 - data_frame:
 
-  A data frame object with three columns. The `id` column will contain
-  the non-space characters following the `>` in the header line of each
-  sequence; the `sequence` column will contain the sequence; and the
-  `comment` column will contain any text found after the first
-  whitespace character on the header line. The `comment` column is
-  optional.
+  A data frame object with three columns. The `sequence_name` column
+  will contain the non-space characters following the `>` in the header
+  line of each sequence; the `sequence` column will contain the
+  sequence; and the `comment` column will contain any text found after
+  the first whitespace character on the header line. The `comment`
+  column is optional.
 
 - file:
 
@@ -48,7 +48,7 @@ a file.
 
 ``` r
 df_d <- data.frame(
-  id = c("seqA", "seqB", "seqC"),
+  sequence_name = c("seqA", "seqB", "seqC"),
   sequence = c("ATGCATGC", "ATGCATGA", "ATGCATGT"),
   comment = c("comment 1", "", "comment 3")
 )

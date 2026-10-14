@@ -14,7 +14,7 @@ read_taxonomy(file)
 - file:
 
   Either a path to a file, a connection, or literal data (either a
-  single string or a raw vector) containing the sequence id and the
+  single string or a raw vector) containing the sequence name and the
   taxonomy information for each sequence.
 
   Files ending in .gz, .bz2, .xz, or .zip will be automatically
@@ -24,16 +24,16 @@ read_taxonomy(file)
 
 ## Value
 
-A data frame with two columns. The `id` column contains a name for each
-sequence and the `taxonomy` column, which contains the taxonomy for each
-sequence. The string in the `taxonomy` column is a series of taxonomic
-names separated by semi-colons. The string does not have a semi-colon at
-the end of the sequence
+A data frame with two columns. The `sequence_name` column contains a
+name for each sequence and the `taxonomy` column, which contains the
+taxonomy for each sequence. The string in the `taxonomy` column is a
+series of taxonomic names separated by semi-colons. The string does not
+have a semi-colon at the end of the sequence
 
 ## Note
 
-There are no checks to insure that each sequence has a unique id value.
-It is also assumed that each sequence has the same number of taxonomic
+There are no checks to insure that each sequence has a unique name. It
+is also assumed that each sequence has the same number of taxonomic
 levels represented in the second column of the input file.
 
 ## Examples
@@ -49,12 +49,12 @@ write("seqF\tA; B;C", file = temp, append = TRUE)
 write("seq G\tA;B;C;", file = temp, append = TRUE)
 
 read_taxonomy(temp)
-#>      id taxonomy
-#> 1  seqA    A;B;C
-#> 2  seqB    A;B;C
-#> 3  seqC    A;B;C
-#> 4  seqD    A;B;C
-#> 5  seqE    A;B;C
-#> 6  seqF    A;B;C
-#> 7 seq G    A;B;C
+#>   sequence_name taxonomy
+#> 1          seqA    A;B;C
+#> 2          seqB    A;B;C
+#> 3          seqC    A;B;C
+#> 4          seqD    A;B;C
+#> 5          seqE    A;B;C
+#> 6          seqF    A;B;C
+#> 7         seq G    A;B;C
 ```

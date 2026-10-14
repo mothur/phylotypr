@@ -3,8 +3,8 @@
 Given a [standard FASTA-formatted
 file](https://en.wikipedia.org/wiki/FASTA_format), `read_fasta` will
 read in the contents of the file and create a three column data frame
-with columns for the sequence id, the sequence itself, and any comments
-found in the header line for each sequence.
+with columns for the sequence name, the sequence itself, and any
+comments found in the header line for each sequence.
 
 ## Usage
 
@@ -33,9 +33,9 @@ read_fasta(file, degap = TRUE)
 
 ## Value
 
-A data frame object with three columns. The `id` column will contain the
-non-space characters following the `>` in the header line of each
-sequence; the `sequence` column will contain the sequence; and the
+A data frame object with three columns. The `sequence_name` column will
+contain the non-space characters following the `>` in the header line of
+each sequence; the `sequence` column will contain the sequence; and the
 `comment` column will contain any text found after the first whitespace
 character on the header line.
 

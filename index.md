@@ -14,6 +14,7 @@ You can install the development version of phylotypr from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("mothur/phylotypr")
 ```
@@ -21,6 +22,7 @@ devtools::install_github("mothur/phylotypr")
 You can also get the official release version from CRAN
 
 ``` r
+
 install.packages("phylotypr")
 ```
 
@@ -42,6 +44,7 @@ will take about 20 minutes to install. If it sits at “moving datasets to
 lazyload DB” for a long time, this is normal :)
 
 ``` r
+
 devtools::install_github("mothur/phylotyprrefdata")
 library(phylotyprrefdata)
 ```
@@ -50,14 +53,15 @@ The following will list the references that are available in
 `{phylotyprrefdata}`:
 
 ``` r
+
 data(package = "phylotyprrefdata")
 ```
 
 ## More information about `{phylotypr}`
 
 You can learn more about the underlying algorithm in the paper that
-originally described the algorithm that was published in [*Applied and
-Environmental Microbiology*](https://pubmed.ncbi.nlm.nih.gov/17586664/).
+originally described the algorithm that was published in \[*Applied and
+Environmental Microbiology*\] (<https://doi.org/10.1128/AEM.00062-07>).
 If you want to learn more about how this package was created, be sure to
 check out the mothur YouTube channel where a [playlist is
 available](https://www.youtube.com/watch?v=XjolVT16YNw&list=PLmNrK_nkqBpIZlWa3yGEc2-wX7An2kpCL)
