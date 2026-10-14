@@ -31,6 +31,6 @@ Imports:
 LinkingTo: 
     Rcpp, RcppThread
 Depends: 
-    R (>= 4.2)
+    R (>= 4.5)
 VignetteBuilder: knitr
 Config/roxygen2/version: 8.1.1
