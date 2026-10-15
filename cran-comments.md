@@ -7,3 +7,4 @@
   * optimize performance
   * incorporate multithreading
 * There are no reverse dependencies
+* We use dontrun for example in build_kmer_database because function takes >5 s to run

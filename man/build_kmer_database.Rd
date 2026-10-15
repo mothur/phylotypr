@@ -28,7 +28,11 @@ a genus when a kmer size is provided.
 }
 \examples{
 kmer_size <- 8
+
+\dontrun{
+# Function takes >5 s to run on this database
 build_kmer_database(rdp_trainset9_pds, kmer_size)
+}
 
 }
 \references{
